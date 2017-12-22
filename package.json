@@ -1,0 +1,14 @@
+{
+  "name": "order_api",
+  "version": "1.0.0",
+  "description": "API used in webapp to simulate order backend",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Emil Folino",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
