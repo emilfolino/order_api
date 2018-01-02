@@ -1,13 +1,16 @@
+const db = require("./database.js")
+
 module.exports = (function () {
-    function getAllProducts () {
-        return [
-            { name : "Screw", product_id : 1 },
-            { name : "Bolt", product_id: 2}
-        ]
+    function getAllProducts (res, api_key) {
+        db.all("SELECT * FROM products WHERE apiKey = ?", api_key, function (err, rows) {
+            res.json(rows)
+        })
     }
 
-    function getProduct (product_id) {
-        return { name : "Screw", product_id : product_id }
+    function getProduct (res, api_key, product_id) {
+        db.all("SELECT * FROM products WHERE apiKey = ? AND productId = ?", api_key, product_id, function (err, row) {
+            res.json(row)
+        })
     }
 
     return {

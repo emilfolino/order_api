@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS apikeys (
-    keyId INTEGER PRIMARY KEY,
-    email VARCHAR(255) NOT NULL,
-    key VARCHAR(16) NOT NULL
+    key VARCHAR(16) PRIMARY KEY NOT NULL,
+    email VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS products (
@@ -10,7 +9,7 @@ CREATE TABLE IF NOT EXISTS products (
     productName VARCHAR(255) NOT NULL,
     productDescription TEXT,
     productSpecifiers TEXT,
-    owner INTEGER NOT NULL,
-    FOREIGN KEY(owner) REFERENCES apikeys(keyId),
-    UNIQUE(productId, owner)
+    apiKey VARCHAR(16) NOT NULL,
+    FOREIGN KEY(apiKey) REFERENCES apikeys(key),
+    UNIQUE(productId, apiKey)
 );
