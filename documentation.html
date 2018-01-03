@@ -10,6 +10,12 @@
             margin: 20px auto;
             font-family: sans-serif;
         }
+
+        .route {
+            background: #ACE;
+            border-left: 3px solid #57C;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -20,6 +26,19 @@
     </header>
 
     <article>
+        <section id="comment">
+            <p>To use the order_api locally see <a href="#installation">installation</a>.</p>
+        </section>
+
+        <section id="apikeys">
+            <h2>API keys</h2>
+            <p>To request an API key:</p>
+            <div class="route">
+                GET /api-key?email=[YOUR_EMAIL]
+            </div>
+
+        </section>
+
         <section id="installation">
             <h2>Installation</h2>
             <p>To get up and running do the following:</p>
@@ -29,6 +48,12 @@
                 </li>
                 <li>
                     Read the db/migrate.sql file into the db/orders.sqlite db.
+                </li>
+                <li>
+                    Optional: Read the db/seed.sql file into the db/orders.sqlite db.
+                </li>
+                <li>
+                    Run npm install.
                 </li>
             </ol>
         </section>

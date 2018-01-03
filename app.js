@@ -5,6 +5,8 @@ const path = require('path')
 const products = require('./products.js')
 const auth = require('./auth.js')
 
+const port = 1337
+
 app.all('*', checkAPIKey)
 
 function checkAPIKey(req, res, next) {
@@ -18,10 +20,10 @@ function checkAPIKey(req, res, next) {
 app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/documentation.html')))
 
 // Api key routes
-app.get('/api_key', (req, res) => res.json(auth.getNewAPIKey(res, req.query.email)))
+app.get('/api_key', (req, res) => auth.getNewAPIKey(res, req.query.email))
 
 // Product routes
 app.get('/products', (req, res) => products.getAllProducts(res, req.query.api_key))
 app.get('/product/:product_id', (req, res) => products.getProduct(res, req.query.api_key, req.params.product_id))
 
-app.listen(1337, () => console.log('Order api listening on port 3000!'))
+app.listen(port, () => console.log('Order api listening on port ' + port))

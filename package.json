@@ -1,19 +1,21 @@
 {
-    "name": "order_api",
-    "version": "1.0.0",
-    "description": "API used in webapp to simulate order backend",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/emilfolino/order_api.git"
-    },
-    "main": "app.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "Emil Folino",
-    "license": "ISC",
-    "dependencies": {
-        "express": "^4.16.2",
-        "sqlite3": "^3.1.13"
-    }
+  "name": "order_api",
+  "version": "1.0.0",
+  "description": "API used in webapp to simulate order backend",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/emilfolino/order_api.git"
+  },
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Emil Folino",
+  "license": "ISC",
+  "dependencies": {
+    "email-validator": "^1.1.1",
+    "express": "^4.16.2",
+    "hat": "0.0.3",
+    "sqlite3": "^3.1.13"
+  }
 }
