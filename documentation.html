@@ -15,6 +15,7 @@
             background: #ACE;
             border-left: 3px solid #57C;
             padding: 10px;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -32,49 +33,93 @@
 
         <section id="apikeys">
             <h2>API keys</h2>
-            <p>To request an API key:</p>
+            <p><strong>To request an API key:</strong></p>
             <pre>GET /api-key?email=[YOUR_EMAIL]</pre>
             <p>Result:</p>
-            <pre>{"key":"4f31193b7b8ed859955dc2928da4e74c"}</pre>
+            <pre>{
+    "data": {
+        "key": "6eae78f64e3b6b9bfb2e3904469e8c30"
+    }
+}</pre>
+            <p>Errors:</p>
+            <pre>{
+    "data": {
+        "message": "Email address already used for api key.",
+        "api_key": "1bdd5c943e664d399f2a298fca0dabfd"
+    }
+}</pre>
+
+            <p><strong>An API key is required for all requests except the following:</strong></p>
+            <pre>GET /</pre>
+            <pre>GET /api-key?email=[YOUR_EMAIL]</pre>
+            <p>If an API key is not provided the following error is given:</p>
+            <pre>{
+    "errors": {
+        "status": 401,
+        "source": "/products",
+        "title": "Valid API key",
+        "detail": "No valid API key provided."
+    }
+}</pre>
         </section>
 
         <section id="products">
             <h2>Products</h2>
-            <p>To get all your products:</p>
+            <p><strong>To get all your products:</strong></p>
             <pre>GET /products?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
-            <pre>[
-  {
-    "productId": 1,
-    "articleNumber": "1212-RNT",
-    "productName": "Screw 14mm",
-    "productDescription": "A mighty fine screw.",
-    "productSpecifiers": "{length : '14mm', width : '5mm'}",
-    "apiKey": "4f31193b7b8ed859955dc2928da4e74c"
-  },
-  {
-    "productId": 2,
-    "articleNumber": "1212-TNT",
-    "productName": "Bolt 14mm",
-    "productDescription": "A bolt that fits the mighty fine screw.",
-    "productSpecifiers": "{length : '5mm', width : '5mm'}",
-    "apiKey": "4f31193b7b8ed859955dc2928da4e74c"
-  }
-]</pre>
+            <pre>{
+    "data": [
+        {
+            "id": 1,
+            "article_number": "1212-RNT",
+            "name": "Screw 14mm",
+            "description": "A mighty fine screw.",
+            "specifiers": "{length : '14mm', width : '5mm'}"
+        },
+        {
+            "id": 2,
+            "article_number": "1212-TNT",
+            "name": "Bolt 14mm",
+            "description": "A bolt that fits the mighty fine screw.",
+            "specifiers": "{length : '5mm', width : '5mm'}"
+        }
+    ]
+}</pre>
 
-            <p>To get a specific product:</p>
+            <p><strong>To get a specific product:</strong></p>
             <pre>GET /product/:product_id?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
-            <pre>[
-  {
-    "productId": 1,
-    "articleNumber": "1212-RNT",
-    "productName": "Screw 14mm",
-    "productDescription": "A mighty fine screw.",
-    "productSpecifiers": "{length : '14mm', width : '5mm'}",
-    "apiKey": "aaaabbbb1111"
-  }
-]</pre>
+            <pre>{
+    "data": {
+        "id": 1,
+        "article_number": "1212-RNT",
+        "name": "Screw 14mm",
+        "description": "A mighty fine screw.",
+        "specifiers": "{length : '14mm', width : '5mm'}"
+    }
+}</pre>
+            <p><strong>To search for a product:</strong></p>
+            <pre>GET /product/search/:query?api_key=[YOUR_API_KEY]</pre>
+            <p>Result (search query was fits):</p>
+            <pre>{
+    "data": [
+        {
+            "id": 2,
+            "article_number": "1212-TNT",
+            "name": "Bolt 14mm",
+            "description": "A bolt that fits the mighty fine screw.",
+            "specifiers": "{length : '5mm', width : '5mm'}"
+        }
+    ]
+}</pre>
+
+            <p><strong>To add a product:</strong></p>
+            <pre>POST /product</pre>
+            <p>Required parameters:</p>
+            <pre>id
+name
+api_key</pre>
         </section>
 
         <section id="installation">

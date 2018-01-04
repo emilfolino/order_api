@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS apikeys (
 );
 
 CREATE TABLE IF NOT EXISTS products (
-    productId INTEGER,
-    articleNumber VARCHAR(32) NOT NULL,
+    productId INTEGER NOT NULL,
+    articleNumber VARCHAR(32),
     productName VARCHAR(255) NOT NULL,
     productDescription TEXT,
     productSpecifiers TEXT,
