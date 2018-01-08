@@ -1,7 +1,7 @@
 const db = require("./database.js")
 
 module.exports = (function () {
-    const data_fields = "productId as id, articleNumber as article_number, productName as name, productDescription as description, productSpecifiers as specifiers"
+    const data_fields = "productId as id, articleNumber as article_number, productName as name, productDescription as description, productSpecifiers as specifiers, stock, location"
 
     function getAllProducts (res, api_key) {
         db.all("SELECT " + data_fields + " FROM products WHERE apiKey = ?", api_key, (err, rows) => res.json( { data : rows } ))
