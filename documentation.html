@@ -69,22 +69,26 @@
             <pre>GET /products?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre>{
-    "data": [
-        {
-            "id": 1,
-            "article_number": "1212-RNT",
-            "name": "Screw 14mm",
-            "description": "A mighty fine screw.",
-            "specifiers": "{length : '14mm', width : '5mm'}"
-        },
-        {
-            "id": 2,
-            "article_number": "1212-TNT",
-            "name": "Bolt 14mm",
-            "description": "A bolt that fits the mighty fine screw.",
-            "specifiers": "{length : '5mm', width : '5mm'}"
-        }
-    ]
+  "data": [
+    {
+      "id": 1,
+      "article_number": "1212-RNT",
+      "name": "Screw 14mm",
+      "description": "A mighty fine screw.",
+      "specifiers": "{length : '14mm', width : '5mm'}",
+      "stock": 12,
+      "location": "A1B4"
+    },
+    {
+      "id": 2,
+      "article_number": "1212-TNT",
+      "name": "Bolt 14mm",
+      "description": "A bolt that fits the mighty fine screw.",
+      "specifiers": "{length : '5mm', width : '5mm'}",
+      "stock": 15,
+      "location": "A1C4"
+    }
+  ]
 }</pre>
 
             <p><strong>To get a specific product:</strong></p>
@@ -96,7 +100,9 @@
         "article_number": "1212-RNT",
         "name": "Screw 14mm",
         "description": "A mighty fine screw.",
-        "specifiers": "{length : '14mm', width : '5mm'}"
+        "specifiers": "{length : '14mm', width : '5mm'}",
+        "stock": 12,
+        "location": "A1B4"
     }
 }</pre>
             <p><strong>To search for a product:</strong></p>
@@ -109,7 +115,9 @@
             "article_number": "1212-TNT",
             "name": "Bolt 14mm",
             "description": "A bolt that fits the mighty fine screw.",
-            "specifiers": "{length : '5mm', width : '5mm'}"
+            "specifiers": "{length : '5mm', width : '5mm'}",
+            "stock": 15,
+            "location": "A1C4"
         }
     ]
 }</pre>
