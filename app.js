@@ -16,7 +16,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-const port = 1337
+const port = 8111
 
 app.all('*', checkAPIKey)
 
