@@ -2,9 +2,11 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
 
+const auth = require('./auth.js')
+
 const products = require('./products.js')
 const orders = require('./orders.js')
-const auth = require('./auth.js')
+const order_items = require('./orders.js')
 
 const app = express()
 
@@ -69,9 +71,9 @@ app.delete('/order_item', (req, res) => order_items.deleteOrderItem(res, req.bod
 
 
 // Transaction routes
-app.get('/transactions', (req, res) => transactions.getAllTransactions(res, req.query.api_key))
-app.get('/transaction/:transaction_id', (req, res) => transactions.getTransaction(res, req.query.api_key, req.params.product_id))
-app.post('/transaction', (req, res) => transactions.addTransaction(res, req.body))
+// app.get('/transactions', (req, res) => transactions.getAllTransactions(res, req.query.api_key))
+// app.get('/transaction/:transaction_id', (req, res) => transactions.getTransaction(res, req.query.api_key, req.params.product_id))
+// app.post('/transaction', (req, res) => transactions.addTransaction(res, req.body))
 
 
 

@@ -348,8 +348,53 @@ api_key</pre>
 }</pre>
         </section>
 
+        <section id="order_items">
+            <h2>Order items</h2>
+
+            <p><strong>To add an order item to an order:</strong></p>
+            <pre>POST /order_item</pre>
+            <p>Required parameters:</p>
+            <pre>order_id
+product_id
+amount
+api_key</pre>
+
+            <p><strong>To update an order item:</strong></p>
+            <pre>PUT /order</pre>
+            <p>Required parameters:</p>
+            <pre>order_id
+product_id
+api_key</pre>
+            <p><strong>N.B.</strong> All attributes are updated, send an entire order object.</p>
+            <p>Result:</p>
+            <pre>HTTP Status Code 204 No Content</pre>
+            <p>Possible error, besides errors returned from database:</p>
+            <pre>{
+    "errors": {
+        "status": 400,
+        "detail": "Required attributes order_id and product_id was not included in the request."
+    }
+}</pre>
+
+            <p><strong>To delete an order item:</strong></p>
+            <pre>DELETE /order</pre>
+            <p>Required parameters:</p>
+            <pre>order_id
+product_id
+api_key</pre>
+            <p>Result:</p>
+            <pre>HTTP Status Code 204 No Content</pre>
+            <p>Possible error, besides errors returned from database:</p>
+            <pre>{
+    "errors": {
+        "status": 400,
+        "detail": "Required attribute order id and product id was not included in the request."
+    }
+}</pre>
+        </section>
+
         <section id="installation">
-            <h2>Installation</h2>
+            <h2>Local Installation</h2>
             <p>To get up and running do the following:</p>
             <ol>
                 <li>
