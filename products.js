@@ -1,56 +1,147 @@
-const db = require("./database.js")
+const db = require("./database.js");
 
 module.exports = (function () {
-    const dataFields = "productId as id, articleNumber as article_number, productName as name, productDescription as description, productSpecifiers as specifiers, stock, location"
+    const dataFields = "productId as id, articleNumber as article_number," +
+        " productName as name, productDescription as description," +
+        " productSpecifiers as specifiers, stock, location";
 
-    function getAllProducts(res, api_key) {
-        db.all("SELECT " + dataFields + " FROM products WHERE apiKey = ?", api_key, (err, rows) => res.json( { data : rows } ))
+    function getAllProducts(res, apiKey) {
+        db.all("SELECT " + dataFields + " FROM products WHERE apiKey = ?",
+            apiKey, (err, rows) => {
+                if (err) {
+                    res.status(401).json({
+                        errors: {
+                            status: 401,
+                            source: "/products",
+                            title: "Database error",
+                            detail: err.message
+                        }
+                    });
+                    return;
+                }
+
+                res.json( { data: rows } );
+            });
     }
 
-    function getProduct(res, api_key, product_id) {
-        db.get("SELECT " + dataFields + " FROM products WHERE apiKey = ? AND productId = ?", api_key, product_id, (err, row) => res.json( { data : row } ))
+    function getProduct(res, apiKey, productId) {
+        db.get("SELECT " + dataFields + " FROM products WHERE apiKey = ? AND productId = ?",
+            apiKey,
+            productId, (err, row) => {
+                if (err) {
+                    res.status(401).json({
+                        errors: {
+                            status: 401,
+                            source: "/product/:product_id",
+                            title: "Database error",
+                            detail: err.message
+                        }
+                    });
+                    return;
+                }
+
+                res.json( { data: row } );
+            });
     }
 
-    function searchProduct(res, api_key, query) {
-        const search_query = "%" + query + "%"
-        db.all("SELECT " + dataFields + " FROM products WHERE apiKey = ? AND (productName LIKE ? OR productDescription LIKE ?)", api_key, search_query, search_query, (err, rows) => res.json( { data : rows } ))
+    function searchProduct(res, apiKey, query) {
+        const searchQuery = "%" + query + "%";
+
+        db.all("SELECT " + dataFields + " FROM products WHERE apiKey = ? AND" +
+            " (productName LIKE ? OR productDescription LIKE ?)",
+        apiKey,
+        searchQuery,
+        searchQuery, (err, rows) => {
+            if (err) {
+                res.status(401).json({
+                    errors: {
+                        status: 401,
+                        source: "/product/search/:query",
+                        title: "Database error",
+                        detail: err.message
+                    }
+                });
+                return;
+            }
+
+            res.json( { data: rows } );
+        });
     }
 
     function addProduct(res, body) {
-        db.run("INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", body.id, body.article_number, body.name, body.description, body.specifiers, body.stock, body.location, body.api_key, (err) => {
+        db.run("INSERT INTO products (productId, articleNumber, productName," +
+            " productDescription, productSpecifiers, stock, location, apiKey)" +
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        body.id,
+        body.article_number,
+        body.name,
+        body.description,
+        body.specifiers,
+        body.stock,
+        body.location,
+        body.api_key, (err) => {
             if (err) {
-                res.status(400).json({ errors: { status: 400, detail: err.message } })
+                res.status(400).json({
+                    errors: {
+                        status: 400,
+                        detail: err.message
+                    }
+                });
             } else {
-                res.status(201).json({ data: body })
+                res.status(201).json({ data: body });
             }
-        })
+        });
     }
 
     function updateProduct(res, body) {
         if (Number.isInteger(body.id)) {
-            db.run("UPDATE products SET articleNumber = ?, productName = ?, productDescription = ?, specifiers = ?, stock = ?, location = ? WHERE apiKey = ? AND productId = ?", body.article_number, body.name, body.description, body.specifiers, body.stock, body.location, body.api_key, body.id, (err) => {
+            db.run("UPDATE products SET articleNumber = ?, productName = ?," +
+                " productDescription = ?, specifiers = ?, stock = ?, location = ?" +
+                " WHERE apiKey = ? AND productId = ?",
+            body.article_number,
+            body.name,
+            body.description,
+            body.specifiers,
+            body.stock,
+            body.location,
+            body.api_key,
+            body.id, (err) => {
                 if (err) {
-                    res.status(400).json({ errors: { status: 400, detail: err.message } })
+                    res.status(400).json({ errors: { status: 400, detail: err.message } });
                 } else {
-                    res.status(204).send()
+                    res.status(204).send();
                 }
-            })
+            });
         } else {
-            res.status(400).json({ errors: { status: 400, detail: "Required attribute product id (id) was not included in the request." } })
+            res.status(400).json({
+                errors: {
+                    status: 400,
+                    detail: "Required attribute product id (id)" +
+                        " was not included in the request."
+                }
+            });
         }
     }
 
     function deleteProduct(res, body) {
         if (Number.isInteger(parseInt(body.id))) {
-            db.run("DELETE FROM products WHERE apiKey = ? AND productId = ?", body.api_key, body.id, (err) => {
-                if (err) {
-                    res.status(400).json({ errors: { status: 400, detail: err.message } })
-                } else {
-                    res.status(204).send()
-                }
-            })
+            db.run("DELETE FROM products WHERE apiKey = ? AND productId = ?",
+                body.api_key,
+                body.id, (err) => {
+                    if (err) {
+                        res.status(400).json({ errors: { status: 400, detail: err.message } });
+                    } else {
+                        res.status(204).send();
+                    }
+                });
         } else {
-            res.status(400).json({ errors : { status : 400, detail : "Required attribute product id (id) was not included in the request." } })
+            res.status(400).json({
+                errors: {
+                    status: 400,
+                    detail: "Required attribute product id (id)" +
+                        " was not included in the request."
+                }
+            });
         }
     }
 
@@ -61,5 +152,5 @@ module.exports = (function () {
         addProduct: addProduct,
         updateProduct: updateProduct,
         deleteProduct: deleteProduct,
-    }
-}())
+    };
+}());
