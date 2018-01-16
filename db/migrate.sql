@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS products (
 
 CREATE TABLE IF NOT EXISTS orders (
     orderId INTEGER NOT NULL,
-    customerName VARCHAR(255),
+    customerName VARCHAR(255) NOT NULL,
     customerAddress VARCHAR(255),
     customerZip VARCHAR(12),
     customerCity VARCHAR(255),

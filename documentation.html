@@ -177,77 +177,151 @@ api_key</pre>
         </section>
 
         <section id="orders">
-            <h2>Products</h2>
-            <p><strong>To get all your products:</strong></p>
-            <pre>GET /products?api_key=[YOUR_API_KEY]</pre>
+            <h2>Orders</h2>
+            <p><strong>To get all your orders and associated order items:</strong></p>
+            <pre>GET /orders?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre>{
     "data": [
         {
             "id": 1,
-            "article_number": "1212-RNT",
-            "name": "Screw 14mm",
-            "description": "A mighty fine screw.",
-            "specifiers": "{length : '14mm', width : '5mm'}",
-            "stock": 12,
-            "location": "A1B4"
+            "name": "Anders Andersson",
+            "address": "Andersgatan 1",
+            "zip": "12345",
+            "city": "Anderstorp",
+            "country": "Sweden",
+            "order_items": [
+                {
+                    "product_id": 1,
+                    "amount": 2,
+                    "article_number": "1212-RNT",
+                    "name": "Screw 14mm",
+                    "description": "A mighty fine screw.",
+                    "specifiers": "{length : '14mm', width : '5mm'}",
+                    "stock": 12,
+                    "location": "A1B4"
+                },
+                {
+                    "product_id": 2,
+                    "amount": 3,
+                    "article_number": "1212-TNT",
+                    "name": "Bolt 14mm",
+                    "description": "A bolt that fits the mighty fine screw.",
+                    "specifiers": "{length : '5mm', width : '5mm'}",
+                    "stock": 15,
+                    "location": "A1C4"
+                }
+            ]
         },
         {
             "id": 2,
-            "article_number": "1212-TNT",
-            "name": "Bolt 14mm",
-            "description": "A bolt that fits the mighty fine screw.",
-            "specifiers": "{length : '5mm', width : '5mm'}",
-            "stock": 15,
-            "location": "A1C4"
+            "name": "Anders Bengtsson",
+            "address": "Andersgatan 2",
+            "zip": "12345",
+            "city": "Anderstorp",
+            "country": "Sweden",
+            "order_items": [
+                {
+                    "product_id": 1,
+                    "amount": 5,
+                    "article_number": "1212-RNT",
+                    "name": "Screw 14mm",
+                    "description": "A mighty fine screw.",
+                    "specifiers": "{length : '14mm', width : '5mm'}",
+                    "stock": 12,
+                    "location": "A1B4"
+                }
+            ]
         }
     ]
 }</pre>
 
-            <p><strong>To get a specific product:</strong></p>
-            <pre>GET /product/:product_id?api_key=[YOUR_API_KEY]</pre>
+            <p><strong>To get a specific order and associated order items:</strong></p>
+            <pre>GET /order/:order_id?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre>{
     "data": {
         "id": 1,
-        "article_number": "1212-RNT",
-        "name": "Screw 14mm",
-        "description": "A mighty fine screw.",
-        "specifiers": "{length : '14mm', width : '5mm'}",
-        "stock": 12,
-        "location": "A1B4"
+        "name": "Anders Andersson",
+        "address": "Andersgatan 1",
+        "zip": "12345",
+        "city": "Anderstorp",
+        "country": "Sweden",
+        "order_items": [
+            {
+                "product_id": 1,
+                "amount": 2,
+                "article_number": "1212-RNT",
+                "name": "Screw 14mm",
+                "description": "A mighty fine screw.",
+                "specifiers": "{length : '14mm', width : '5mm'}",
+                "stock": 12,
+                "location": "A1B4"
+            },
+            {
+                "product_id": 2,
+                "amount": 3,
+                "article_number": "1212-TNT",
+                "name": "Bolt 14mm",
+                "description": "A bolt that fits the mighty fine screw.",
+                "specifiers": "{length : '5mm', width : '5mm'}",
+                "stock": 15,
+                "location": "A1C4"
+            }
+        ]
     }
 }</pre>
-            <p><strong>To search for a product:</strong></p>
-            <pre>GET /product/search/:query?api_key=[YOUR_API_KEY]</pre>
-            <p>Result (search query was fits):</p>
+            <p><strong>To search for an order and associated order items:</strong></p>
+            <pre>GET /order/search/:query?api_key=[YOUR_API_KEY]</pre>
+            <p>Result (search query was andersson):</p>
             <pre>{
     "data": [
         {
-            "id": 2,
-            "article_number": "1212-TNT",
-            "name": "Bolt 14mm",
-            "description": "A bolt that fits the mighty fine screw.",
-            "specifiers": "{length : '5mm', width : '5mm'}",
-            "stock": 15,
-            "location": "A1C4"
+            "id": 1,
+            "name": "Anders Andersson",
+            "address": "Andersgatan 1",
+            "zip": "12345",
+            "city": "Anderstorp",
+            "country": "Sweden",
+            "order_items": [
+                {
+                    "product_id": 1,
+                    "amount": 2,
+                    "article_number": "1212-RNT",
+                    "name": "Screw 14mm",
+                    "description": "A mighty fine screw.",
+                    "specifiers": "{length : '14mm', width : '5mm'}",
+                    "stock": 12,
+                    "location": "A1B4"
+                },
+                {
+                    "product_id": 2,
+                    "amount": 3,
+                    "article_number": "1212-TNT",
+                    "name": "Bolt 14mm",
+                    "description": "A bolt that fits the mighty fine screw.",
+                    "specifiers": "{length : '5mm', width : '5mm'}",
+                    "stock": 15,
+                    "location": "A1C4"
+                }
+            ]
         }
     ]
 }</pre>
 
-            <p><strong>To add a product:</strong></p>
-            <pre>POST /product</pre>
+            <p><strong>To add an order:</strong></p>
+            <pre>POST /order</pre>
             <p>Required parameters:</p>
             <pre>id
 name
 api_key</pre>
 
-            <p><strong>To update a product:</strong></p>
-            <pre>PUT /product</pre>
+            <p><strong>To update an order:</strong></p>
+            <pre>PUT /order</pre>
             <p>Required parameters:</p>
             <pre>id
 api_key</pre>
-            <p><strong>N.B.</strong> All attributes are updated, send an entire product object.</p>
+            <p><strong>N.B.</strong> All attributes are updated, send an entire order object.</p>
             <p>Result:</p>
             <pre>HTTP Status Code 204 No Content</pre>
             <p>Possible error, besides errors returned from database:</p>
@@ -258,8 +332,8 @@ api_key</pre>
     }
 }</pre>
 
-            <p><strong>To delete a product:</strong></p>
-            <pre>DELETE /product</pre>
+            <p><strong>To delete an order and associated order items:</strong></p>
+            <pre>DELETE /order</pre>
             <p>Required parameters:</p>
             <pre>id
 api_key</pre>
