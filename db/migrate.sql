@@ -39,11 +39,11 @@ CREATE TABLE IF NOT EXISTS order_items (
     UNIQUE(orderId, productId, apiKey)
 );
 
-CREATE TABLE IF NOT EXISTS transactions (
-    productId INTEGER NOT NULL,
-    amount INTEGER NOT NULL,
-    message VARCHAR(255),
-    apiKey VARCHAR(32) NOT NULL,
-    FOREIGN KEY(apiKey) REFERENCES apikeys(key),
-    FOREIGN KEY(productId) REFERENCES products(productId)
-);
+-- CREATE TABLE IF NOT EXISTS transactions (
+--     productId INTEGER NOT NULL,
+--     amount INTEGER NOT NULL,
+--     message VARCHAR(255),
+--     apiKey VARCHAR(32) NOT NULL,
+--     FOREIGN KEY(apiKey) REFERENCES apikeys(key),
+--     FOREIGN KEY(productId) REFERENCES products(productId)
+-- );

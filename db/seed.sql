@@ -8,10 +8,10 @@ INSERT INTO products (productId, articleNumber, productName, productDescription,
 
 INSERT INTO orders (orderId, customerName, customerAddress, customerZip, customerCity, customerCountry, apiKey) VALUES (1, "Anders Andersson", "Andersgatan 1", "12345", "Anderstorp", "Sweden", "fdc42b2d941e8c6f7b38d974df3758ce");
 INSERT INTO orders (orderId, customerName, customerAddress, customerZip, customerCity, customerCountry, apiKey) VALUES (2, "Anders Bengtsson", "Andersgatan 2", "12345", "Anderstorp", "Sweden", "fdc42b2d941e8c6f7b38d974df3758ce");
-INSERT INTO order_items (orderItemId, orderId, productId, amount, apiKey) VALUES (1, 1, 1, 2, "fdc42b2d941e8c6f7b38d974df3758ce");
-INSERT INTO order_items (orderItemId, orderId, productId, amount, apiKey) VALUES (2, 1, 2, 3, "fdc42b2d941e8c6f7b38d974df3758ce");
-INSERT INTO order_items (orderItemId, orderId, productId, amount, apiKey) VALUES (3, 2, 1, 5, "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (1, 1, 2, "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (1, 2, 3, "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (2, 1, 5, "fdc42b2d941e8c6f7b38d974df3758ce");
 
 INSERT INTO orders (orderId, customerName, customerAddress, customerZip, customerCity, customerCountry, apiKey) VALUES (1, "Bengt Bengtsson", "Bengtsgatan 2", "54321", "Bengtsfors", "Sweden", "1bdd5c943e664d399f2a298fca0dabfd");
-INSERT INTO order_items (orderItemId, orderId, productId, amount, apiKey) VALUES (1, 1, 1, 2, "1bdd5c943e664d399f2a298fca0dabfd");
-INSERT INTO order_items (orderItemId, orderId, productId, amount, apiKey) VALUES (2, 1, 3, 3, "1bdd5c943e664d399f2a298fca0dabfd");
+INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (1, 1, 2, "1bdd5c943e664d399f2a298fca0dabfd");
+INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (1, 3, 3, "1bdd5c943e664d399f2a298fca0dabfd");
