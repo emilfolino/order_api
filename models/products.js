@@ -25,23 +25,33 @@ module.exports = (function () {
     }
 
     function getProduct(res, apiKey, productId) {
-        db.get("SELECT " + dataFields + " FROM products WHERE apiKey = ? AND productId = ?",
-            apiKey,
-            productId, (err, row) => {
-                if (err) {
-                    res.status(401).json({
-                        errors: {
-                            status: 401,
-                            source: "/product/:product_id",
-                            title: "Database error",
-                            detail: err.message
-                        }
-                    });
-                    return;
-                }
+        if (Number.isInteger(parseInt(productId))) {
+            db.get("SELECT " + dataFields + " FROM products WHERE apiKey = ? AND productId = ?",
+                apiKey,
+                productId, (err, row) => {
+                    if (err) {
+                        res.status(401).json({
+                            errors: {
+                                status: 401,
+                                source: "/product/:product_id",
+                                title: "Database error",
+                                detail: err.message
+                            }
+                        });
+                        return;
+                    }
 
-                res.json( { data: row } );
+                    res.json( { data: row } );
+                });
+        } else {
+            res.status(400).json({
+                errors: {
+                    status: 400,
+                    detail: "Required attribute product id " +
+                        " is not an integer."
+                }
             });
+        }
     }
 
     function searchProduct(res, apiKey, query) {

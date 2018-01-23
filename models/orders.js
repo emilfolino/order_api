@@ -21,6 +21,11 @@ module.exports = (function () {
                     return;
                 }
 
+                if (orderRows.length === 0) {
+                    res.json(orders);
+                    return;
+                }
+
                 orderRows.forEach(function(order) {
                     db.all("SELECT oi.productId as product_id, oi.amount," +
                         " p.articleNumber as article_number, p.productName as name," +
@@ -54,30 +59,10 @@ module.exports = (function () {
     }
 
     function getOrder(res, apiKey, orderId) {
-        db.get("SELECT " + dataFields + " FROM orders WHERE apiKey = ? AND orderId = ?",
-            apiKey,
-            orderId, (err, order) => {
-                if (err) {
-                    res.status(401).json({
-                        errors: {
-                            status: 401,
-                            source: "/order/:order_id",
-                            title: "Database error",
-                            detail: err.message
-                        }
-                    });
-                    return;
-                }
-
-                order.order_items = [];
-                db.each("SELECT oi.productId as product_id, oi.amount," +
-                    " p.articleNumber as article_number, p.productName as name," +
-                    " p.productDescription as description, p.productSpecifiers as specifiers," +
-                    " p.stock, p.location FROM order_items oi" +
-                    " INNER JOIN products p ON oi.productId=p.productId AND oi.apiKey=p.apiKey" +
-                    " WHERE oi.apiKey = ? AND oi.orderId = ?",
+        if (Number.isInteger(parseInt(orderId))) {
+            db.get("SELECT " + dataFields + " FROM orders WHERE apiKey = ? AND orderId = ?",
                 apiKey,
-                order.id, (err, orderItemRow) => {
+                orderId, (err, order) => {
                     if (err) {
                         res.status(401).json({
                             errors: {
@@ -90,11 +75,46 @@ module.exports = (function () {
                         return;
                     }
 
-                    order.order_items.push(orderItemRow);
-                }, function () {
-                    res.json({ data: order });
+                    if (order === undefined) {
+                        res.json({ data : {} });
+                        return;
+                    }
+
+                    order.order_items = [];
+                    db.each("SELECT oi.productId as product_id, oi.amount," +
+                        " p.articleNumber as article_number, p.productName as name," +
+                        " p.productDescription as description, p.productSpecifiers as specifiers," +
+                        " p.stock, p.location FROM order_items oi" +
+                        " INNER JOIN products p ON oi.productId=p.productId AND oi.apiKey=p.apiKey" +
+                        " WHERE oi.apiKey = ? AND oi.orderId = ?",
+                    apiKey,
+                    order.id, (err, orderItemRow) => {
+                        if (err) {
+                            res.status(401).json({
+                                errors: {
+                                    status: 401,
+                                    source: "/order/:order_id",
+                                    title: "Database error",
+                                    detail: err.message
+                                }
+                            });
+                            return;
+                        }
+
+                        order.order_items.push(orderItemRow);
+                    }, function () {
+                        res.json({ data: order });
+                    });
                 });
+        } else {
+            res.status(400).json({
+                errors: {
+                    status: 400,
+                    detail: "Required attribute order id " +
+                        " is not an integer."
+                }
             });
+        }
     }
 
     function searchOrder(res, apiKey, query) {

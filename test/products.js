@@ -159,6 +159,16 @@ describe('products', () => {
                 });
         });
 
+        it('should get 400 string id supplied', (done) => {
+            chai.request(server)
+                .get("/product/test?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(400);
+
+                    done();
+                });
+        });
+
         it('should get 200 HAPPY PATH', (done) => {
             chai.request(server)
                 .get("/product/1?api_key=" + apiKey)
@@ -179,6 +189,32 @@ describe('products', () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.eql({});
+
+                    done();
+                });
+        });
+    });
+
+    describe('GET /product/search/:query', () => {
+        it('should get 200 HAPPY PATH', (done) => {
+            chai.request(server)
+                .get("/product/search/screw?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.be.equal(1);
+
+                    done();
+                });
+        });
+
+        it('should get 200, but empty data object', (done) => {
+            chai.request(server)
+                .get("/product/search/bolt?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.data.should.be.eql([]);
 
                     done();
                 });
@@ -244,7 +280,7 @@ describe('products', () => {
     describe('DELETE /product', () => {
         it('should get 400 no id supplied', (done) => {
             let product = {
-                api_key: apiKey                
+                api_key: apiKey
             };
 
             chai.request(server)
