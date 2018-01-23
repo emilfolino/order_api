@@ -1,4 +1,4 @@
-const db = require("./database.js");
+const db = require("../db/database.js");
 
 module.exports = (function () {
     function addOrderItem(res, body) {

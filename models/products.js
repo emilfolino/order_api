@@ -1,4 +1,4 @@
-const db = require("./database.js");
+const db = require("../db/database.js");
 
 module.exports = (function () {
     const dataFields = "productId as id, articleNumber as article_number," +

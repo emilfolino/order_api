@@ -1,4 +1,4 @@
-const db = require("./database.js");
+const db = require("../db/database.js");
 const hat = require("hat");
 const validator = require("email-validator");
 

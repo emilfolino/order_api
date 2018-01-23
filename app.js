@@ -2,11 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-const auth = require('./auth.js');
+const auth = require('./models/auth.js');
 
-const products = require('./products.js');
-const orders = require('./orders.js');
-const orderItems = require('./orders.js');
+const products = require('./models/products.js');
+const orders = require('./models/orders.js');
+const orderItems = require('./models/order_items.js');
 
 const app = express();
 
