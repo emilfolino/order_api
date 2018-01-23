@@ -101,4 +101,6 @@ app.post('/transaction', (req, res) => transactions.addTransaction(res, req.body
 
 
 
-app.listen(port, () => console.log('Order api listening on port ' + port));
+const server = app.listen(port, () => console.log('Order api listening on port ' + port));
+
+module.exports = server;
