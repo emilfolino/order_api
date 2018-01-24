@@ -1,17 +1,26 @@
 INSERT INTO apikeys (email, key) VALUES ("unknown@example.com", "fdc42b2d941e8c6f7b38d974df3758ce");
-INSERT INTO apikeys (email, key) VALUES ("known@example.com", "1bdd5c943e664d399f2a298fca0dabfd");
 
-INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (1, "1212-RNT", "Screw 14mm", "A mighty fine screw.", "{length : '14mm', width : '5mm'}", 12, "A1B4", "fdc42b2d941e8c6f7b38d974df3758ce");
-INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (2, "1212-TNT", "Bolt 14mm", "A bolt that fits the mighty fine screw.", "{length : '5mm', width : '5mm'}", 15, "A1C4", "fdc42b2d941e8c6f7b38d974df3758ce");
-INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (1, "QRT-LLL-14", "Blue yarn", "Nice quality yarn.", "{ color : 'blue', thickness : 8}", 2, "B14", "1bdd5c943e664d399f2a298fca0dabfd");
-INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (3, "QRT-R34-14", "Red yarn", "Low qaulity yarn.", "{ color : 'red', thickness : 2}", 3, "C12", "1bdd5c943e664d399f2a298fca0dabfd");
+INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (1, "1214-RNT", "Skruv M14", "Skruv M14, värmförsinkad", "{length : '60mm', width : '14mm'}", 12, "A1B4", "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (2, "1212-RNT", "Skruv M12", "Skruv M12, värmförsinkad", "{length : '60mm', width : '12mm'}", 12, "A1B5", "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (3, "1210-RNT", "Skruv M10", "Skruv M10, värmförsinkad", "{length : '60mm', width : '10mm'}", 12, "A1B6", "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (4, "1208-RNT", "Skruv M8", "Skruv M8, värmförsinkad", "{length : '60mm', width : '8mm'}", 12, "A1B7", "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (5, "1206-RNT", "Skruv M6", "Skruv M6, värmförsinkad", "{length : '60mm', width : '6mm'}", 12, "A1B8", "fdc42b2d941e8c6f7b38d974df3758ce");
+
+INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (6, "1214-TNT", "Mutter M14", "Mutter M14, värmförsinkad, passar 1214-RNT", "{diameter : '14mm'}", 15, "A1C4", "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (7, "1212-TNT", "Mutter M12", "Mutter M12, värmförsinkad, passar 1212-RNT", "{diameter : '12mm'}", 15, "A1C4", "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (8, "1210-TNT", "Mutter M10", "Mutter M10, värmförsinkad, passar 1210-RNT", "{diameter : '10mm'}", 15, "A1C4", "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (9, "1208-TNT", "Mutter M8", "Mutter M8, värmförsinkad, passar 1208-RNT", "{diameter : '8mm'}", 15, "A1C4", "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO products (productId, articleNumber, productName, productDescription, productSpecifiers, stock, location, apiKey) VALUES (10, "1206-TNT", "Mutter M6", "Mutter M6, värmförsinkad, passar 1206-RNT", "{diameter : '6mm'}", 15, "A1C4", "fdc42b2d941e8c6f7b38d974df3758ce");
 
 INSERT INTO orders (orderId, customerName, customerAddress, customerZip, customerCity, customerCountry, apiKey) VALUES (1, "Anders Andersson", "Andersgatan 1", "12345", "Anderstorp", "Sweden", "fdc42b2d941e8c6f7b38d974df3758ce");
-INSERT INTO orders (orderId, customerName, customerAddress, customerZip, customerCity, customerCountry, apiKey) VALUES (2, "Anders Bengtsson", "Andersgatan 2", "12345", "Anderstorp", "Sweden", "fdc42b2d941e8c6f7b38d974df3758ce");
 INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (1, 1, 2, "fdc42b2d941e8c6f7b38d974df3758ce");
 INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (1, 2, 3, "fdc42b2d941e8c6f7b38d974df3758ce");
-INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (2, 1, 5, "fdc42b2d941e8c6f7b38d974df3758ce");
 
-INSERT INTO orders (orderId, customerName, customerAddress, customerZip, customerCity, customerCountry, apiKey) VALUES (1, "Bengt Bengtsson", "Bengtsgatan 2", "54321", "Bengtsfors", "Sweden", "1bdd5c943e664d399f2a298fca0dabfd");
-INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (1, 1, 2, "1bdd5c943e664d399f2a298fca0dabfd");
-INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (1, 3, 3, "1bdd5c943e664d399f2a298fca0dabfd");
+INSERT INTO orders (orderId, customerName, customerAddress, customerZip, customerCity, customerCountry, apiKey) VALUES (2, "Bengt Bengtsson", "Bengtsgatan 2", "23457", "Bengtfors", "Sweden", "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (2, 3, 5, "fdc42b2d941e8c6f7b38d974df3758ce");
+
+INSERT INTO orders (orderId, customerName, customerAddress, customerZip, customerCity, customerCountry, apiKey) VALUES (3, "Carl Carlsson", "Carlsgatan 3", "34567", "Karlstad", "Sweden", "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (3, 6, 5, "fdc42b2d941e8c6f7b38d974df3758ce");
+
+INSERT INTO orders (orderId, customerName, customerAddress, customerZip, customerCity, customerCountry, apiKey) VALUES (4, "David Davidsson", "Davidsallén 4", "45678", "Davidstorp", "Sweden", "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (4, 8, 5, "fdc42b2d941e8c6f7b38d974df3758ce");
