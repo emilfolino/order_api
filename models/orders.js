@@ -243,6 +243,7 @@ module.exports = (function () {
                                             detail: err.message
                                         }
                                     });
+                                    return;
                                 } else {
                                     res.status(204).send();
                                 }
