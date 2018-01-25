@@ -13,10 +13,10 @@ const app = express();
 
 const port = 8111;
 
-//don't show the log when it is test
+// don't show the log when it is test
 if (process.env.NODE_ENV !== 'test') {
-    //use morgan to log at command line
-    app.use(morgan('combined')); //'combined' outputs the Apache style LOGs
+    // use morgan to log at command line
+    app.use(morgan('combined')); // 'combined' outputs the Apache style LOGs
 }
 
 app.use(bodyParser.json()); // for parsing application/json
@@ -87,17 +87,6 @@ app.delete('/order', (req, res) => orders.deleteOrder(res, req.body));
 app.post('/order_item', (req, res) => orderItems.addOrderItem(res, req.body));
 app.put('/order_item', (req, res) => orderItems.updateOrderItem(res, req.body));
 app.delete('/order_item', (req, res) => orderItems.deleteOrderItem(res, req.body));
-
-
-
-// Transaction routes
-/* app.get('/transactions', (req, res) => transactions.getAllTransactions(res,
-    req.query.api_key));
-app.get('/transaction/:transaction_id', (req, res) => transactions.getTransaction(res,
-    req.query.api_key,
-    req.params.product_id));
-app.post('/transaction', (req, res) => transactions.addTransaction(res, req.body));
-*/
 
 
 
