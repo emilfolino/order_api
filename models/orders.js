@@ -142,6 +142,11 @@ module.exports = (function () {
                 return;
             }
 
+            if (orderRows.length === 0) {
+                res.json(orders);
+                return;
+            }
+
             orderRows.forEach(function(order) {
                 db.all("SELECT oi.productId as product_id, oi.amount," +
                     " p.articleNumber as article_number, p.productName as name," +

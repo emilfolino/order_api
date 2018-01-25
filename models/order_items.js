@@ -44,7 +44,8 @@ module.exports = (function () {
     }
 
     function deleteOrderItem(res, body) {
-        if (Number.isInteger(parseInt(body.id))) {
+        if (Number.isInteger(parseInt(body.order_id)) &&
+            Number.isInteger(parseInt(body.product_id))) {
             db.run("DELETE FROM order_items WHERE apiKey = ? AND orderId = ? AND productId = ?",
                 body.api_key,
                 body.order_id,
