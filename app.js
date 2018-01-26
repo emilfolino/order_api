@@ -8,6 +8,7 @@ const auth = require('./models/auth.js');
 const products = require('./models/products.js');
 const orders = require('./models/orders.js');
 const orderItems = require('./models/order_items.js');
+const copier = require('./models/copier.js');
 
 const app = express();
 
@@ -87,6 +88,13 @@ app.delete('/order', (req, res) => orders.deleteOrder(res, req.body));
 app.post('/order_item', (req, res) => orderItems.addOrderItem(res, req.body));
 app.put('/order_item', (req, res) => orderItems.updateOrderItem(res, req.body));
 app.delete('/order_item', (req, res) => orderItems.deleteOrderItem(res, req.body));
+
+
+
+// Copier routes
+app.post('/copy_all', (req, res) => copier.copyAll(res, req.body.api_key));
+app.post('/copy_products', (req, res) => copier.copyProducts(res, req.body.api_key));
+app.post('/copy_orders', (req, res) => copier.copyOrders(res, req.body.api_key));
 
 
 

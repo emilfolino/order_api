@@ -5,7 +5,7 @@ module.exports = (function () {
         " productName as name, productDescription as description," +
         " productSpecifiers as specifiers, stock, location";
 
-    function getAllProducts(res, apiKey) {
+    function getAllProducts(res, apiKey, status=200) {
         db.all("SELECT " + dataFields + " FROM products WHERE apiKey = ?",
             apiKey, (err, rows) => {
                 if (err) {
@@ -20,7 +20,7 @@ module.exports = (function () {
                     return;
                 }
 
-                res.json( { data: rows } );
+                res.status(status).json( { data: rows } );
             });
     }
 

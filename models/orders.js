@@ -4,7 +4,7 @@ module.exports = (function () {
     const dataFields = "orderId as id, customerName as name, customerAddress as address," +
         " customerZip as zip, customerCity as city, customerCountry as country";
 
-    function getAllOrders(res, apiKey) {
+    function getAllOrders(res, apiKey, status=200) {
         let orders = { data: []};
 
         db.all("SELECT " + dataFields + " FROM orders WHERE apiKey = ?",
@@ -22,7 +22,7 @@ module.exports = (function () {
                 }
 
                 if (orderRows.length === 0) {
-                    res.json(orders);
+                    res.status(status).json(orders);
                     return;
                 }
 
@@ -51,7 +51,7 @@ module.exports = (function () {
                         orders.data.push(order);
 
                         if (orders.data.length === orderRows.length) {
-                            res.json(orders);
+                            res.status(status).json(orders);
                         }
                     });
                 });
