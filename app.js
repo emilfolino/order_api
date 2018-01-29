@@ -3,6 +3,12 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const morgan = require('morgan');
 
+const jwt = require('jsonwebtoken');
+const passport = require("passport");
+const passportJWT = require("passport-jwt");
+const ExtractJwt = passportJWT.ExtractJwt;
+const JwtStrategy = passportJWT.Strategy;
+
 const auth = require('./models/auth.js');
 
 const products = require('./models/products.js');
