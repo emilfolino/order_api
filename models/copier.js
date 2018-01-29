@@ -6,8 +6,8 @@ const copier = (function () {
     const copyApiKey = "fdc42b2d941e8c6f7b38d974df3758ce";
 
     function copyAll(res, apiKey) {
-        copier.copyProductsHelper(res, apiKey, false);
-        copier.copyOrdersHelper(res, apiKey, false);
+        copyProductsHelper(res, apiKey, false);
+        copyOrdersHelper(res, apiKey, false);
 
         res.status(201).json({
             data: {
@@ -17,10 +17,10 @@ const copier = (function () {
     }
 
     function copyProducts(res, apiKey) {
-        copyProductsHelper(res, apiKey, true);
+        copyProductsHelper(res, apiKey);
     }
 
-    function copyProductsHelper(res, apiKey, sendResponse) {
+    function copyProductsHelper(res, apiKey, sendResponse=true) {
         let sql = "INSERT INTO products" +
             " (productId," +
             " articleNumber," +
@@ -51,17 +51,17 @@ const copier = (function () {
                 });
             } else {
                 if (sendResponse) {
-                    orders.getAllOrders(res, apiKey, 201);
+                    products.getAllProducts(res, apiKey, 201);
                 }
             }
         });
     }
 
     function copyOrders(res, apiKey) {
-        copyOrdersHelper(res, apiKey, true);
+        copyOrdersHelper(res, apiKey);
     }
 
-    function copyOrdersHelper(res, apiKey, sendResponse) {
+    function copyOrdersHelper(res, apiKey, sendResponse=true) {
         let sql = "INSERT INTO orders" +
             " (orderId," +
             " customerName," +

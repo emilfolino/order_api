@@ -16,51 +16,45 @@ let apiKey = "";
 
 describe('copier', () => {
     before(() => {
-        db.run("DELETE FROM apiKeys", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table apiKeys", err.message);
-            }
-        });
+        return new Promise((resolve) => {
+            db.run("DELETE FROM apiKeys", (err) => {
+                if (err) {
+                    console.log("Could not empty test DB table apiKeys", err.message);
+                }
+            });
 
-        db.run("DELETE FROM products", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table orders", err.message);
-            }
-        });
+            db.run("DELETE FROM products", (err) => {
+                if (err) {
+                    console.log("Could not empty test DB table orders", err.message);
+                }
+            });
 
-        db.run("DELETE FROM orders", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table orders", err.message);
-            }
-        });
+            db.run("DELETE FROM orders", (err) => {
+                if (err) {
+                    console.log("Could not empty test DB table orders", err.message);
+                }
+            });
 
-        db.run("DELETE FROM order_items", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table orders", err.message);
-            }
-        });
-
-
-        exec('cat db/migrate.sql | sqlite3 db/test.sqlite', (error, stdout, stderr) => {
-            if (error) {
-                console.log(error.message);
-                return;
-            }
+            db.run("DELETE FROM order_items", (err) => {
+                if (err) {
+                    console.log("Could not empty test DB table orders", err.message);
+                }
+            });
 
             exec('cat db/seed.sql | sqlite3 db/test.sqlite', (error, stdout, stderr) => {
                 if (error) {
                     console.log(error.message);
                     return;
                 }
+
+                console.log("Ready for take-off");
+
+                resolve();
             });
         });
-
-        console.log("Ready for take-off");
     });
 
     describe('POST /copy_products', () => {
-        console.log("Took-off");
-
         it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
                 .post("/copy_products")
@@ -75,7 +69,7 @@ describe('copier', () => {
 
         it('should get 200 HAPPY PATH FROM GETTING API KEY', (done) => {
             chai.request(server)
-                .get("/api_key?email=test@order.com")
+                .get("/api_key?email=test@copy.com")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -134,7 +128,7 @@ describe('copier', () => {
 
         it('should get 200 HAPPY PATH FROM GETTING API KEY', (done) => {
             chai.request(server)
-                .get("/api_key?email=test@order.com")
+                .get("/api_key?email=test@copyall.com")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
