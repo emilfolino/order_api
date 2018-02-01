@@ -1,10 +1,13 @@
+/* global it describe before */
+
 process.env.NODE_ENV = 'test';
 
 //Require the dev-dependencies
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app.js');
-const should = chai.should();
+
+chai.should();
 
 const db = require("../db/database.js");
 
@@ -41,7 +44,10 @@ describe('copier', () => {
                     return;
                 }
 
-                console.log("Ready for take-off");
+                if (stderr) {
+                    console.log(stderr);
+                    return;
+                }
 
                 resolve();
             });

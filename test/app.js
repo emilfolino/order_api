@@ -1,12 +1,13 @@
+/* global it describe */
+
 process.env.NODE_ENV = 'test';
 
 //Require the dev-dependencies
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app.js');
-const should = chai.should();
 
-const db = require("../db/database.js");
+chai.should();
 
 chai.use(chaiHttp);
 

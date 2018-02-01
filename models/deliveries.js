@@ -2,7 +2,10 @@ const db = require("../db/database.js");
 
 module.exports = (function () {
     function getDeliveries(res, apiKey) {
-        db.all("SELECT deliveryId, productId, amount, deliveryDate, comment FROM deliveries WHERE apiKey = ?", apiKey, (err, rows) => {
+        const sql = "SELECT deliveryId, productId, amount, deliveryDate, comment" +
+                        " FROM deliveries WHERE apiKey = ?";
+
+        db.all(sql, apiKey, (err, rows) => {
             if (err) {
                 res.status(400).json({ errors: { status: 400, detail: err.message } });
             } else {
@@ -12,7 +15,10 @@ module.exports = (function () {
     }
 
     function addDelivery(res, body) {
-        db.run("INSERT INTO deliveries (deliveryId, productId, amount, deliveryDate, comment, apiKey) VALUES (?, ?, ?, ?, ?, ?)",
+        const sql = "INSERT INTO deliveries (deliveryId, productId, amount, deliveryDate," +
+                        " comment, apiKey) VALUES (?, ?, ?, ?, ?, ?)";
+
+        db.run(sql,
             body.id,
             body.product_id,
             body.amount,
