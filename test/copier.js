@@ -1,10 +1,13 @@
+/* global it describe before */
+
 process.env.NODE_ENV = 'test';
 
 //Require the dev-dependencies
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app.js');
-const should = chai.should();
+
+chai.should();
 
 const db = require("../db/database.js");
 
@@ -17,12 +20,6 @@ let apiKey = "";
 describe('copier', () => {
     before(() => {
         return new Promise((resolve) => {
-            db.run("DELETE FROM apiKeys", (err) => {
-                if (err) {
-                    console.log("Could not empty test DB table apiKeys", err.message);
-                }
-            });
-
             db.run("DELETE FROM products", (err) => {
                 if (err) {
                     console.log("Could not empty test DB table orders", err.message);
@@ -47,7 +44,10 @@ describe('copier', () => {
                     return;
                 }
 
-                console.log("Ready for take-off");
+                if (stderr) {
+                    console.log(stderr);
+                    return;
+                }
 
                 resolve();
             });

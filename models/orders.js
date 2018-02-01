@@ -76,7 +76,7 @@ module.exports = (function () {
                     }
 
                     if (order === undefined) {
-                        res.json({ data : {} });
+                        res.json({ data: {} });
                         return;
                     }
 
@@ -85,7 +85,8 @@ module.exports = (function () {
                         " p.articleNumber as article_number, p.productName as name," +
                         " p.productDescription as description, p.productSpecifiers as specifiers," +
                         " p.stock, p.location FROM order_items oi" +
-                        " INNER JOIN products p ON oi.productId=p.productId AND oi.apiKey=p.apiKey" +
+                        " INNER JOIN products p ON oi.productId=p.productId" +
+                        " AND oi.apiKey=p.apiKey" +
                         " WHERE oi.apiKey = ? AND oi.orderId = ?",
                     apiKey,
                     order.id, (err, orderItemRow) => {

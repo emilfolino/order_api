@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS deliveries (
     productId INTEGER NOT NULL,
     amount INTEGER NOT NULL,
     deliveryDate TEXT NOT NULL,
-    comment TEXT NOT NULL,
+    comment TEXT,
     apiKey VARCHAR(32) NOT NULL,
     FOREIGN KEY(apiKey) REFERENCES apikeys(key),
     UNIQUE(deliveryId, apiKey)

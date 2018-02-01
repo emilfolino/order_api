@@ -1,10 +1,13 @@
+/* global it describe before */
+
 process.env.NODE_ENV = 'test';
 
 //Require the dev-dependencies
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app.js');
-const should = chai.should();
+
+chai.should();
 
 const db = require("../db/database.js");
 
@@ -12,15 +15,8 @@ chai.use(chaiHttp);
 
 let apiKey = "";
 
-
 describe('order items', () => {
     before(() => {
-        db.run("DELETE FROM apiKeys", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table apiKeys", err.message);
-            }
-        });
-
         db.run("DELETE FROM products", (err) => {
             if (err) {
                 console.log("Could not empty test DB table orders", err.message);
@@ -42,7 +38,7 @@ describe('order items', () => {
 
     describe('POST /order_item', () => {
         it('should get 401 as we do not provide valid api_key', (done) => {
-            let order_item = {
+            let orderItem = {
                 order_id: 1,
                 product_id: 1,
                 amount: 1,
@@ -51,7 +47,7 @@ describe('order items', () => {
 
             chai.request(server)
                 .post("/order_item")
-                .send(order_item)
+                .send(orderItem)
                 .end((err, res) => {
                     res.should.have.status(401);
                     res.body.should.be.an("object");
@@ -62,7 +58,7 @@ describe('order items', () => {
 
         it('should get 200 HAPPY PATH FROM GETTING API KEY', (done) => {
             chai.request(server)
-                .get("/api_key?email=test@order.com")
+                .get("/api_key?email=test@orderitems.com")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -77,7 +73,7 @@ describe('order items', () => {
 
 
         it('should get 400 as we do not supply order id', (done) => {
-            let order_item = {
+            let orderItem = {
                 // order_id: 1,
                 product_id: 1,
                 amount: 1,
@@ -86,7 +82,7 @@ describe('order items', () => {
 
             chai.request(server)
                 .post("/order_item")
-                .send(order_item)
+                .send(orderItem)
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.should.be.an("object");
@@ -100,7 +96,7 @@ describe('order items', () => {
         });
 
         it('should get 400 as we do not supply product id', (done) => {
-            let order_item = {
+            let orderItem = {
                 order_id: 1,
                 // product_id: 1,
                 amount: 1,
@@ -109,7 +105,7 @@ describe('order items', () => {
 
             chai.request(server)
                 .post("/order_item")
-                .send(order_item)
+                .send(orderItem)
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.should.be.an("object");
@@ -162,7 +158,7 @@ describe('order items', () => {
         });
 
         it('should get 200 HAPPY PATH', (done) => {
-            let order_item = {
+            let orderItem = {
                 order_id: 1,
                 product_id: 1,
                 amount: 1,
@@ -171,7 +167,7 @@ describe('order items', () => {
 
             chai.request(server)
                 .post("/order_item")
-                .send(order_item)
+                .send(orderItem)
                 .end((err, res) => {
                     res.should.have.status(201);
                     res.body.should.be.an("object");
@@ -200,7 +196,7 @@ describe('order items', () => {
 
     describe('PUT /order_item', () => {
         it('should get 400 no order id supplied', (done) => {
-            let order_item = {
+            let orderItem = {
                 // order_id: 1,
                 product_id: 1,
                 amount: 2,
@@ -209,7 +205,7 @@ describe('order items', () => {
 
             chai.request(server)
                 .put("/order_item?api_key=" + apiKey)
-                .send(order_item)
+                .send(orderItem)
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.should.be.an("object");
@@ -223,7 +219,7 @@ describe('order items', () => {
         });
 
         it('should get 400 no product id supplied', (done) => {
-            let order_item = {
+            let orderItem = {
                 order_id: 1,
                 // product_id: 1,
                 amount: 2,
@@ -232,7 +228,7 @@ describe('order items', () => {
 
             chai.request(server)
                 .put("/order_item?api_key=" + apiKey)
-                .send(order_item)
+                .send(orderItem)
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.should.be.an("object");
@@ -246,7 +242,7 @@ describe('order items', () => {
         });
 
         it('should get 200 HAPPY PATH', (done) => {
-            let order_item = {
+            let orderItem = {
                 order_id: 1,
                 product_id: 1,
                 amount: 2,
@@ -255,7 +251,7 @@ describe('order items', () => {
 
             chai.request(server)
                 .put("/order_item")
-                .send(order_item)
+                .send(orderItem)
                 .end((err, res) => {
                     res.should.have.status(204);
 
@@ -281,7 +277,7 @@ describe('order items', () => {
 
     describe('DELETE /order_item', () => {
         it('should get 400 no order id supplied', (done) => {
-            let order_item = {
+            let orderItem = {
                 // order_id: 1,
                 product_id: 1,
                 api_key: apiKey
@@ -289,7 +285,7 @@ describe('order items', () => {
 
             chai.request(server)
                 .delete("/order_item?api_key=" + apiKey)
-                .send(order_item)
+                .send(orderItem)
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.should.be.an("object");
@@ -303,7 +299,7 @@ describe('order items', () => {
         });
 
         it('should get 400 no product id supplied', (done) => {
-            let order_item = {
+            let orderItem = {
                 order_id: 1,
                 // product_id: 1,
                 api_key: apiKey
@@ -311,7 +307,7 @@ describe('order items', () => {
 
             chai.request(server)
                 .delete("/order_item?api_key=" + apiKey)
-                .send(order_item)
+                .send(orderItem)
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.should.be.an("object");
@@ -325,7 +321,7 @@ describe('order items', () => {
         });
 
         it('should get 204 HAPPY PATH', (done) => {
-            let order_item = {
+            let orderItem = {
                 order_id: 1,
                 product_id: 1,
                 api_key: apiKey
@@ -333,7 +329,7 @@ describe('order items', () => {
 
             chai.request(server)
                 .delete("/order_item")
-                .send(order_item)
+                .send(orderItem)
                 .end((err, res) => {
                     res.should.have.status(204);
 
