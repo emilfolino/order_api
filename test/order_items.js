@@ -15,12 +15,6 @@ let apiKey = "";
 
 describe('order items', () => {
     before(() => {
-        db.run("DELETE FROM apiKeys", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table apiKeys", err.message);
-            }
-        });
-
         db.run("DELETE FROM products", (err) => {
             if (err) {
                 console.log("Could not empty test DB table orders", err.message);
@@ -62,7 +56,7 @@ describe('order items', () => {
 
         it('should get 200 HAPPY PATH FROM GETTING API KEY', (done) => {
             chai.request(server)
-                .get("/api_key?email=test@order.com")
+                .get("/api_key?email=test@orderitems.com")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");

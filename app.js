@@ -14,6 +14,7 @@ const auth = require('./models/auth.js');
 const products = require('./models/products.js');
 const orders = require('./models/orders.js');
 const orderItems = require('./models/order_items.js');
+const deliveries = require('./models/deliveries.js');
 const copier = require('./models/copier.js');
 
 const app = express();
@@ -94,6 +95,12 @@ app.delete('/order', (req, res) => orders.deleteOrder(res, req.body));
 app.post('/order_item', (req, res) => orderItems.addOrderItem(res, req.body));
 app.put('/order_item', (req, res) => orderItems.updateOrderItem(res, req.body));
 app.delete('/order_item', (req, res) => orderItems.deleteOrderItem(res, req.body));
+
+
+
+// Delivery routes
+app.get('/deliveries', (req, res) => deliveries.getDeliveries(res, req.query.api_key));
+app.post('/delivery', (req, res) => deliveries.addDelivery(res, req.body));
 
 
 

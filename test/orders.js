@@ -15,12 +15,6 @@ let apiKey = "";
 
 describe('orders', () => {
     before(() => {
-        db.run("DELETE FROM apiKeys", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table apiKeys", err.message);
-            }
-        });
-
         db.run("DELETE FROM products", (err) => {
             if (err) {
                 console.log("Could not empty test DB table orders", err.message);
