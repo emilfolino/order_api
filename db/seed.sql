@@ -24,3 +24,7 @@ INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (3, 6, 5, "f
 
 INSERT INTO orders (orderId, customerName, customerAddress, customerZip, customerCity, customerCountry, apiKey) VALUES (4, "David Davidsson", "Davidsallén 4", "45678", "Davidstorp", "Sweden", "fdc42b2d941e8c6f7b38d974df3758ce");
 INSERT INTO order_items (orderId, productId, amount, apiKey) VALUES (4, 8, 6, "fdc42b2d941e8c6f7b38d974df3758ce");
+
+INSERT INTO status (id, status, apiKey) VALUES (1, "Ny", "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO status (id, status, apiKey) VALUES (200, "Packad", "fdc42b2d941e8c6f7b38d974df3758ce");
+INSERT INTO status (id, status, apiKey) VALUES (900, "Skickad", "fdc42b2d941e8c6f7b38d974df3758ce");

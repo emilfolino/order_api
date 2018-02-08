@@ -16,6 +16,14 @@ CREATE TABLE IF NOT EXISTS products (
     UNIQUE(productId, apiKey)
 );
 
+CREATE TABLE IF NOT EXISTS status (
+    id INTEGER NOT NULL,
+    status VARCHAR(32) NOT NULL,
+    apiKey VARCHAR(32) NOT NULL,
+    FOREIGN KEY(apiKey) REFERENCES apikeys(key),
+    UNIQUE(id, apiKey)
+);
+
 CREATE TABLE IF NOT EXISTS orders (
     orderId INTEGER NOT NULL,
     customerName VARCHAR(255) NOT NULL,
@@ -23,8 +31,10 @@ CREATE TABLE IF NOT EXISTS orders (
     customerZip VARCHAR(12),
     customerCity VARCHAR(255),
     customerCountry VARCHAR(255),
+    statusId INTEGER NOT NULL DEFAULT 1,
     apiKey VARCHAR(32) NOT NULL,
     FOREIGN KEY(apiKey) REFERENCES apikeys(key),
+    FOREIGN KEY(statusId) REFERENCES status(id),
     UNIQUE(orderId, apiKey)
 );
 
