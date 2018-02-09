@@ -17,17 +17,40 @@ let apiKey = "";
 
 describe('orders', () => {
     before(() => {
-        db.run("DELETE FROM products", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table orders", err.message);
-            }
+        return new Promise((resolve) => {
+            db.run("DELETE FROM products", (err) => {
+                if (err) {
+                    console.log("Could not empty test DB table orders", err.message);
+                }
+            });
+
+            db.run("DELETE FROM orders", (err) => {
+                if (err) {
+                    console.log("Could not empty test DB table orders", err.message);
+                }
+            });
+
+            db.run("DELETE FROM status", (err) => {
+                if (err) {
+                    console.log("Could not empty test DB table orders", err.message);
+                }
+            });
+
+            exec('cat db/status_seed.sql | sqlite3 db/test.sqlite', (error, stdout, stderr) => {
+                if (error) {
+                    console.log(error.message);
+                    return;
+                }
+
+                if (stderr) {
+                    console.log(stderr);
+                    return;
+                }
+
+                resolve();
+            });
         });
 
-        db.run("DELETE FROM orders", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table orders", err.message);
-            }
-        });
     });
 
     describe('GET /orders', () => {
