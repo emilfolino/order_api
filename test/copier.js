@@ -38,12 +38,6 @@ describe('copier', () => {
                 }
             });
 
-            db.run("DELETE FROM status", (err) => {
-                if (err) {
-                    console.log("Could not empty test DB table orders", err.message);
-                }
-            });
-
             exec('cat db/seed.sql | sqlite3 db/test.sqlite', (error, stdout, stderr) => {
                 if (error) {
                     console.log(error.message);

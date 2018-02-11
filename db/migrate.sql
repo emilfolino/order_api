@@ -19,9 +19,7 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE IF NOT EXISTS status (
     id INTEGER NOT NULL,
     status VARCHAR(32) NOT NULL,
-    apiKey VARCHAR(32) NOT NULL,
-    FOREIGN KEY(apiKey) REFERENCES apikeys(key),
-    UNIQUE(id, apiKey)
+    UNIQUE(id)
 );
 
 CREATE TABLE IF NOT EXISTS orders (

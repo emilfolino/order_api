@@ -69,6 +69,7 @@ const copier = (function () {
             " customerZip," +
             " customerCity," +
             " customerCountry," +
+            " statusId," +
             " apiKey)" +
             " SELECT orderId," +
             " customerName," +
@@ -76,6 +77,7 @@ const copier = (function () {
             " customerZip," +
             " customerCity," +
             " customerCountry," +
+            " statusId," +
             "'" + apiKey + "'" +
             " FROM orders" +
             " WHERE apiKey = ?";

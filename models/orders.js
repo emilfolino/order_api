@@ -8,7 +8,7 @@ module.exports = (function () {
         let orders = { data: []};
 
         db.all("SELECT " + dataFields +
-            " FROM orders o INNER JOIN status s ON s.id = o.statusId AND s.apiKey = o.apiKey" +
+            " FROM orders o INNER JOIN status s ON s.id = o.statusId" +
             " WHERE o.apiKey = ?",
             apiKey, (err, orderRows) => {
                 if (err) {
@@ -63,7 +63,7 @@ module.exports = (function () {
     function getOrder(res, apiKey, orderId) {
         if (Number.isInteger(parseInt(orderId))) {
             db.get("SELECT " + dataFields +
-                " FROM orders o INNER JOIN status s ON s.id = o.statusId AND s.apiKey = o.apiKey" +
+                " FROM orders o INNER JOIN status s ON s.id = o.statusId" +
                 " WHERE o.apiKey = ? AND orderId = ?",
                 apiKey,
                 orderId, (err, order) => {
@@ -127,8 +127,8 @@ module.exports = (function () {
         let orders = { data: []};
 
         db.all("SELECT " + dataFields +
-            " FROM orders o INNER JOIN status s ON s.id = o.statusId AND s.apiKey = o.apiKey" +
-            " WHERE apiKey = ? AND" +
+            " FROM orders o INNER JOIN status s ON s.id = o.statusId" +
+            " WHERE o.apiKey = ? AND" +
             "(customerName LIKE ? OR customerAddress LIKE ? OR customerZip LIKE ?" +
             " OR customerCity LIKE ? OR customerCountry LIKE ?)",
         apiKey,
@@ -188,14 +188,14 @@ module.exports = (function () {
 
     function addOrder(res, body) {
         db.run("INSERT INTO orders (orderId, customerName, customerAddress, customerZip," +
-            " customerCity, customerCountry, statusId, apiKey) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            " customerCity, customerCountry, statusId, apiKey) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         body.id,
         body.name,
         body.address,
         body.zip,
         body.city,
         body.country,
-        body.status,
+        body.status || 1,
         body.api_key, (err) => {
             if (err) {
                 res.status(400).json({ errors: { status: 400, detail: err.message } });
@@ -206,7 +206,7 @@ module.exports = (function () {
     }
 
     function updateOrder(res, body) {
-        if (Number.isInteger(body.id)) {
+        if (Number.isInteger(parseInt(body.id))) {
             db.run("UPDATE orders SET customerName = ?, customerAddress = ?, customerZip = ?," +
                 " customerCity = ?, customerCountry = ?, statusId = ? WHERE apiKey = ? AND orderId = ?",
             body.name,
@@ -214,7 +214,7 @@ module.exports = (function () {
             body.zip,
             body.city,
             body.country,
-            body.status,
+            body.status || 1,
             body.api_key,
             body.id, (err) => {
                 if (err) {

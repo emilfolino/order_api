@@ -7,6 +7,8 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../app.js');
 
+const { exec } = require('child_process');
+
 chai.should();
 
 const db = require("../db/database.js");
@@ -18,6 +20,12 @@ let apiKey = "";
 describe('orders', () => {
     before(() => {
         return new Promise((resolve) => {
+            db.run("DELETE FROM apiKeys", (err) => {
+                if (err) {
+                    console.log("Could not empty test DB", err.message);
+                }
+            });
+
             db.run("DELETE FROM products", (err) => {
                 if (err) {
                     console.log("Could not empty test DB table orders", err.message);
@@ -25,6 +33,12 @@ describe('orders', () => {
             });
 
             db.run("DELETE FROM orders", (err) => {
+                if (err) {
+                    console.log("Could not empty test DB table orders", err.message);
+                }
+            });
+
+            db.run("DELETE FROM order_items", (err) => {
                 if (err) {
                     console.log("Could not empty test DB table orders", err.message);
                 }
@@ -50,7 +64,6 @@ describe('orders', () => {
                 resolve();
             });
         });
-
     });
 
     describe('GET /orders', () => {
