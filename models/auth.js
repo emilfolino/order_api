@@ -11,7 +11,7 @@ module.exports = (function () {
     function isValidAPIKey(apiKey, next, path, res) {
         db.get("SELECT email FROM apikeys WHERE key = ?", apiKey, (err, row) => {
             if (err) {
-                res.status(401).json({
+                return res.status(401).json({
                     errors: {
                         status: 401,
                         source: path,
@@ -19,7 +19,6 @@ module.exports = (function () {
                         detail: err.message
                     }
                 });
-                return;
             }
 
             if (row !== undefined) {

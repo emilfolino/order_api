@@ -12,7 +12,7 @@ module.exports = (function () {
             " WHERE o.apiKey = ?",
             apiKey, (err, orderRows) => {
                 if (err) {
-                    res.status(401).json({
+                    return res.status(401).json({
                         errors: {
                             status: 401,
                             source: "/orders",
@@ -20,12 +20,10 @@ module.exports = (function () {
                             detail: err.message
                         }
                     });
-                    return;
                 }
 
                 if (orderRows.length === 0) {
-                    res.status(status).json(orders);
-                    return;
+                    return res.status(status).json(orders);
                 }
 
                 orderRows.forEach(function(order) {
@@ -38,7 +36,7 @@ module.exports = (function () {
                     apiKey,
                     order.id, (err, orderItemRows) => {
                         if (err) {
-                            res.status(401).json({
+                            return res.status(401).json({
                                 errors: {
                                     status: 401,
                                     source: "/orders",
@@ -46,7 +44,6 @@ module.exports = (function () {
                                     detail: err.message
                                 }
                             });
-                            return;
                         }
 
                         order.order_items = orderItemRows;
@@ -68,7 +65,7 @@ module.exports = (function () {
                 apiKey,
                 orderId, (err, order) => {
                     if (err) {
-                        res.status(401).json({
+                        return res.status(401).json({
                             errors: {
                                 status: 401,
                                 source: "/order/:order_id",
@@ -76,12 +73,10 @@ module.exports = (function () {
                                 detail: err.message
                             }
                         });
-                        return;
                     }
 
                     if (order === undefined) {
-                        res.json({ data: {} });
-                        return;
+                        return res.json({ data: {} });
                     }
 
                     order.order_items = [];
@@ -95,7 +90,7 @@ module.exports = (function () {
                     apiKey,
                     order.id, (err, orderItemRow) => {
                         if (err) {
-                            res.status(401).json({
+                            return res.status(401).json({
                                 errors: {
                                     status: 401,
                                     source: "/order/:order_id",
@@ -103,7 +98,6 @@ module.exports = (function () {
                                     detail: err.message
                                 }
                             });
-                            return;
                         }
 
                         order.order_items.push(orderItemRow);
@@ -138,7 +132,7 @@ module.exports = (function () {
         searchQuery,
         searchQuery, (err, orderRows) => {
             if (err) {
-                res.status(401).json({
+                return res.status(401).json({
                     errors: {
                         status: 401,
                         source: "/order/search/:query",
@@ -146,12 +140,10 @@ module.exports = (function () {
                         detail: err.message
                     }
                 });
-                return;
             }
 
             if (orderRows.length === 0) {
-                res.json(orders);
-                return;
+                return res.json(orders);
             }
 
             orderRows.forEach(function(order) {
@@ -164,7 +156,7 @@ module.exports = (function () {
                 apiKey,
                 order.id, (err, orderItemRows) => {
                     if (err) {
-                        res.status(401).json({
+                        return res.status(401).json({
                             errors: {
                                 status: 401,
                                 source: "/order/search/:query",
@@ -172,7 +164,6 @@ module.exports = (function () {
                                 detail: err.message
                             }
                         });
-                        return;
                     }
 
                     order.order_items = orderItemRows;
@@ -246,13 +237,12 @@ module.exports = (function () {
                             body.api_key,
                             body.id, (err) => {
                                 if (err) {
-                                    res.status(400).json({
+                                    return res.status(400).json({
                                         errors: {
                                             status: 400,
                                             detail: err.message
                                         }
                                     });
-                                    return;
                                 } else {
                                     res.status(204).send();
                                 }

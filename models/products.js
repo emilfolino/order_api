@@ -9,7 +9,7 @@ module.exports = (function () {
         db.all("SELECT " + dataFields + " FROM products WHERE apiKey = ?",
             apiKey, (err, rows) => {
                 if (err) {
-                    res.status(401).json({
+                    return res.status(401).json({
                         errors: {
                             status: 401,
                             source: "/products",
@@ -17,7 +17,6 @@ module.exports = (function () {
                             detail: err.message
                         }
                     });
-                    return;
                 }
 
                 res.status(status).json( { data: rows } );
@@ -30,7 +29,7 @@ module.exports = (function () {
                 apiKey,
                 productId, (err, row) => {
                     if (err) {
-                        res.status(401).json({
+                        return res.status(401).json({
                             errors: {
                                 status: 401,
                                 source: "/product/:product_id",
@@ -38,7 +37,6 @@ module.exports = (function () {
                                 detail: err.message
                             }
                         });
-                        return;
                     }
 
                     res.json( { data: row } );
@@ -63,7 +61,7 @@ module.exports = (function () {
         searchQuery,
         searchQuery, (err, rows) => {
             if (err) {
-                res.status(401).json({
+                return res.status(401).json({
                     errors: {
                         status: 401,
                         source: "/product/search/:query",
@@ -71,7 +69,6 @@ module.exports = (function () {
                         detail: err.message
                     }
                 });
-                return;
             }
 
             res.json( { data: rows } );
