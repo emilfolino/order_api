@@ -9,6 +9,7 @@ const products = require('./models/products.js');
 const orders = require('./models/orders.js');
 const orderItems = require('./models/order_items.js');
 const deliveries = require('./models/deliveries.js');
+const invoices = require('./models/invoices.js');
 const copier = require('./models/copier.js');
 
 const app = express();
@@ -57,6 +58,7 @@ app.post('/login', (req, res) => auth.login(res, req.body));
 app.post('/register', (req, res) => auth.register(res, req.body));
 
 
+
 // Product routes
 app.get('/products', (req, res) => products.getAllProducts(res, req.query.api_key));
 app.get('/product/:product_id', (req, res) => products.getProduct(res,
@@ -96,6 +98,15 @@ app.delete('/order_item', (req, res) => orderItems.deleteOrderItem(res, req.body
 // Delivery routes
 app.get('/deliveries', (req, res) => deliveries.getDeliveries(res, req.query.api_key));
 app.post('/delivery', (req, res) => deliveries.addDelivery(res, req.body));
+
+
+
+// Invoice routes
+app.get("/invoices", (req, res) => invoices.getInvoices(res, req.query.api_key));
+app.get("/invoice/:invoice_id", (req, res) => invoices.getInvoice(res,
+    req.query.api_key,
+    req.params.invoice_id));
+app.post("/invoice", (req, res) => invoices.addInvoice(res, req.body));
 
 
 

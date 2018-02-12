@@ -65,3 +65,13 @@ CREATE TABLE IF NOT EXISTS users (
     FOREIGN KEY(apiKey) REFERENCES apikeys(key),
     UNIQUE(email, apiKey)
 );
+
+CREATE TABLE IF NOT EXISTS invoices (
+    invoiceId INTEGER NOT NULL,
+    orderId INTEGER NOT NULL,
+    totalPrice INTEGER NOT NULL DEFAULT 0,
+    apiKey VARCHAR(32) NOT NULL,
+    FOREIGN KEY(apiKey) REFERENCES apikeys(key),
+    FOREIGN KEY(orderId) REFERENCES orders(orderId),
+    UNIQUE(invoiceId, apiKey)
+);

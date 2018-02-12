@@ -150,7 +150,7 @@ describe('orders', () => {
                 });
         });
 
-        it('should get 200 HAPPY PATH', (done) => {
+        it('should get 201 HAPPY PATH', (done) => {
             let order = {
                 id: 1,
                 name: "Anders",
