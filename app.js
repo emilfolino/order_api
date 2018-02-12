@@ -3,12 +3,6 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const morgan = require('morgan');
 
-// const jwt = require('jsonwebtoken');
-// const passport = require("passport");
-// const passportJWT = require("passport-jwt");
-// const ExtractJwt = passportJWT.ExtractJwt;
-// const JwtStrategy = passportJWT.Strategy;
-
 const auth = require('./models/auth.js');
 
 const products = require('./models/products.js');
@@ -57,9 +51,10 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/documentation.ht
 
 
 
-// Api key routes
+// Api key routes and JWT auth
 app.get('/api_key', (req, res) => auth.getNewAPIKey(res, req.path, req.query.email));
-
+app.post('/login', (req, res) => auth.login(res, req.body));
+app.post('/register', (req, res) => auth.register(res, req.body));
 
 
 // Product routes
