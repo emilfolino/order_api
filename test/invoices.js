@@ -14,6 +14,7 @@ const db = require("../db/database.js");
 chai.use(chaiHttp);
 
 let apiKey = "";
+let token = "";
 
 describe('invoices', () => {
     before(() => {
@@ -24,7 +25,7 @@ describe('invoices', () => {
         });
     });
 
-    describe('GET /products', () => {
+    describe('GET /invoices', () => {
         it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
                 .get("/invoices")
@@ -51,9 +52,64 @@ describe('invoices', () => {
                 });
         });
 
+        it('should get 401 as we have not logged in', (done) => {
+            chai.request(server)
+                .get("/invoices?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(401);
+                    done();
+                });
+        });
+
+        it('should get 201 HAPPY PATH registering', (done) => {
+            let user = {
+                api_key: apiKey,
+                email: "test@invoice.com",
+                password: "testinginvoice"
+            };
+
+            chai.request(server)
+                .post("/register")
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("data");
+
+                    done();
+                });
+        });
+
+        it('should get 200 HAPPY PATH logging in', (done) => {
+            let user = {
+                api_key: apiKey,
+                email: "test@invoice.com",
+                password: "testinginvoice"
+            };
+
+            chai.request(server)
+                .post("/login")
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("data");
+                    res.body.data.should.have.property("type");
+                    res.body.data.type.should.equal("success");
+                    res.body.data.should.have.property("token");
+
+                    token = res.body.data.token;
+
+                    done();
+                });
+        });
+
         it('should get 200 HAPPY PATH getting no invoices', (done) => {
             chai.request(server)
                 .get("/invoices?api_key=" + apiKey)
+                .set("x-access-token", token)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -63,8 +119,10 @@ describe('invoices', () => {
                     done();
                 });
         });
+    });
 
-        it('should get 201 HAPPY PATH', (done) => {
+    describe('POST /invoice', () => {
+        it('should get 201 HAPPY PATH creating order', (done) => {
             let order = {
                 id: 1,
                 name: "Anders",
@@ -82,12 +140,10 @@ describe('invoices', () => {
                     done();
                 });
         });
-    });
 
-    describe('POST /invoice', () => {
         it('should get 400 as we do not supply id', (done) => {
             let invoice = {
-                // invoiceId: 1,
+                // id: 1,
                 order_id: 1,
                 total_price: 100,
                 api_key: apiKey
@@ -95,6 +151,7 @@ describe('invoices', () => {
 
             chai.request(server)
                 .post("/invoice")
+                .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
                     res.should.have.status(400);
@@ -110,7 +167,7 @@ describe('invoices', () => {
 
         it('should get 400 as we do not supply order_id', (done) => {
             let invoice = {
-                invoiceId: 1,
+                id: 1,
                 // order_id: 1,
                 total_price: 100,
                 api_key: apiKey
@@ -118,6 +175,7 @@ describe('invoices', () => {
 
             chai.request(server)
                 .post("/invoice")
+                .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
                     res.should.have.status(400);
@@ -133,7 +191,7 @@ describe('invoices', () => {
 
         it('should get 400 as we do not supply total_price', (done) => {
             let invoice = {
-                invoiceId: 1,
+                id: 1,
                 order_id: 1,
                 // total_price: 100,
                 api_key: apiKey
@@ -141,6 +199,7 @@ describe('invoices', () => {
 
             chai.request(server)
                 .post("/invoice")
+                .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
                     res.should.have.status(400);
@@ -154,9 +213,9 @@ describe('invoices', () => {
                 });
         });
 
-        it('should get 201 HAPPY PATH', (done) => {
+        it('should get 401 not providing token', (done) => {
             let invoice = {
-                invoiceId: 1,
+                id: 1,
                 order_id: 1,
                 total_price: 100,
                 api_key: apiKey
@@ -164,6 +223,27 @@ describe('invoices', () => {
 
             chai.request(server)
                 .post("/invoice")
+                .send(invoice)
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(401);
+
+                    done();
+                });
+        });
+
+        it('should get 201 HAPPY PATH', (done) => {
+            let invoice = {
+                id: 1,
+                order_id: 1,
+                total_price: 100,
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/invoice")
+                .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -177,6 +257,7 @@ describe('invoices', () => {
         it('should get 200 HAPPY PATH getting the one invoice we just created', (done) => {
             chai.request(server)
                 .get("/invoices?api_key=" + apiKey)
+                .set("x-access-token", token)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -202,8 +283,21 @@ describe('invoices', () => {
         it('should get 400 string id supplied', (done) => {
             chai.request(server)
                 .get("/invoice/test?api_key=" + apiKey)
+                .set("x-access-token", token)
                 .end((err, res) => {
                     res.should.have.status(400);
+
+                    done();
+                });
+        });
+
+        it('should get 401 not providing token', (done) => {
+            chai.request(server)
+                .get("/invoice/1?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(401);
 
                     done();
                 });
@@ -212,6 +306,7 @@ describe('invoices', () => {
         it('should get 200 HAPPY PATH', (done) => {
             chai.request(server)
                 .get("/invoice/1?api_key=" + apiKey)
+                .set("x-access-token", token)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -226,6 +321,7 @@ describe('invoices', () => {
         it('should get 200, but empty data object', (done) => {
             chai.request(server)
                 .get("/invoice/2?api_key=" + apiKey)
+                .set("x-access-token", token)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.eql({});

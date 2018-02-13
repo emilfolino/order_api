@@ -102,11 +102,17 @@ app.post('/delivery', (req, res) => deliveries.addDelivery(res, req.body));
 
 
 // Invoice routes
-app.get("/invoices", (req, res) => invoices.getInvoices(res, req.query.api_key));
-app.get("/invoice/:invoice_id", (req, res) => invoices.getInvoice(res,
-    req.query.api_key,
-    req.params.invoice_id));
-app.post("/invoice", (req, res) => invoices.addInvoice(res, req.body));
+app.get("/invoices",
+    (req, res, next) => auth.checkToken(req, res, next),
+    (req, res) => invoices.getInvoices(res, req.query.api_key));
+app.get("/invoice/:invoice_id",
+    (req, res, next) => auth.checkToken(req, res, next),
+    (req, res) => invoices.getInvoice(res,
+        req.query.api_key,
+        req.params.invoice_id));
+app.post("/invoice",
+    (req, res, next) => auth.checkToken(req, res, next),
+    (req, res) => invoices.addInvoice(res, req.body));
 
 
 
