@@ -39,6 +39,18 @@
                     <a href="#orders">Orders</a>
                 </li>
                 <li>
+                    <a href="#order_items">Order items</a>
+                </li>
+                <li>
+                    <a href="#deliveries">Deliveries</a>
+                </li>
+                <li>
+                    <a href="#invoices">Invoices and Login</a>
+                </li>
+                <li>
+                    <a href="#copier">Copier</a>
+                </li>
+                <li>
                     <a href="#installation">Local Installation</a>
                 </li>
             </ol>
@@ -295,7 +307,7 @@ api_key</pre>
                     "specifiers": "{'length' : '60mm', 'width' : '14mm'}",
                     "stock": 12,
                     "location": "A1B4",
-                    "price": 1000
+                    "price": 10
                 },
                 {
                     "product_id": 2,
@@ -306,7 +318,7 @@ api_key</pre>
                     "specifiers": "{'length' : '60mm', 'width' : '12mm'}",
                     "stock": 14,
                     "location": "A1B5",
-                    "price": 1000
+                    "price": 10
                 }
             ]
         },
@@ -328,7 +340,7 @@ api_key</pre>
                     "specifiers": "{'length' : '60mm', 'width' : '10mm'}",
                     "stock": 20,
                     "location": "A1B6",
-                    "price": 1000
+                    "price": 10
                 }
             ]
         },
@@ -350,7 +362,7 @@ api_key</pre>
                     "specifiers": "{'diameter' : '14mm'}",
                     "stock": 13,
                     "location": "A1C4",
-                    "price": 1000
+                    "price": 10
                 }
             ]
         },
@@ -372,7 +384,7 @@ api_key</pre>
                     "specifiers": "{'diameter' : '10mm'}",
                     "stock": 12,
                     "location": "A1C4",
-                    "price": 1000
+                    "price": 10
                 }
             ]
         }
@@ -390,33 +402,39 @@ api_key</pre>
         "zip": "12345",
         "city": "Anderstorp",
         "country": "Sweden",
+        "status": "Ny",
         "order_items": [
             {
                 "product_id": 1,
                 "amount": 2,
-                "article_number": "1212-RNT",
-                "name": "Screw 14mm",
-                "description": "A mighty fine screw.",
-                "specifiers": "{length : '14mm', width : '5mm'}",
+                "article_number": "1214-RNT",
+                "name": "Skruv M14",
+                "description": "Skruv M14, värmförsinkad",
+                "specifiers": "{'length' : '60mm', 'width' : '14mm'}",
                 "stock": 12,
-                "location": "A1B4"
+                "location": "A1B4",
+                "price": 10
             },
             {
                 "product_id": 2,
                 "amount": 3,
-                "article_number": "1212-TNT",
-                "name": "Bolt 14mm",
-                "description": "A bolt that fits the mighty fine screw.",
-                "specifiers": "{length : '5mm', width : '5mm'}",
-                "stock": 15,
-                "location": "A1C4"
+                "article_number": "1212-RNT",
+                "name": "Skruv M12",
+                "description": "Skruv M12, värmförsinkad",
+                "specifiers": "{'length' : '60mm', 'width' : '12mm'}",
+                "stock": 14,
+                "location": "A1B5",
+                "price": 10
             }
         ]
     }
 }</pre>
             <p><strong>To search for an order and associated order items:</strong></p>
+            <p>
+                You can search on the following parameters: name, address, zip, city and country.
+            </p>
             <pre>GET /order/search/:query?api_key=[YOUR_API_KEY]</pre>
-            <p>Result (search query was andersson):</p>
+            <p>Result (search query was anders):</p>
             <pre>{
     "data": [
         {
@@ -426,26 +444,29 @@ api_key</pre>
             "zip": "12345",
             "city": "Anderstorp",
             "country": "Sweden",
+            "status": "Ny",
             "order_items": [
                 {
                     "product_id": 1,
                     "amount": 2,
-                    "article_number": "1212-RNT",
-                    "name": "Screw 14mm",
-                    "description": "A mighty fine screw.",
-                    "specifiers": "{length : '14mm', width : '5mm'}",
+                    "article_number": "1214-RNT",
+                    "name": "Skruv M14",
+                    "description": "Skruv M14, värmförsinkad",
+                    "specifiers": "{'length' : '60mm', 'width' : '14mm'}",
                     "stock": 12,
-                    "location": "A1B4"
+                    "location": "A1B4",
+                    "price": 10
                 },
                 {
                     "product_id": 2,
                     "amount": 3,
-                    "article_number": "1212-TNT",
-                    "name": "Bolt 14mm",
-                    "description": "A bolt that fits the mighty fine screw.",
-                    "specifiers": "{length : '5mm', width : '5mm'}",
-                    "stock": 15,
-                    "location": "A1C4"
+                    "article_number": "1212-RNT",
+                    "name": "Skruv M12",
+                    "description": "Skruv M12, värmförsinkad",
+                    "specifiers": "{'length' : '60mm', 'width' : '12mm'}",
+                    "stock": 14,
+                    "location": "A1B5",
+                    "price": 10
                 }
             ]
         }
@@ -536,6 +557,21 @@ api_key</pre>
 }</pre>
         </section>
 
+        <section id="deliveries">
+            <h2>Deliveries</h2>
+
+        </section>
+
+        <section id="invoices">
+            <h2>Invoices and Login</h2>
+
+        </section>
+
+        <section id="copier">
+            <h2>Copier</h2>
+
+        </section>
+
         <section id="installation">
             <h2>Local Installation</h2>
             <p>To get up and running do the following:</p>
@@ -547,10 +583,13 @@ api_key</pre>
                     Read the db/migrate.sql file into the db/orders.sqlite db.
                 </li>
                 <li>
-                    Optional: Read the db/seed.sql file into the db/orders.sqlite db.
+                    Optional: Read the db/seed.sql and db/status_seed.sql file into the db/orders.sqlite db.
                 </li>
                 <li>
-                    Run npm install.
+                    Run: npm install
+                </li>
+                <li>
+                    Run: npm start
                 </li>
             </ol>
         </section>

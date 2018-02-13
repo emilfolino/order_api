@@ -82,10 +82,7 @@ module.exports = (function () {
                 }
 
                 order.order_items = [];
-                db.each("SELECT oi.productId as product_id, oi.amount," +
-                    " p.articleNumber as article_number, p.productName as name," +
-                    " p.productDescription as description, p.productSpecifiers as specifiers," +
-                    " p.stock, p.location, p.price FROM order_items oi" +
+                db.each("SELECT " + orderItemsDataFields + " FROM order_items oi " +
                     " INNER JOIN products p ON oi.productId=p.productId" +
                     " AND oi.apiKey=p.apiKey" +
                     " WHERE oi.apiKey = ? AND oi.orderId = ?",
@@ -149,10 +146,7 @@ module.exports = (function () {
             }
 
             orderRows.forEach(function(order) {
-                db.all("SELECT oi.productId as product_id, oi.amount," +
-                    " p.articleNumber as article_number, p.productName as name," +
-                    " p.productDescription as description, p.productSpecifiers as specifiers," +
-                    " p.stock, p.location, p.price FROM order_items oi" +
+                db.all("SELECT " + orderItemsDataFields + " FROM order_items oi " +
                     " INNER JOIN products p ON oi.productId=p.productId" +
                     " AND oi.apiKey=p.apiKey WHERE oi.apiKey = ? AND oi.orderId = ?",
                 apiKey,
