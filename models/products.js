@@ -3,7 +3,7 @@ const db = require("../db/database.js");
 module.exports = (function () {
     const dataFields = "productId as id, articleNumber as article_number," +
         " productName as name, productDescription as description," +
-        " productSpecifiers as specifiers, stock, location";
+        " productSpecifiers as specifiers, stock, location, (price / 100) as price";
 
     function getAllProducts(res, apiKey, status=200) {
         db.all("SELECT " + dataFields + " FROM products WHERE apiKey = ?",
@@ -77,8 +77,8 @@ module.exports = (function () {
 
     function addProduct(res, body) {
         db.run("INSERT INTO products (productId, articleNumber, productName," +
-            " productDescription, productSpecifiers, stock, location, apiKey)" +
-            " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            " productDescription, productSpecifiers, stock, location, price, apiKey)" +
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
         body.id,
         body.article_number,
         body.name,
@@ -86,6 +86,7 @@ module.exports = (function () {
         body.specifiers,
         body.stock,
         body.location,
+        parseInt(body.price) * 100,
         body.api_key, (err) => {
             if (err) {
                 res.status(400).json({
@@ -103,7 +104,7 @@ module.exports = (function () {
     function updateProduct(res, body) {
         if (Number.isInteger(body.id)) {
             db.run("UPDATE products SET articleNumber = ?, productName = ?," +
-                " productDescription = ?, productSpecifiers = ?, stock = ?, location = ?" +
+                " productDescription = ?, productSpecifiers = ?, stock = ?, location = ?, price = ?" +
                 " WHERE apiKey = ? AND productId = ?",
             body.article_number,
             body.name,
@@ -111,6 +112,7 @@ module.exports = (function () {
             body.specifiers,
             body.stock,
             body.location,
+            parseInt(body.price) * 100,
             body.api_key,
             body.id, (err) => {
                 if (err) {

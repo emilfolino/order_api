@@ -29,6 +29,7 @@ const copier = (function () {
             " productSpecifiers," +
             " stock," +
             " location," +
+            " price," +
             " apiKey)" +
             " SELECT productId," +
             " articleNumber," +
@@ -37,6 +38,7 @@ const copier = (function () {
             " productSpecifiers," +
             " stock," +
             " location, " +
+            " price," +
             "'" + apiKey + "'" +
             " FROM products" +
             " WHERE apiKey = ?";

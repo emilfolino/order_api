@@ -4,6 +4,11 @@ module.exports = (function () {
     const dataFields = "orderId as id, customerName as name, customerAddress as address," +
         " customerZip as zip, customerCity as city, customerCountry as country, s.status";
 
+    const orderItemsDataFields = "oi.productId as product_id, oi.amount," +
+        " p.articleNumber as article_number, p.productName as name," +
+        " p.productDescription as description, p.productSpecifiers as specifiers," +
+        " p.stock, p.location, (p.price/100) as price";
+
     function getAllOrders(res, apiKey, status=200) {
         let orders = { data: []};
 
@@ -27,10 +32,7 @@ module.exports = (function () {
             }
 
             orderRows.forEach(function(order) {
-                db.all("SELECT oi.productId as product_id, oi.amount," +
-                    " p.articleNumber as article_number, p.productName as name," +
-                    " p.productDescription as description, p.productSpecifiers as specifiers," +
-                    " p.stock, p.location FROM order_items oi " +
+                db.all("SELECT " + orderItemsDataFields + " FROM order_items oi " +
                     "INNER JOIN products p ON oi.productId=p.productId AND oi.apiKey=p.apiKey" +
                     " WHERE oi.apiKey = ? AND oi.orderId = ?",
                 apiKey,
@@ -83,7 +85,7 @@ module.exports = (function () {
                 db.each("SELECT oi.productId as product_id, oi.amount," +
                     " p.articleNumber as article_number, p.productName as name," +
                     " p.productDescription as description, p.productSpecifiers as specifiers," +
-                    " p.stock, p.location FROM order_items oi" +
+                    " p.stock, p.location, p.price FROM order_items oi" +
                     " INNER JOIN products p ON oi.productId=p.productId" +
                     " AND oi.apiKey=p.apiKey" +
                     " WHERE oi.apiKey = ? AND oi.orderId = ?",
@@ -150,7 +152,7 @@ module.exports = (function () {
                 db.all("SELECT oi.productId as product_id, oi.amount," +
                     " p.articleNumber as article_number, p.productName as name," +
                     " p.productDescription as description, p.productSpecifiers as specifiers," +
-                    " p.stock, p.location FROM order_items oi" +
+                    " p.stock, p.location, p.price FROM order_items oi" +
                     " INNER JOIN products p ON oi.productId=p.productId" +
                     " AND oi.apiKey=p.apiKey WHERE oi.apiKey = ? AND oi.orderId = ?",
                 apiKey,

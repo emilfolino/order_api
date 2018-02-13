@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS products (
     productSpecifiers TEXT,
     stock INTEGER,
     location VARCHAR(255),
+    price INTEGER,
     apiKey VARCHAR(32) NOT NULL,
     FOREIGN KEY(apiKey) REFERENCES apikeys(key),
     UNIQUE(productId, apiKey)

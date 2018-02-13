@@ -115,6 +115,7 @@ describe('products', () => {
                 id: 1,
                 name: "Screw",
                 description: "Mighty fine screw.",
+                price: 12,
                 api_key: apiKey
             };
 
@@ -245,6 +246,7 @@ describe('products', () => {
                 id: 1,
                 name: "Big Screw",
                 description: "Mighty fine big screw.",
+                price: 14,
                 api_key: apiKey
             };
 
@@ -267,6 +269,8 @@ describe('products', () => {
                     res.body.data.name.should.be.equal("Big Screw");
                     res.body.data.should.have.property("description");
                     res.body.data.description.should.be.equal("Mighty fine big screw.");
+                    res.body.data.should.have.property("price");
+                    res.body.data.price.should.be.equal(14);
 
                     done();
                 });
