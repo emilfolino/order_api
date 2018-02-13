@@ -10,51 +10,51 @@ module.exports = (function () {
         db.all("SELECT " + dataFields +
             " FROM orders o INNER JOIN status s ON s.id = o.statusId" +
             " WHERE o.apiKey = ?",
-            apiKey, (err, orderRows) => {
-                if (err) {
-                    return res.status(401).json({
-                        errors: {
-                            status: 401,
-                            source: "/orders",
-                            title: "Database error",
-                            detail: err.message
-                        }
-                    });
-                }
+        apiKey, (err, orderRows) => {
+            if (err) {
+                return res.status(401).json({
+                    errors: {
+                        status: 401,
+                        source: "/orders",
+                        title: "Database error",
+                        detail: err.message
+                    }
+                });
+            }
 
-                if (orderRows.length === 0) {
-                    return res.status(status).json(orders);
-                }
+            if (orderRows.length === 0) {
+                return res.status(status).json(orders);
+            }
 
-                orderRows.forEach(function(order) {
-                    db.all("SELECT oi.productId as product_id, oi.amount," +
-                        " p.articleNumber as article_number, p.productName as name," +
-                        " p.productDescription as description, p.productSpecifiers as specifiers," +
-                        " p.stock, p.location FROM order_items oi " +
-                        "INNER JOIN products p ON oi.productId=p.productId AND oi.apiKey=p.apiKey" +
-                        " WHERE oi.apiKey = ? AND oi.orderId = ?",
-                    apiKey,
-                    order.id, (err, orderItemRows) => {
-                        if (err) {
-                            return res.status(401).json({
-                                errors: {
-                                    status: 401,
-                                    source: "/orders",
-                                    title: "Database error",
-                                    detail: err.message
-                                }
-                            });
-                        }
+            orderRows.forEach(function(order) {
+                db.all("SELECT oi.productId as product_id, oi.amount," +
+                    " p.articleNumber as article_number, p.productName as name," +
+                    " p.productDescription as description, p.productSpecifiers as specifiers," +
+                    " p.stock, p.location FROM order_items oi " +
+                    "INNER JOIN products p ON oi.productId=p.productId AND oi.apiKey=p.apiKey" +
+                    " WHERE oi.apiKey = ? AND oi.orderId = ?",
+                apiKey,
+                order.id, (err, orderItemRows) => {
+                    if (err) {
+                        return res.status(401).json({
+                            errors: {
+                                status: 401,
+                                source: "/orders",
+                                title: "Database error",
+                                detail: err.message
+                            }
+                        });
+                    }
 
-                        order.order_items = orderItemRows;
-                        orders.data.push(order);
+                    order.order_items = orderItemRows;
+                    orders.data.push(order);
 
-                        if (orders.data.length === orderRows.length) {
-                            res.status(status).json(orders);
-                        }
-                    });
+                    if (orders.data.length === orderRows.length) {
+                        res.status(status).json(orders);
+                    }
                 });
             });
+        });
     }
 
     function getOrder(res, apiKey, orderId) {
@@ -62,8 +62,33 @@ module.exports = (function () {
             db.get("SELECT " + dataFields +
                 " FROM orders o INNER JOIN status s ON s.id = o.statusId" +
                 " WHERE o.apiKey = ? AND orderId = ?",
+            apiKey,
+            orderId, (err, order) => {
+                if (err) {
+                    return res.status(401).json({
+                        errors: {
+                            status: 401,
+                            source: "/order/:order_id",
+                            title: "Database error",
+                            detail: err.message
+                        }
+                    });
+                }
+
+                if (order === undefined) {
+                    return res.json({ data: {} });
+                }
+
+                order.order_items = [];
+                db.each("SELECT oi.productId as product_id, oi.amount," +
+                    " p.articleNumber as article_number, p.productName as name," +
+                    " p.productDescription as description, p.productSpecifiers as specifiers," +
+                    " p.stock, p.location FROM order_items oi" +
+                    " INNER JOIN products p ON oi.productId=p.productId" +
+                    " AND oi.apiKey=p.apiKey" +
+                    " WHERE oi.apiKey = ? AND oi.orderId = ?",
                 apiKey,
-                orderId, (err, order) => {
+                order.id, (err, orderItemRow) => {
                     if (err) {
                         return res.status(401).json({
                             errors: {
@@ -75,36 +100,11 @@ module.exports = (function () {
                         });
                     }
 
-                    if (order === undefined) {
-                        return res.json({ data: {} });
-                    }
-
-                    order.order_items = [];
-                    db.each("SELECT oi.productId as product_id, oi.amount," +
-                        " p.articleNumber as article_number, p.productName as name," +
-                        " p.productDescription as description, p.productSpecifiers as specifiers," +
-                        " p.stock, p.location FROM order_items oi" +
-                        " INNER JOIN products p ON oi.productId=p.productId" +
-                        " AND oi.apiKey=p.apiKey" +
-                        " WHERE oi.apiKey = ? AND oi.orderId = ?",
-                    apiKey,
-                    order.id, (err, orderItemRow) => {
-                        if (err) {
-                            return res.status(401).json({
-                                errors: {
-                                    status: 401,
-                                    source: "/order/:order_id",
-                                    title: "Database error",
-                                    detail: err.message
-                                }
-                            });
-                        }
-
-                        order.order_items.push(orderItemRow);
-                    }, function () {
-                        res.json({ data: order });
-                    });
+                    order.order_items.push(orderItemRow);
+                }, function () {
+                    res.json({ data: order });
                 });
+            });
         } else {
             res.status(400).json({
                 errors: {
@@ -199,7 +199,8 @@ module.exports = (function () {
     function updateOrder(res, body) {
         if (Number.isInteger(parseInt(body.id))) {
             db.run("UPDATE orders SET customerName = ?, customerAddress = ?, customerZip = ?," +
-                " customerCity = ?, customerCountry = ?, statusId = ? WHERE apiKey = ? AND orderId = ?",
+                " customerCity = ?, customerCountry = ?, statusId = ?" +
+                " WHERE apiKey = ? AND orderId = ?",
             body.name,
             body.address,
             body.zip,

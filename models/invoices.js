@@ -8,10 +8,34 @@ module.exports = (function () {
 
     function getInvoices(res, apiKey) {
         db.all("SELECT " + dataFields +
-                " FROM invoices i" +
-                " INNER JOIN orders o ON o.orderId = i.orderId AND o.apiKey = i.apiKey" +
-                " WHERE i.apiKey = ?",
-            apiKey, (err, rows) => {
+            " FROM invoices i" +
+            " INNER JOIN orders o ON o.orderId = i.orderId AND o.apiKey = i.apiKey" +
+            " WHERE i.apiKey = ?",
+        apiKey, (err, rows) => {
+            if (err) {
+                return res.status(401).json({
+                    errors: {
+                        status: 401,
+                        source: "/orders",
+                        title: "Database error",
+                        detail: err.message
+                    }
+                });
+            }
+
+            res.json( { data: rows } );
+        });
+    }
+
+    function getInvoice(res, apiKey, invoiceId) {
+        if (Number.isInteger(parseInt(invoiceId))) {
+            db.get("SELECT " + dataFields +
+                    " FROM invoices i" +
+                    " INNER JOIN orders o ON o.orderId = i.orderId AND o.apiKey = i.apiKey" +
+                    " WHERE i.apiKey = ? AND invoiceId = ?",
+            apiKey,
+            invoiceId,
+            (err, row) => {
                 if (err) {
                     return res.status(401).json({
                         errors: {
@@ -23,32 +47,8 @@ module.exports = (function () {
                     });
                 }
 
-                res.json( { data: rows } );
+                res.json( { data: row } );
             });
-    }
-
-    function getInvoice(res, apiKey, invoiceId) {
-        if (Number.isInteger(parseInt(invoiceId))) {
-            db.get("SELECT " + dataFields +
-                    " FROM invoices i" +
-                    " INNER JOIN orders o ON o.orderId = i.orderId AND o.apiKey = i.apiKey" +
-                    " WHERE i.apiKey = ? AND invoiceId = ?",
-                apiKey,
-                invoiceId,
-                (err, row) => {
-                    if (err) {
-                        return res.status(401).json({
-                            errors: {
-                                status: 401,
-                                source: "/orders",
-                                title: "Database error",
-                                detail: err.message
-                            }
-                        });
-                    }
-
-                    res.json( { data: row } );
-                });
         } else {
             res.status(400).json({
                 errors: {
@@ -84,5 +84,5 @@ module.exports = (function () {
         getInvoices: getInvoices,
         getInvoice: getInvoice,
         addInvoice: addInvoice
-    }
+    };
 }());

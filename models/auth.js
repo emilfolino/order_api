@@ -168,17 +168,17 @@ module.exports = (function () {
                     }
 
                     if (result) {
+                        let payload = { api_key: user.apiKey, email: user.email };
+                        let jwtToken = jwt.sign(payload, jwtSecret);
+
                         return res.json({
                             data: {
                                 type: "success",
                                 message: "User logged in",
-                                user: {api_key: user.apiKey, email: user.email},
-                                token: jwt.sign({
-                                    api_key: user.apiKey,
-                                    email: user.email},
-                                    jwtSecret)
+                                user: payload,
+                                token: jwtToken
                             }
-                        })
+                        });
                     } else {
                         return res.status(401).json({
                             errors: {
