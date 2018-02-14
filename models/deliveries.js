@@ -2,7 +2,8 @@ const db = require("../db/database.js");
 
 module.exports = (function () {
     function getDeliveries(res, apiKey) {
-        const sql = "SELECT deliveryId, productId, amount, deliveryDate, comment" +
+        const sql = "SELECT deliveryId as id, productId as product_id, amount," +
+                        " deliveryDate as delivery_date, comment" +
                         " FROM deliveries WHERE apiKey = ?";
 
         db.all(sql, apiKey, (err, rows) => {
