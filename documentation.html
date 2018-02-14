@@ -5,25 +5,21 @@
     <title>order_api documentation</title>
 
     <style>
-        main {
-            width: 960px;
-            margin: 20px auto;
-            font-family: sans-serif;
-        }
-
-        pre {
-            background: #ACE;
-            border-left: 3px solid #57C;
-            padding: 10px;
-            box-sizing: border-box;
-        }
+        html { font-size: 100% }
+        p { font-size: 1em }
+        @media (min-width: 64em) { html { font-size: 112.5%; } }
+        main { width: 960px; margin: 20px auto; font-family: sans-serif; }
+        pre { background: #ace; border-left: 3px solid #57c; padding: 10px; box-sizing: border-box; }
+        h1 { font-size: 3rem; }
+        h2 { font-size: 2.4rem; }
+        h3 { font-size: 1.8rem; }
     </style>
 </head>
 <body>
 
 <main>
     <header>
-        <h1>order_api documentation</h1>
+        <h1>Lager API documentation</h1>
     </header>
 
     <article>
@@ -60,7 +56,7 @@
 
         <section id="apikeys">
             <h2>API keys</h2>
-            <p><strong>To request an API key:</strong></p>
+            <h3>To request an API key:</h3>
             <pre>GET /api-key?email=[YOUR_EMAIL]</pre>
             <p>Result:</p>
             <pre>{
@@ -76,7 +72,7 @@
     }
 }</pre>
 
-            <p><strong>An API key is required for all requests except the following:</strong></p>
+            <h3>An API key is required for all requests except the following:</h3>
             <pre>GET /</pre>
             <pre>GET /api-key?email=[YOUR_EMAIL]</pre>
             <p>If an API key is not provided the following error is given:</p>
@@ -92,7 +88,7 @@
 
         <section id="products">
             <h2>Products</h2>
-            <p><strong>To get all your products:</strong></p>
+            <h3>To get all your products:</h3>
             <pre>GET /products?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre>{
@@ -200,7 +196,7 @@
     ]
 }</pre>
 
-            <p><strong>To get a specific product:</strong></p>
+            <h3>To get a specific product:</h3>
             <pre>GET /product/:product_id?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre>{
@@ -215,7 +211,7 @@
         "price": 10
     }
 }</pre>
-            <p><strong>To search for a product:</strong></p>
+            <h3>To search for a product:</h3>
             <pre>GET /product/search/:query?api_key=[YOUR_API_KEY]</pre>
             <p>Result (search query was m14):</p>
             <pre>{
@@ -243,14 +239,14 @@
     ]
 }</pre>
 
-            <p><strong>To add a product:</strong></p>
+            <h3>To add a product:</h3>
             <pre>POST /product</pre>
             <p>Required parameters:</p>
             <pre>id
 name
 api_key</pre>
 
-            <p><strong>To update a product:</strong></p>
+            <h3>To update a product:</h3>
             <pre>PUT /product</pre>
             <p>Required parameters:</p>
             <pre>id
@@ -266,7 +262,7 @@ api_key</pre>
     }
 }</pre>
 
-            <p><strong>To delete a product:</strong></p>
+            <h3>To delete a product:</h3>
             <pre>DELETE /product</pre>
             <p>Required parameters:</p>
             <pre>id
@@ -284,7 +280,7 @@ api_key</pre>
 
         <section id="orders">
             <h2>Orders</h2>
-            <p><strong>To get all your orders and associated order items:</strong></p>
+            <h3>To get all your orders and associated order items:</h3>
             <pre>GET /orders?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre>{
@@ -391,7 +387,7 @@ api_key</pre>
     ]
 }</pre>
 
-            <p><strong>To get a specific order and associated order items:</strong></p>
+            <h3>To get a specific order and associated order items:</h3>
             <pre>GET /order/:order_id?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre>{
@@ -429,7 +425,7 @@ api_key</pre>
         ]
     }
 }</pre>
-            <p><strong>To search for an order and associated order items:</strong></p>
+            <h3>To search for an order and associated order items:</h3>
             <p>
                 You can search on the following parameters: name, address, zip, city and country.
             </p>
@@ -473,14 +469,14 @@ api_key</pre>
     ]
 }</pre>
 
-            <p><strong>To add an order:</strong></p>
+            <h3>To add an order:</h3>
             <pre>POST /order</pre>
             <p>Required parameters:</p>
             <pre>id
 name
 api_key</pre>
 
-            <p><strong>To update an order:</strong></p>
+            <h3>To update an order:</h3>
             <pre>PUT /order</pre>
             <p>Required parameters:</p>
             <pre>id
@@ -492,11 +488,11 @@ api_key</pre>
             <pre>{
     "errors": {
         "status": 400,
-        "detail": "Required attribute product id (id) was not included in the request."
+        "detail": "Required attribute order id (id) was not included in the request."
     }
 }</pre>
 
-            <p><strong>To delete an order and associated order items:</strong></p>
+            <h3>To delete an order and associated order items:</h3>
             <pre>DELETE /order</pre>
             <p>Required parameters:</p>
             <pre>id
@@ -507,7 +503,7 @@ api_key</pre>
             <pre>{
     "errors": {
         "status": 400,
-        "detail": "Required attribute product id (id) was not included in the request."
+        "detail": "Required attribute order id (id) was not included in the request."
     }
 }</pre>
         </section>
@@ -515,7 +511,7 @@ api_key</pre>
         <section id="order_items">
             <h2>Order items</h2>
 
-            <p><strong>To add an order item to an order:</strong></p>
+            <h3>To add an order item to an order:</h3>
             <pre>POST /order_item</pre>
             <p>Required parameters:</p>
             <pre>order_id
@@ -523,7 +519,7 @@ product_id
 amount
 api_key</pre>
 
-            <p><strong>To update an order item:</strong></p>
+            <h3>To update an order item:</h3>
             <pre>PUT /order</pre>
             <p>Required parameters:</p>
             <pre>order_id
@@ -540,7 +536,7 @@ api_key</pre>
     }
 }</pre>
 
-            <p><strong>To delete an order item:</strong></p>
+            <h3>To delete an order item:</h3>
             <pre>DELETE /order</pre>
             <p>Required parameters:</p>
             <pre>order_id
@@ -559,6 +555,43 @@ api_key</pre>
 
         <section id="deliveries">
             <h2>Deliveries</h2>
+
+            <h3>Get all deliveries</h3>
+            <pre>GET /deliveries?api_key=[YOUR_API_KEY]</pre>
+            <p>Result</p>
+            <pre>{
+    "data": [
+        {
+            "deliveryId": 1,
+            "productId": 2,
+            "amount": 10,
+            "deliveryDate": "2018-02-14",
+            "comment": "Inleverans för Alla Hjärtans dag"
+        }
+    ]
+}</pre>
+
+            <h3>Add a delivery</h3>
+            <pre>POST /delivery</pre>
+            <p>Required parameters:</p>
+            <pre>id
+product_id
+amount
+delivery_date
+api_key</pre>
+            <p>Result:</p>
+            <pre>{
+    "data": {
+        "api_key": "fdc42b2d941e8c6f7b38d974df3758ce",
+        "id": "1",
+        "product_id": "2",
+        "amount": "10",
+        "delivery_date": "2018-02-14",
+        "comment": "Inleverans för Alla Hjärtans dag"
+    }
+}</pre>
+
+        </p>
 
         </section>
 

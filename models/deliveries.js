@@ -22,7 +22,7 @@ module.exports = (function () {
             body.id,
             body.product_id,
             body.amount,
-            body.deliveryDate,
+            body.delivery_date,
             body.comment,
             body.api_key, (err) => {
                 if (err) {
