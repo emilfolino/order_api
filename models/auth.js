@@ -169,7 +169,7 @@ module.exports = (function () {
 
                     if (result) {
                         let payload = { api_key: user.apiKey, email: user.email };
-                        let jwtToken = jwt.sign(payload, jwtSecret);
+                        let jwtToken = jwt.sign(payload, jwtSecret, { expiresIn: '24h' });
 
                         return res.json({
                             data: {

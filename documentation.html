@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>order_api documentation</title>
+    <title>Lager API documentation</title>
 
     <style>
         html { font-size: 100% }
@@ -582,7 +582,7 @@ api_key</pre>
             <p>Result:</p>
             <pre>{
     "data": {
-        "api_key": "fdc42b2d941e8c6f7b38d974df3758ce",
+        "api_key": "...",
         "id": "1",
         "product_id": "2",
         "amount": "10",
@@ -598,11 +598,329 @@ api_key</pre>
         <section id="invoices">
             <h2>Invoices and Login</h2>
 
+            <p>
+                To use the following routes, you need a valid JSON Web Token (JWT) set in the HTTP-header.<br />
+                The 'x-access-token' header should contain the JWT.
+            </p>
+
+            <pre>GET /invoices?api_key=[YOUR_API_KEY]
+GET /invoice/:invoice_id?api_key=[YOUR_API_KEY]
+POST /invoice</pre>
+
+            <h3>Register</h3>
+            <pre>POST /register</pre>
+            <p>Required paramters:</p>
+            <pre>api_key
+email
+password</pre>
+            <p>Result:</p>
+            <pre>{
+    "data": {
+        "message": "User successfully registered."
+    }
+}</pre>
+
+            <h3>Login</h3>
+            <pre>POST /login</pre>
+            <pre>api_key
+email
+password</pre>
+            <p>Result:</p>
+            <pre>{
+    "data": {
+        "type": "success",
+        "message": "User logged in",
+        "user": {
+            "api_key": "...",
+            "email": "unknown@example.com"
+        },
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey..."
+    }
+}</pre>
+            <p><strong>N.B.</strong> The access token expires after 24 hours.</p>
+
+            <h3>Get all invoices</h3>
+            <pre>GET /invoices?api_key=[YOUR_API_KEY]</pre>
+            <p>Result:</p>
+            <pre>{
+    "data": [
+        {
+            "id": 1,
+            "order_id": 1,
+            "name": "Anders Andersson",
+            "address": "Andersgatan 1",
+            "zip": "12345",
+            "city": "Anderstorp",
+            "country": "Sweden",
+            "total_price": 100
+        }
+    ]
+}</pre>
+
+            <h3>Get specific invoice</h3>
+            <pre>GET /invoice/:invoice_id?api_key=[YOUR_API_KEY]</pre>
+            <p>Result:</p>
+            <pre>{
+    "data": {
+        "id": 1,
+        "order_id": 1,
+        "name": "Anders Andersson",
+        "address": "Andersgatan 1",
+        "zip": "12345",
+        "city": "Anderstorp",
+        "country": "Sweden",
+        "total_price": 100
+    }
+}</pre>
+
+
+            <h3>Add invoice</h3>
+            <pre>POST /invoice</pre>
+            <p>Required parameters:</p>
+            <pre>id
+order_id
+total_price
+api_key</pre>
+            <p>Result:</p>
+            <pre>{
+    "data": {
+        "api_key": "...",
+        "id": "1",
+        "order_id": "1",
+        "total_price": "100"
+    }
+}</pre>
+
         </section>
 
         <section id="copier">
             <h2>Copier</h2>
 
+            <p>As always 'api_key' is a required parameter.</p>
+
+            <h3>Copy products</h3>
+            <pre>POST /copy_products</pre>
+            <p>Result:</p>
+            <pre>{
+    "data": [
+        {
+            "id": 1,
+            "article_number": "1214-RNT",
+            "name": "Skruv M14",
+            "description": "Skruv M14, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '14mm'}",
+            "stock": 12,
+            "location": "A1B4",
+            "price": 10
+        },
+        {
+            "id": 2,
+            "article_number": "1212-RNT",
+            "name": "Skruv M12",
+            "description": "Skruv M12, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '12mm'}",
+            "stock": 14,
+            "location": "A1B5",
+            "price": 10
+        },
+        {
+            "id": 3,
+            "article_number": "1210-RNT",
+            "name": "Skruv M10",
+            "description": "Skruv M10, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '10mm'}",
+            "stock": 20,
+            "location": "A1B6",
+            "price": 10
+        },
+        {
+            "id": 4,
+            "article_number": "1208-RNT",
+            "name": "Skruv M8",
+            "description": "Skruv M8, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '8mm'}",
+            "stock": 2,
+            "location": "A1B7",
+            "price": 10
+        },
+        {
+            "id": 5,
+            "article_number": "1206-RNT",
+            "name": "Skruv M6",
+            "description": "Skruv M6, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '6mm'}",
+            "stock": 6,
+            "location": "A1B8",
+            "price": 10
+        },
+        {
+            "id": 6,
+            "article_number": "1214-TNT",
+            "name": "Mutter M14",
+            "description": "Mutter M14, värmförsinkad, passar 1214-RNT",
+            "specifiers": "{'diameter' : '14mm'}",
+            "stock": 13,
+            "location": "A1C4",
+            "price": 10
+        },
+        {
+            "id": 7,
+            "article_number": "1212-TNT",
+            "name": "Mutter M12",
+            "description": "Mutter M12, värmförsinkad, passar 1212-RNT",
+            "specifiers": "{'diameter' : '12mm'}",
+            "stock": 23,
+            "location": "A1C4",
+            "price": 10
+        },
+        {
+            "id": 8,
+            "article_number": "1210-TNT",
+            "name": "Mutter M10",
+            "description": "Mutter M10, värmförsinkad, passar 1210-RNT",
+            "specifiers": "{'diameter' : '10mm'}",
+            "stock": 12,
+            "location": "A1C4",
+            "price": 10
+        },
+        {
+            "id": 9,
+            "article_number": "1208-TNT",
+            "name": "Mutter M8",
+            "description": "Mutter M8, värmförsinkad, passar 1208-RNT",
+            "specifiers": "{'diameter' : '8mm'}",
+            "stock": 4,
+            "location": "A1C4",
+            "price": 10
+        },
+        {
+            "id": 10,
+            "article_number": "1206-TNT",
+            "name": "Mutter M6",
+            "description": "Mutter M6, värmförsinkad, passar 1206-RNT",
+            "specifiers": "{'diameter' : '6mm'}",
+            "stock": 1,
+            "location": "A1C4",
+            "price": 10
+        }
+    ]
+}</pre>
+
+            <h3>Copy orders</h3>
+            <pre>POST /copy_orders</pre>
+            <p>Result:</p>
+            <pre>{
+    "data": [
+        {
+            "id": 1,
+            "name": "Anders Andersson",
+            "address": "Andersgatan 1",
+            "zip": "12345",
+            "city": "Anderstorp",
+            "country": "Sweden",
+            "status": "Ny",
+            "order_items": [
+                {
+                    "product_id": 1,
+                    "amount": 2,
+                    "article_number": "1214-RNT",
+                    "name": "Skruv M14",
+                    "description": "Skruv M14, värmförsinkad",
+                    "specifiers": "{'length' : '60mm', 'width' : '14mm'}",
+                    "stock": 12,
+                    "location": "A1B4",
+                    "price": 10
+                },
+                {
+                    "product_id": 2,
+                    "amount": 3,
+                    "article_number": "1212-RNT",
+                    "name": "Skruv M12",
+                    "description": "Skruv M12, värmförsinkad",
+                    "specifiers": "{'length' : '60mm', 'width' : '12mm'}",
+                    "stock": 14,
+                    "location": "A1B5",
+                    "price": 10
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Bengt Bengtsson",
+            "address": "Bengtsgatan 2",
+            "zip": "23457",
+            "city": "Bengtfors",
+            "country": "Sweden",
+            "status": "Ny",
+            "order_items": [
+                {
+                    "product_id": 3,
+                    "amount": 4,
+                    "article_number": "1210-RNT",
+                    "name": "Skruv M10",
+                    "description": "Skruv M10, värmförsinkad",
+                    "specifiers": "{'length' : '60mm', 'width' : '10mm'}",
+                    "stock": 20,
+                    "location": "A1B6",
+                    "price": 10
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Carl Carlsson",
+            "address": "Carlsgatan 3",
+            "zip": "34567",
+            "city": "Karlstad",
+            "country": "Sweden",
+            "status": "Ny",
+            "order_items": [
+                {
+                    "product_id": 6,
+                    "amount": 5,
+                    "article_number": "1214-TNT",
+                    "name": "Mutter M14",
+                    "description": "Mutter M14, värmförsinkad, passar 1214-RNT",
+                    "specifiers": "{'diameter' : '14mm'}",
+                    "stock": 13,
+                    "location": "A1C4",
+                    "price": 10
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "David Davidsson",
+            "address": "Davidsallén 4",
+            "zip": "45678",
+            "city": "Davidstorp",
+            "country": "Sweden",
+            "status": "Ny",
+            "order_items": [
+                {
+                    "product_id": 8,
+                    "amount": 6,
+                    "article_number": "1210-TNT",
+                    "name": "Mutter M10",
+                    "description": "Mutter M10, värmförsinkad, passar 1210-RNT",
+                    "specifiers": "{'diameter' : '10mm'}",
+                    "stock": 12,
+                    "location": "A1C4",
+                    "price": 10
+                }
+            ]
+        }
+    ]
+}</pre>
+
+            <h3>Copy products & orders</h3>
+            <pre>POST /copy_all</pre>
+            <p>Result:</p>
+            <pre>{
+    "data": {
+        "message": "Products and orders have been copied"
+    }
+}</pre>
         </section>
 
         <section id="installation">
