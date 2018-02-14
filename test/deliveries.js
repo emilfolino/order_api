@@ -71,7 +71,7 @@ describe('deliveries', () => {
                 // id: 1,
                 product_id: 1,
                 amount: 10,
-                deliveryDate: "2018-02-01",
+                delivery_date: "2018-02-01",
                 comment: "Leverans av skruvar",
                 api_key: apiKey
             };
@@ -96,7 +96,7 @@ describe('deliveries', () => {
                 id: 1,
                 // product_id: 1,
                 amount: 10,
-                deliveryDate: "2018-02-01",
+                delivery_date: "2018-02-01",
                 comment: "Leverans av skruvar",
                 api_key: apiKey
             };
@@ -121,7 +121,7 @@ describe('deliveries', () => {
                 id: 1,
                 product_id: 1,
                 // amount: 10,
-                deliveryDate: "2018-02-01",
+                delivery_date: "2018-02-01",
                 comment: "Leverans av skruvar",
                 api_key: apiKey
             };
@@ -141,12 +141,12 @@ describe('deliveries', () => {
                 });
         });
 
-        it('should get 400 as we do not supply deliveryDate', (done) => {
+        it('should get 400 as we do not supply delivery_date', (done) => {
             let delivery = {
                 id: 1,
                 product_id: 1,
                 amount: 10,
-                // deliveryDate: "2018-02-01",
+                // delivery_date: "2018-02-01",
                 comment: "Leverans av skruvar",
                 api_key: apiKey
             };
@@ -171,7 +171,7 @@ describe('deliveries', () => {
                 id: 1,
                 product_id: 1,
                 amount: 10,
-                deliveryDate: "2018-02-01",
+                delivery_date: "2018-02-01",
                 comment: "Leverans av skruvar",
                 api_key: apiKey
             };
