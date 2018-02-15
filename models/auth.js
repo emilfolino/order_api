@@ -5,7 +5,7 @@ const validator = require("email-validator");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const jwtSecret = "c4e8dc1598a01222005681f11d07c653";
+const config = require('../config/jwt_config.json');
 
 module.exports = (function () {
     function isValidAPIKey(apiKey, next, path, res) {
@@ -169,7 +169,7 @@ module.exports = (function () {
 
                     if (result) {
                         let payload = { api_key: user.apiKey, email: user.email };
-                        let jwtToken = jwt.sign(payload, jwtSecret, { expiresIn: '24h' });
+                        let jwtToken = jwt.sign(payload, config.secret, { expiresIn: '24h' });
 
                         return res.json({
                             data: {
@@ -249,7 +249,7 @@ module.exports = (function () {
         var token = req.headers['x-access-token'];
 
         if (token) {
-            jwt.verify(token, jwtSecret, function(err, decoded) {
+            jwt.verify(token, config.secret, function(err, decoded) {
                 if (err) {
                     return res.status(401).json({
                         errors: {
