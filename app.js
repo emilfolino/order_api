@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const auth = require('./models/auth.js');
 
@@ -14,6 +15,9 @@ const copier = require('./models/copier.js');
 
 const app = express();
 
+app.use(cors());
+app.options('*', cors());
+
 const port = 8111;
 
 // don't show the log when it is test
@@ -24,12 +28,6 @@ if (process.env.NODE_ENV !== 'test') {
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 
 app.all('*', checkAPIKey);
 
