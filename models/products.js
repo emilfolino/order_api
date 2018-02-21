@@ -102,7 +102,7 @@ module.exports = (function () {
     }
 
     function updateProduct(res, body) {
-        if (Number.isInteger(body.id)) {
+        if (Number.isInteger(parseInt(body.id))) {
             db.run("UPDATE products SET articleNumber = ?, productName = ?," +
                 " productDescription = ?, productSpecifiers = ?, stock = ?, location = ?, price = ?" +
                 " WHERE apiKey = ? AND productId = ?",
