@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <title>Lager API documentation</title>
 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
     <style>
         html { font-size: 100% }
         p { font-size: 1em }
         @media (min-width: 64em) { html { font-size: 112.5%; } }
         main { width: 960px; margin: 20px auto; font-family: sans-serif; }
-        pre { background: #ace; border-left: 3px solid #57c; padding: 10px; box-sizing: border-box; }
+        pre.lager { background: #ace; border-left: 3px solid #57c; padding: 10px; box-sizing: border-box; }
         h1 { font-size: 3rem; }
         h2 { font-size: 2.4rem; }
         h3 { font-size: 1.8rem; }
@@ -47,6 +48,9 @@
                     <a href="#copier">Copier</a>
                 </li>
                 <li>
+                    <a href="#examples">Code examples</a>
+                </li>
+                <li>
                     <a href="#installation">Local Installation</a>
                 </li>
             </ol>
@@ -57,15 +61,15 @@
         <section id="apikeys">
             <h2>API keys</h2>
             <h3>To request an API key:</h3>
-            <pre>GET /api-key?email=[YOUR_EMAIL]</pre>
+            <pre class="lager">GET /api-key?email=[YOUR_EMAIL]</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": {
         "key": "6eae78f64e3b6b9bfb2e3904469e8c30"
     }
 }</pre>
             <p>Errors:</p>
-            <pre>{
+            <pre class="lager">{
     "data": {
         "message": "Email address already used for api key.",
         "api_key": "1bdd5c943e664d399f2a298fca0dabfd"
@@ -73,10 +77,10 @@
 }</pre>
 
             <h3>An API key is required for all requests except the following:</h3>
-            <pre>GET /</pre>
-            <pre>GET /api-key?email=[YOUR_EMAIL]</pre>
+            <pre class="lager">GET /</pre>
+            <pre class="lager">GET /api-key?email=[YOUR_EMAIL]</pre>
             <p>If an API key is not provided the following error is given:</p>
-            <pre>{
+            <pre class="lager">{
     "errors": {
         "status": 401,
         "source": "/products",
@@ -89,9 +93,9 @@
         <section id="products">
             <h2>Products</h2>
             <h3>To get all your products:</h3>
-            <pre>GET /products?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /products?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": [
         {
             "id": 1,
@@ -197,9 +201,9 @@
 }</pre>
 
             <h3>To get a specific product:</h3>
-            <pre>GET /product/:product_id?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /product/:product_id?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": {
         "id": 1,
         "article_number": "1214-RNT",
@@ -212,9 +216,9 @@
     }
 }</pre>
             <h3>To search for a product:</h3>
-            <pre>GET /product/search/:query?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /product/search/:query?api_key=[YOUR_API_KEY]</pre>
             <p>Result (search query was m14):</p>
-            <pre>{
+            <pre class="lager">{
     "data": [
         {
             "id": 1,
@@ -240,22 +244,22 @@
 }</pre>
 
             <h3>To add a product:</h3>
-            <pre>POST /product</pre>
+            <pre class="lager">POST /product</pre>
             <p>Required parameters:</p>
-            <pre>id
+            <pre class="lager">id
 name
 api_key</pre>
 
             <h3>To update a product:</h3>
-            <pre>PUT /product</pre>
+            <pre class="lager">PUT /product</pre>
             <p>Required parameters:</p>
-            <pre>id
+            <pre class="lager">id
 api_key</pre>
             <p><strong>N.B.</strong> All attributes are updated, send an entire product object.</p>
             <p>Result:</p>
-            <pre>HTTP Status Code 204 No Content</pre>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
             <p>Possible error, besides errors returned from database:</p>
-            <pre>{
+            <pre class="lager">{
     "errors": {
         "status": 400,
         "detail": "Required attribute product id (id) was not included in the request."
@@ -263,14 +267,14 @@ api_key</pre>
 }</pre>
 
             <h3>To delete a product:</h3>
-            <pre>DELETE /product</pre>
+            <pre class="lager">DELETE /product</pre>
             <p>Required parameters:</p>
-            <pre>id
+            <pre class="lager">id
 api_key</pre>
             <p>Result:</p>
-            <pre>HTTP Status Code 204 No Content</pre>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
             <p>Possible error, besides errors returned from database:</p>
-            <pre>{
+            <pre class="lager">{
     "errors": {
         "status": 400,
         "detail": "Required attribute product id (id) was not included in the request."
@@ -280,10 +284,17 @@ api_key</pre>
 
         <section id="orders">
             <h2>Orders</h2>
+
+            <h3>Status</h3>
+            <p>All orders have a status, it can take the values 1, 200, 900</p>
+            <pre class="lager">1   : Ny
+200 : Packad
+900 : Skickad</pre>
+
             <h3>To get all your orders and associated order items:</h3>
-            <pre>GET /orders?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /orders?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": [
         {
             "id": 1,
@@ -388,9 +399,9 @@ api_key</pre>
 }</pre>
 
             <h3>To get a specific order and associated order items:</h3>
-            <pre>GET /order/:order_id?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /order/:order_id?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": {
         "id": 1,
         "name": "Anders Andersson",
@@ -429,9 +440,9 @@ api_key</pre>
             <p>
                 You can search on the following parameters: name, address, zip, city and country.
             </p>
-            <pre>GET /order/search/:query?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /order/search/:query?api_key=[YOUR_API_KEY]</pre>
             <p>Result (search query was anders):</p>
-            <pre>{
+            <pre class="lager">{
     "data": [
         {
             "id": 1,
@@ -470,22 +481,22 @@ api_key</pre>
 }</pre>
 
             <h3>To add an order:</h3>
-            <pre>POST /order</pre>
+            <pre class="lager">POST /order</pre>
             <p>Required parameters:</p>
-            <pre>id
+            <pre class="lager">id
 name
 api_key</pre>
 
             <h3>To update an order:</h3>
-            <pre>PUT /order</pre>
+            <pre class="lager">PUT /order</pre>
             <p>Required parameters:</p>
-            <pre>id
+            <pre class="lager">id
 api_key</pre>
             <p><strong>N.B.</strong> All attributes are updated, send an entire order object.</p>
             <p>Result:</p>
-            <pre>HTTP Status Code 204 No Content</pre>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
             <p>Possible error, besides errors returned from database:</p>
-            <pre>{
+            <pre class="lager">{
     "errors": {
         "status": 400,
         "detail": "Required attribute order id (id) was not included in the request."
@@ -493,14 +504,14 @@ api_key</pre>
 }</pre>
 
             <h3>To delete an order and associated order items:</h3>
-            <pre>DELETE /order</pre>
+            <pre class="lager">DELETE /order</pre>
             <p>Required parameters:</p>
-            <pre>id
+            <pre class="lager">id
 api_key</pre>
             <p>Result:</p>
-            <pre>HTTP Status Code 204 No Content</pre>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
             <p>Possible error, besides errors returned from database:</p>
-            <pre>{
+            <pre class="lager">{
     "errors": {
         "status": 400,
         "detail": "Required attribute order id (id) was not included in the request."
@@ -512,24 +523,24 @@ api_key</pre>
             <h2>Order items</h2>
 
             <h3>To add an order item to an order:</h3>
-            <pre>POST /order_item</pre>
+            <pre class="lager">POST /order_item</pre>
             <p>Required parameters:</p>
-            <pre>order_id
+            <pre class="lager">order_id
 product_id
 amount
 api_key</pre>
 
             <h3>To update an order item:</h3>
-            <pre>PUT /order</pre>
+            <pre class="lager">PUT /order</pre>
             <p>Required parameters:</p>
-            <pre>order_id
+            <pre class="lager">order_id
 product_id
 api_key</pre>
             <p><strong>N.B.</strong> All attributes are updated, send an entire order object.</p>
             <p>Result:</p>
-            <pre>HTTP Status Code 204 No Content</pre>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
             <p>Possible error, besides errors returned from database:</p>
-            <pre>{
+            <pre class="lager">{
     "errors": {
         "status": 400,
         "detail": "Required attributes order_id and product_id was not included in the request."
@@ -537,15 +548,15 @@ api_key</pre>
 }</pre>
 
             <h3>To delete an order item:</h3>
-            <pre>DELETE /order</pre>
+            <pre class="lager">DELETE /order</pre>
             <p>Required parameters:</p>
-            <pre>order_id
+            <pre class="lager">order_id
 product_id
 api_key</pre>
             <p>Result:</p>
-            <pre>HTTP Status Code 204 No Content</pre>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
             <p>Possible error, besides errors returned from database:</p>
-            <pre>{
+            <pre class="lager">{
     "errors": {
         "status": 400,
         "detail": "Required attribute order id and product id was not included in the request."
@@ -557,9 +568,9 @@ api_key</pre>
             <h2>Deliveries</h2>
 
             <h3>Get all deliveries</h3>
-            <pre>GET /deliveries?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /deliveries?api_key=[YOUR_API_KEY]</pre>
             <p>Result</p>
-            <pre>{
+            <pre class="lager">{
     "data": [
         {
             "id": 1,
@@ -572,15 +583,15 @@ api_key</pre>
 }</pre>
 
             <h3>Add a delivery</h3>
-            <pre>POST /delivery</pre>
+            <pre class="lager">POST /delivery</pre>
             <p>Required parameters:</p>
-            <pre>id
+            <pre class="lager">id
 product_id
 amount
 delivery_date
 api_key</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": {
         "api_key": "...",
         "id": "1",
@@ -603,30 +614,30 @@ api_key</pre>
                 The 'x-access-token' header should contain the JWT.
             </p>
 
-            <pre>GET /invoices?api_key=[YOUR_API_KEY]
+            <pre class="lager">GET /invoices?api_key=[YOUR_API_KEY]
 GET /invoice/:invoice_id?api_key=[YOUR_API_KEY]
 POST /invoice</pre>
 
             <h3>Register</h3>
-            <pre>POST /register</pre>
+            <pre class="lager">POST /register</pre>
             <p>Required paramters:</p>
-            <pre>api_key
+            <pre class="lager">api_key
 email
 password</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": {
         "message": "User successfully registered."
     }
 }</pre>
 
             <h3>Login</h3>
-            <pre>POST /login</pre>
-            <pre>api_key
+            <pre class="lager">POST /login</pre>
+            <pre class="lager">api_key
 email
 password</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": {
         "type": "success",
         "message": "User logged in",
@@ -640,9 +651,9 @@ password</pre>
             <p><strong>N.B.</strong> The access token expires after 24 hours.</p>
 
             <h3>Get all invoices</h3>
-            <pre>GET /invoices?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /invoices?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": [
         {
             "id": 1,
@@ -658,9 +669,9 @@ password</pre>
 }</pre>
 
             <h3>Get specific invoice</h3>
-            <pre>GET /invoice/:invoice_id?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /invoice/:invoice_id?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": {
         "id": 1,
         "order_id": 1,
@@ -675,14 +686,14 @@ password</pre>
 
 
             <h3>Add invoice</h3>
-            <pre>POST /invoice</pre>
+            <pre class="lager">POST /invoice</pre>
             <p>Required parameters:</p>
-            <pre>id
+            <pre class="lager">id
 order_id
 total_price
 api_key</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": {
         "api_key": "...",
         "id": "1",
@@ -699,9 +710,9 @@ api_key</pre>
             <p>As always 'api_key' is a required parameter.</p>
 
             <h3>Copy products</h3>
-            <pre>POST /copy_products</pre>
+            <pre class="lager">POST /copy_products</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": [
         {
             "id": 1,
@@ -807,9 +818,9 @@ api_key</pre>
 }</pre>
 
             <h3>Copy orders</h3>
-            <pre>POST /copy_orders</pre>
+            <pre class="lager">POST /copy_orders</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": [
         {
             "id": 1,
@@ -914,14 +925,206 @@ api_key</pre>
 }</pre>
 
             <h3>Copy products & orders</h3>
-            <pre>POST /copy_all</pre>
+            <pre class="lager">POST /copy_all</pre>
             <p>Result:</p>
-            <pre>{
+            <pre class="lager">{
     "data": {
         "message": "Products and orders have been copied"
     }
 }</pre>
         </section>
+
+        <section id="examples">
+            <h1>Code Examples</h1>
+            <p>All examples below show the following API calls:</p>
+
+            <pre class="lager">GET /products
+PUT /order
+GET /invoices</pre>
+
+            <ol>
+                <li><a href="#xmlttprequest">XMLHttpRequest</a></li>
+                <li><a href="#fetch">fetch</a></li>
+                <li><a href="#mithril">mithril m.request</a></li>
+                <li><a href="#php">PHP curl</a></li>
+                <li><a href="#curl">curl</a></li>
+            </ol>
+
+
+            <section id="xmlttprequest">
+                <h3>XMLHttpRequest</h3>
+
+                <pre class="lager">GET /products</pre>
+                <pre>
+                    <code class="javascript">var request = new XMLHttpRequest();
+
+request.addEventListener("load", [callbackFunction]);
+request.open("GET", "http://nodejs1.student.bth.se:8111/products?api_key=[YOUR_API_KEY]");
+request.send();</code>
+                </pre>
+
+                <pre class="lager">PUT /order</pre>
+                <pre>
+                    <code class="javascript">// Updating status for order, setting 200 as new status
+var order = {
+    id: 1,
+    name: "Anders Andersson",
+    address: "Andersgatan 1",
+    zip: "12345",
+    city: "Anderstorp",
+    country: "Sweden",
+    status: 200,
+    api_key: [YOUR_API_KEY]
+};
+var json = JSON.stringify(order);
+
+var request = new XMLHttpRequest();
+request.addEventListener("load", [callbackFunction]);
+request.open("PUT", "http://nodejs1.student.bth.se:8111/order");
+request.setRequestHeader('Content-type','application/json; charset=utf-8');
+request.send(json);</code>
+                </pre>
+
+                <pre class="lager">GET /invoices</pre>
+                <pre>
+                    <code class="javascript">var token = [TOKEN]; // Token received during login
+var request = new XMLHttpRequest();
+request.addEventListener("load", [callbackFunction]);
+request.open("GET", "http://nodejs1.student.bth.se:8111/invoices?api_key=[YOUR_API_KEY]");
+request.setRequestHeader('x-access-token', token);
+request.send();</code>
+                </pre>
+            </section>
+
+            <section id="fetch">
+                <h3>fetch</h3>
+
+                <pre class="lager">GET /products</pre>
+                <pre>
+                    <code class="javascript">fetch("http://nodejs1.student.bth.se:8111/products?api_key=[YOUR_API_KEY]")
+.then(function (response) {
+    return response.json();
+}).then(function(data) {
+
+});</code>
+                </pre>
+
+                <pre class="lager">PUT /order</pre>
+                <pre>
+                    <code class="javascript">var order = {
+    id: 1,
+    name: "Anders Andersson",
+    address: "Andersgatan 1",
+    zip: "12345",
+    city: "Anderstorp",
+    country: "Sweden",
+    status: 200,
+    api_key: [YOUR_API_KEY]
+};
+
+fetch("http://nodejs1.student.bth.se:8111/order", {
+    body: JSON.stringify(order),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'PUT'
+})
+.then(function (response) {
+
+});</code>
+                </pre>
+
+                <pre class="lager">GET /invoices</pre>
+                <pre>
+                    <code class="javascript">fetch("http://nodejs1.student.bth.se:8111/invoices?api_key=[YOUR_API_KEY]", {
+    headers: {
+      'x-access-token': [TOKEN]
+    },
+})
+.then(function (response) {
+    return response.json();
+}).then(function(data) {
+
+});</code>
+                </pre>
+            </section>
+
+            <section id="mithril">
+                <h3>mithril m.request</h3>
+                <pre class="lager">GET /products</pre>
+                <pre>
+                    <code class="javascript">m.request({
+    method: "GET",
+    url: "http://nodejs1.student.bth.se:8111/products?api_key=[YOUR_API_KEY]"
+})
+.then(function(result) {
+
+});</code>
+                </pre>
+
+                <pre class="lager">PUT /order</pre>
+                <pre>
+                    <code class="javascript">var order = {
+    id: 1,
+    name: "Anders Andersson",
+    address: "Andersgatan 1",
+    zip: "12345",
+    city: "Anderstorp",
+    country: "Sweden",
+    status: 200,
+    api_key: [YOUR_API_KEY]
+};
+
+m.request({
+    method: "PUT",
+    url: "http://nodejs1.student.bth.se:8111/products?api_key=[YOUR_API_KEY]",
+    data: order
+})
+.then(function(result) {
+
+});</code>
+                </pre>
+
+                <pre class="lager">GET /invoices</pre>
+                <pre>
+                    <code class="javascript">m.request({
+    method: "GET",
+    url: "http://nodejs1.student.bth.se:8111/invoices?api_key=[YOUR_API_KEY]",
+    headers: {
+        'x-access-token': [TOKEN]
+    }
+})
+.then(function(result) {
+
+});</code>
+                </pre>
+            </section>
+
+            <section id="php">
+                <h3>PHP curl</h3>
+                <pre class="lager">GET /products</pre>
+                <pre>
+                    <code class="php">$request = curl_init();
+
+curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($request, CURLOPT_URL, "http://nodejs1.student.bth.se:8111/products?api_key=[YOUR_API_KEY]");
+$result = curl_exec($request);
+curl_close($request);
+
+$obj = json_decode($result);</code>
+                </pre>
+            </section>
+
+
+            <section id="curl">
+                <h3>curl</h3>
+                <pre class="lager">GET /products</pre>
+                <pre>
+                    <code class="bash">curl http://nodejs1.student.bth.se:8111/products?api_key=[YOUR_API_KEY]</code>
+                </pre>
+            </section>
+        </section>
+
 
         <section id="installation">
             <h2>Local Installation</h2>
@@ -946,5 +1149,7 @@ api_key</pre>
         </section>
     </article>
 </main>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
 </body>
 </html>

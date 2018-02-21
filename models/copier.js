@@ -1,9 +1,10 @@
 const db = require("../db/database.js");
 const products = require("./products.js");
 const orders = require("./orders.js");
+const config = require('../config/config.json');
 
 const copier = (function () {
-    const copyApiKey = "fdc42b2d941e8c6f7b38d974df3758ce";
+    const copyApiKey = config.copyApiKey;
 
     function copyAll(res, apiKey) {
         copyProductsHelper(res, apiKey, false);

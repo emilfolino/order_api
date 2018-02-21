@@ -66,3 +66,4 @@ typings/
 # order_api specific ignores
 *.sqlite
 config/
+docs_test/

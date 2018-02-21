@@ -5,7 +5,7 @@ const validator = require("email-validator");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const config = require('../config/jwt_config.json');
+const config = require('../config/config.json');
 
 module.exports = (function () {
     function isValidAPIKey(apiKey, next, path, res) {
