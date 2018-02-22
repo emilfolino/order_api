@@ -66,7 +66,7 @@ describe('products', () => {
     });
 
     describe('POST /product', () => {
-        it('should get 400 as we do not supply id', (done) => {
+        it('should get 401 as we do not supply id', (done) => {
             let product = {
                 name: "Screw",
                 description: "Mighty fine screw.",
@@ -77,18 +77,18 @@ describe('products', () => {
                 .post("/product")
                 .send(product)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(401);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(401);
                     res.body.errors.should.have.property("detail");
 
                     done();
                 });
         });
 
-        it('should get 400 as we do not supply name', (done) => {
+        it('should get 401 as we do not supply name', (done) => {
             let product = {
                 id: 1,
                 description: "Mighty fine screw.",
@@ -99,11 +99,11 @@ describe('products', () => {
                 .post("/product")
                 .send(product)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(401);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(401);
                     res.body.errors.should.have.property("detail");
 
                     done();
