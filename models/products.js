@@ -9,14 +9,7 @@ module.exports = (function () {
         db.all("SELECT " + dataFields + " FROM products WHERE apiKey = ?",
             apiKey, (err, rows) => {
                 if (err) {
-                    return res.status(401).json({
-                        errors: {
-                            status: 401,
-                            source: "/products",
-                            title: "Database error",
-                            detail: err.message
-                        }
-                    });
+                    return errorResponse(res, "/products", err);
                 }
 
                 res.status(status).json( { data: rows } );
@@ -29,14 +22,7 @@ module.exports = (function () {
                 apiKey,
                 productId, (err, row) => {
                     if (err) {
-                        return res.status(401).json({
-                            errors: {
-                                status: 401,
-                                source: "/product/:product_id",
-                                title: "Database error",
-                                detail: err.message
-                            }
-                        });
+                        return errorResponse(res, "/product/:product_id", err);
                     }
 
                     res.json( { data: row } );
@@ -61,14 +47,7 @@ module.exports = (function () {
         searchQuery,
         searchQuery, (err, rows) => {
             if (err) {
-                return res.status(401).json({
-                    errors: {
-                        status: 401,
-                        source: "/product/search/:query",
-                        title: "Database error",
-                        detail: err.message
-                    }
-                });
+                return errorResponse(res, "/product/search/:query", err);
             }
 
             res.json( { data: rows } );
@@ -89,15 +68,10 @@ module.exports = (function () {
         parseInt(body.price) * 100,
         body.api_key, (err) => {
             if (err) {
-                res.status(400).json({
-                    errors: {
-                        status: 400,
-                        detail: err.message
-                    }
-                });
-            } else {
-                res.status(201).json({ data: body });
+                return errorResponse(res, "/product/search/:query", err);
             }
+
+            res.status(201).json({ data: body });
         });
     }
 
@@ -116,10 +90,10 @@ module.exports = (function () {
             body.api_key,
             body.id, (err) => {
                 if (err) {
-                    res.status(400).json({ errors: { status: 400, detail: err.message } });
-                } else {
-                    res.status(204).send();
+                    return errorResponse(res, "/product", err);
                 }
+
+                res.status(204).send();
             });
         } else {
             res.status(400).json({
@@ -138,10 +112,10 @@ module.exports = (function () {
                 body.api_key,
                 body.id, (err) => {
                     if (err) {
-                        res.status(400).json({ errors: { status: 400, detail: err.message } });
-                    } else {
-                        res.status(204).send();
+                        return errorResponse(res, "/product", err);
                     }
+
+                    res.status(204).send();
                 });
         } else {
             res.status(400).json({
@@ -152,6 +126,17 @@ module.exports = (function () {
                 }
             });
         }
+    }
+
+    function errorResponse(res, path, err) {
+        return res.status(401).json({
+            errors: {
+                status: 401,
+                source: path,
+                title: "Database error",
+                detail: err.message
+            }
+        });
     }
 
     return {
