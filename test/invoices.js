@@ -82,6 +82,25 @@ describe('invoices', () => {
                 });
         });
 
+        it('should get 401 UNIQUE CONSTRAINT', (done) => {
+            let user = {
+                api_key: apiKey,
+                email: "test@invoice.com",
+                password: "testinginvoice"
+            };
+
+            chai.request(server)
+                .post("/register")
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(401);
+
+                    done();
+                });
+        });
+
         it('should get 200 HAPPY PATH logging in', (done) => {
             let user = {
                 api_key: apiKey,
@@ -263,6 +282,27 @@ describe('invoices', () => {
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
                     res.body.data.length.should.be.equal(1);
+
+                    done();
+                });
+        });
+
+        it('should get 400 UNIQUE CONSTRAINT', (done) => {
+            let invoice = {
+                id: 1,
+                order_id: 1,
+                total_price: 100,
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/invoice")
+                .set("x-access-token", token)
+                .send(invoice)
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(400);
 
                     done();
                 });

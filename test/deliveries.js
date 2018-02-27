@@ -200,5 +200,30 @@ describe('deliveries', () => {
                     done();
                 });
         });
+
+        it('should get 400 UNIQUE CONSTRAINT', (done) => {
+            let delivery = {
+                id: 1,
+                product_id: 1,
+                amount: 10,
+                delivery_date: "2018-02-01",
+                comment: "Leverans av skruvar",
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/delivery")
+                .send(delivery)
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("errors");
+                    res.body.errors.should.have.property("status");
+                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.should.have.property("detail");
+
+                    done();
+                });
+        });
     });
 });

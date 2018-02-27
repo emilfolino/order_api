@@ -143,6 +143,64 @@ describe('products', () => {
                     done();
                 });
         });
+
+        it('should get 401 SQL Error product_id UNIQUE CONSTRAINT', (done) => {
+            let product = {
+                id: 1,
+                name: "Screw",
+                description: "Mighty fine screw.",
+                price: 12,
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/product")
+                .send(product)
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("errors");
+                    res.body.errors.should.have.property("status");
+                    res.body.errors.status.should.be.equal(401);
+                    res.body.errors.should.have.property("detail");
+
+                    done();
+                });
+        });
+
+        it('should get 200 HAPPY PATH testing for special characters', (done) => {
+            let product = {
+                id: 11,
+                name: "öäåÅÄÖ!#€%&/()=?\'\"éñ",
+                description: "öäåÅÄÖ!#€%&/()=?\'\"éñ",
+                price: 14,
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/product")
+                .send(product)
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("data");
+
+                    done();
+                });
+        });
+
+        it('should get 200 HAPPY PATH getting the two products we just created', (done) => {
+            chai.request(server)
+                .get("/products?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.be.equal(2);
+
+                    done();
+                });
+        });
     });
 
     describe('GET /product', () => {
@@ -321,7 +379,7 @@ describe('products', () => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
-                    res.body.data.length.should.be.equal(0);
+                    res.body.data.length.should.be.equal(1);
 
                     done();
                 });

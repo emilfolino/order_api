@@ -67,3 +67,4 @@ typings/
 *.sqlite
 config/
 docs_test/
+db/do_migrate.sh
