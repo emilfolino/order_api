@@ -192,6 +192,29 @@ describe('order items', () => {
                     done();
                 });
         });
+
+        it('should get 401 UNIQUE CONSTRAINT', (done) => {
+            let orderItem = {
+                order_id: 1,
+                product_id: 1,
+                amount: 1,
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/order_item")
+                .send(orderItem)
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("errors");
+                    res.body.errors.should.have.property("status");
+                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.should.have.property("detail");
+
+                    done();
+                });
+        });
     });
 
     describe('PUT /order_item', () => {

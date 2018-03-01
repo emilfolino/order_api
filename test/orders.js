@@ -181,6 +181,28 @@ describe('orders', () => {
                     done();
                 });
         });
+
+        it('should get 401 UNIQUE CONSTRAINT error', (done) => {
+            let order = {
+                id: 1,
+                name: "Anders",
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/order")
+                .send(order)
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("errors");
+                    res.body.errors.should.have.property("status");
+                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.should.have.property("detail");
+
+                    done();
+                });
+        });
     });
 
     describe('GET /order', () => {
