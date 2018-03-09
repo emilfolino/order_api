@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS orders (
     customerZip VARCHAR(12),
     customerCity VARCHAR(255),
     customerCountry VARCHAR(255),
-    statusId INTEGER NOT NULL DEFAULT 1,
+    statusId INTEGER NOT NULL DEFAULT 100,
     apiKey VARCHAR(32) NOT NULL,
     FOREIGN KEY(apiKey) REFERENCES apikeys(key),
     FOREIGN KEY(statusId) REFERENCES status(id),

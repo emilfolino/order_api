@@ -286,10 +286,13 @@ api_key</pre>
             <h2>Orders</h2>
 
             <h3>Status</h3>
-            <p>All orders have a status, it can take the values 1, 200, 900</p>
-            <pre class="lager">1   : Ny
-200 : Packad
-900 : Skickad</pre>
+            <p>All orders have a status, it can take the following numeric values, corresponding to the descriptions. Orders have a default status value of 100.</p>
+            <pre class="lager">100: "Ny"
+200: "Packad"
+400: "Skickad"
+600: "Fakturerad"
+800: "Retur"
+900: "Återbetald"</pre>
 
             <h3>To get all your orders and associated order items:</h3>
             <pre class="lager">GET /orders?api_key=[YOUR_API_KEY]</pre>
@@ -486,12 +489,14 @@ api_key</pre>
             <pre class="lager">id
 name
 api_key</pre>
+            <p><strong>NB!</strong> Use a numeric status_id value to update status.</p>
 
             <h3>To update an order:</h3>
             <pre class="lager">PUT /order</pre>
             <p>Required parameters:</p>
             <pre class="lager">id
 api_key</pre>
+            <p><strong>NB!</strong> Use a numeric status_id value to update status.</p>
             <p><strong>N.B.</strong> All attributes are updated, send an entire order object.</p>
             <p>Result:</p>
             <pre class="lager">HTTP Status Code 204 No Content</pre>
@@ -973,7 +978,7 @@ var order = {
     zip: "12345",
     city: "Anderstorp",
     country: "Sweden",
-    status: 200,
+    status_id: 200,
     api_key: [YOUR_API_KEY]
 };
 var json = JSON.stringify(order);
@@ -1018,7 +1023,7 @@ request.send();</code>
     zip: "12345",
     city: "Anderstorp",
     country: "Sweden",
-    status: 200,
+    status_id: 200,
     api_key: [YOUR_API_KEY]
 };
 
@@ -1071,7 +1076,7 @@ fetch("http://nodejs1.student.bth.se:8111/order", {
     zip: "12345",
     city: "Anderstorp",
     country: "Sweden",
-    status: 200,
+    status_id: 200,
     api_key: [YOUR_API_KEY]
 };
 

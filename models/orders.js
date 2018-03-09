@@ -2,7 +2,7 @@ const db = require("../db/database.js");
 
 module.exports = (function () {
     const dataFields = "orderId as id, customerName as name, customerAddress as address," +
-        " customerZip as zip, customerCity as city, customerCountry as country, s.status";
+        " customerZip as zip, customerCity as city, customerCountry as country, s.status, s.id as status_id";
 
     const orderItemsDataFields = "oi.productId as product_id, oi.amount," +
         " p.articleNumber as article_number, p.productName as name," +
@@ -182,7 +182,7 @@ module.exports = (function () {
         body.zip,
         body.city,
         body.country,
-        body.status || 1,
+        body.status_id || 100,
         body.api_key, (err) => {
             if (err) {
                 res.status(400).json({ errors: { status: 400, detail: err.message } });
@@ -202,7 +202,7 @@ module.exports = (function () {
             body.zip,
             body.city,
             body.country,
-            body.status || 1,
+            body.status_id || 100,
             body.api_key,
             body.id, (err) => {
                 if (err) {
