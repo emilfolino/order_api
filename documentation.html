@@ -65,7 +65,7 @@
         <section id="apikeys">
             <h2>API keys</h2>
             <h3>To request an API key:</h3>
-            <pre class="lager">GET /api-key?email=[YOUR_EMAIL]</pre>
+            <pre class="lager">GET /api_key?email=[YOUR_EMAIL]</pre>
             <p>Result:</p>
             <pre class="lager">{
     "data": {
@@ -82,7 +82,7 @@
 
             <h3>An API key is required for all requests except the following:</h3>
             <pre class="lager">GET /</pre>
-            <pre class="lager">GET /api-key?email=[YOUR_EMAIL]</pre>
+            <pre class="lager">GET /api_key?email=[YOUR_EMAIL]</pre>
             <p>If an API key is not provided the following error is given:</p>
             <pre class="lager">{
     "errors": {
