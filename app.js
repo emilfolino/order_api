@@ -29,6 +29,8 @@ if (process.env.NODE_ENV !== 'test') {
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
+app.use(express.static('public'));
+
 app.all('*', checkAPIKey);
 
 function checkAPIKey(req, res, next) {
