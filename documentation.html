@@ -968,7 +968,7 @@ GET /invoices</pre>
                     <code class="javascript">var request = new XMLHttpRequest();
 
 request.addEventListener("load", [callbackFunction]);
-request.open("GET", "http://nodejs1.student.bth.se:8111/products?api_key=[YOUR_API_KEY]");
+request.open("GET", "https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]");
 request.send();</code>
                 </pre>
 
@@ -989,7 +989,7 @@ var json = JSON.stringify(order);
 
 var request = new XMLHttpRequest();
 request.addEventListener("load", [callbackFunction]);
-request.open("PUT", "http://nodejs1.student.bth.se:8111/order");
+request.open("PUT", "https://lager.emilfolino.se/order");
 request.setRequestHeader('Content-type','application/json; charset=utf-8');
 request.send(json);</code>
                 </pre>
@@ -999,7 +999,7 @@ request.send(json);</code>
                     <code class="javascript">var token = [TOKEN]; // Token received during login
 var request = new XMLHttpRequest();
 request.addEventListener("load", [callbackFunction]);
-request.open("GET", "http://nodejs1.student.bth.se:8111/invoices?api_key=[YOUR_API_KEY]");
+request.open("GET", "https://lager.emilfolino.se/invoices?api_key=[YOUR_API_KEY]");
 request.setRequestHeader('x-access-token', token);
 request.send();</code>
                 </pre>
@@ -1010,7 +1010,7 @@ request.send();</code>
 
                 <pre class="lager">GET /products</pre>
                 <pre>
-                    <code class="javascript">fetch("http://nodejs1.student.bth.se:8111/products?api_key=[YOUR_API_KEY]")
+                    <code class="javascript">fetch("https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]")
 .then(function (response) {
     return response.json();
 }).then(function(data) {
@@ -1031,7 +1031,7 @@ request.send();</code>
     api_key: [YOUR_API_KEY]
 };
 
-fetch("http://nodejs1.student.bth.se:8111/order", {
+fetch("https://lager.emilfolino.se/order", {
     body: JSON.stringify(order),
     headers: {
       'content-type': 'application/json'
@@ -1045,7 +1045,7 @@ fetch("http://nodejs1.student.bth.se:8111/order", {
 
                 <pre class="lager">GET /invoices</pre>
                 <pre>
-                    <code class="javascript">fetch("http://nodejs1.student.bth.se:8111/invoices?api_key=[YOUR_API_KEY]", {
+                    <code class="javascript">fetch("https://lager.emilfolino.se/invoices?api_key=[YOUR_API_KEY]", {
     headers: {
       'x-access-token': [TOKEN]
     },
@@ -1064,7 +1064,7 @@ fetch("http://nodejs1.student.bth.se:8111/order", {
                 <pre>
                     <code class="javascript">m.request({
     method: "GET",
-    url: "http://nodejs1.student.bth.se:8111/products?api_key=[YOUR_API_KEY]"
+    url: "https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]"
 })
 .then(function(result) {
 
@@ -1086,7 +1086,7 @@ fetch("http://nodejs1.student.bth.se:8111/order", {
 
 m.request({
     method: "PUT",
-    url: "http://nodejs1.student.bth.se:8111/products?api_key=[YOUR_API_KEY]",
+    url: "https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]",
     data: order
 });</code>
                 </pre>
@@ -1095,7 +1095,7 @@ m.request({
                 <pre>
                     <code class="javascript">m.request({
     method: "GET",
-    url: "http://nodejs1.student.bth.se:8111/invoices?api_key=[YOUR_API_KEY]",
+    url: "https://lager.emilfolino.se/invoices?api_key=[YOUR_API_KEY]",
     headers: {
         'x-access-token': [TOKEN]
     }
@@ -1113,7 +1113,7 @@ m.request({
                     <code class="php">$request = curl_init();
 
 curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($request, CURLOPT_URL, "http://nodejs1.student.bth.se:8111/products?api_key=[YOUR_API_KEY]");
+curl_setopt($request, CURLOPT_URL, "https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]");
 $result = curl_exec($request);
 curl_close($request);
 
@@ -1126,7 +1126,7 @@ $obj = json_decode($result);</code>
                 <h3>curl</h3>
                 <pre class="lager">GET /products</pre>
                 <pre>
-                    <code class="bash">curl http://nodejs1.student.bth.se:8111/products?api_key=[YOUR_API_KEY]</code>
+                    <code class="bash">curl https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]</code>
                 </pre>
             </section>
         </section>
