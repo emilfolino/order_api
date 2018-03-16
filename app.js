@@ -18,6 +18,8 @@ const app = express();
 app.use(cors());
 app.options('*', cors());
 
+app.disable('x-powered-by');
+
 const port = 8111;
 
 // don't show the log when it is test
