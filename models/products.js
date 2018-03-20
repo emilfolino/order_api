@@ -129,9 +129,9 @@ module.exports = (function () {
     }
 
     function errorResponse(res, path, err) {
-        return res.status(401).json({
+        return res.status(500).json({
             errors: {
-                status: 401,
+                status: 500,
                 source: path,
                 title: "Database error",
                 detail: err.message

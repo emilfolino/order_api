@@ -25,13 +25,13 @@ describe('products', () => {
     });
 
     describe('GET /products', () => {
-        it('should get 401 as we do not provide valid api_key', (done) => {
+        it('should get 500 as we do not provide valid api_key', (done) => {
             chai.request(server)
                 .get("/products")
                 .end((err, res) => {
-                    res.should.have.status(401);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
-                    res.body.errors.status.should.be.equal(401);
+                    res.body.errors.status.should.be.equal(500);
                     done();
                 });
         });
@@ -66,7 +66,7 @@ describe('products', () => {
     });
 
     describe('POST /product', () => {
-        it('should get 401 as we do not supply id', (done) => {
+        it('should get 500 as we do not supply id', (done) => {
             let product = {
                 name: "Screw",
                 description: "Mighty fine screw.",
@@ -77,18 +77,18 @@ describe('products', () => {
                 .post("/product")
                 .send(product)
                 .end((err, res) => {
-                    res.should.have.status(401);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(401);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
                 });
         });
 
-        it('should get 401 as we do not supply name', (done) => {
+        it('should get 500 as we do not supply name', (done) => {
             let product = {
                 id: 1,
                 description: "Mighty fine screw.",
@@ -99,11 +99,11 @@ describe('products', () => {
                 .post("/product")
                 .send(product)
                 .end((err, res) => {
-                    res.should.have.status(401);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(401);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
@@ -144,7 +144,7 @@ describe('products', () => {
                 });
         });
 
-        it('should get 401 SQL Error product_id UNIQUE CONSTRAINT', (done) => {
+        it('should get 500 SQL Error product_id UNIQUE CONSTRAINT', (done) => {
             let product = {
                 id: 1,
                 name: "Screw",
@@ -157,11 +157,11 @@ describe('products', () => {
                 .post("/product")
                 .send(product)
                 .end((err, res) => {
-                    res.should.have.status(401);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(401);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
@@ -171,8 +171,8 @@ describe('products', () => {
         it('should get 200 HAPPY PATH testing for special characters', (done) => {
             let product = {
                 id: 11,
-                name: "öäåÅÄÖ!#€%&/()=?\'\"éñ",
-                description: "öäåÅÄÖ!#€%&/()=?\'\"éñ",
+                name: "öäåÅÄÖ!#€%&/()=?\'\"éñ''",
+                description: "öäåÅÄÖ!#€%&/()=?\'\"éñ''",
                 price: 14,
                 api_key: apiKey
             };
@@ -197,6 +197,27 @@ describe('products', () => {
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
                     res.body.data.length.should.be.equal(2);
+
+                    done();
+                });
+        });
+
+        it('should get 201 creating product with SQL injection', (done) => {
+            let product = {
+                id: 11,
+                name: "'; DROP TABLE products;--",
+                description: "öäåÅÄÖ!#€%&/()=?\'\"éñ''",
+                price: 14,
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/product")
+                .send(product)
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("data");
 
                     done();
                 });
