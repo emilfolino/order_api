@@ -25,13 +25,13 @@ describe('products', () => {
     });
 
     describe('GET /products', () => {
-        it('should get 500 as we do not provide valid api_key', (done) => {
+        it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
                 .get("/products")
                 .end((err, res) => {
-                    res.should.have.status(500);
+                    res.should.have.status(401);
                     res.body.should.be.an("object");
-                    res.body.errors.status.should.be.equal(500);
+                    res.body.errors.status.should.be.equal(401);
                     done();
                 });
         });
@@ -204,7 +204,7 @@ describe('products', () => {
 
         it('should get 201 creating product with SQL injection', (done) => {
             let product = {
-                id: 11,
+                id: 12,
                 name: "'; DROP TABLE products;--",
                 description: "öäåÅÄÖ!#€%&/()=?\'\"éñ''",
                 price: 14,
@@ -393,14 +393,14 @@ describe('products', () => {
                 });
         });
 
-        it('should get 200 HAPPY PATH getting no products', (done) => {
+        it('should get 200 HAPPY PATH getting two products', (done) => {
             chai.request(server)
                 .get("/products?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
-                    res.body.data.length.should.be.equal(1);
+                    res.body.data.length.should.be.equal(2);
 
                     done();
                 });
