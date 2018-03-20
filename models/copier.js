@@ -46,9 +46,11 @@ const copier = (function () {
 
         db.run(sql, copyApiKey, (err) => {
             if (err) {
-                res.status(400).json({
+                return res.status(500).json({
                     errors: {
-                        status: 400,
+                        status: 500,
+                        source: "/copy_products",
+                        title: "Database error",
                         detail: err.message
                     }
                 });
@@ -87,9 +89,11 @@ const copier = (function () {
 
         db.run(sql, copyApiKey, (err) => {
             if (err) {
-                res.status(400).json({
+                return res.status(500).json({
                     errors: {
-                        status: 400,
+                        status: 500,
+                        source: "/copy_orders",
+                        title: "Database error",
                         detail: err.message
                     }
                 });
@@ -108,9 +112,11 @@ const copier = (function () {
 
                 db.run(orderItemsSQL, copyApiKey, (err) => {
                     if (err) {
-                        res.status(400).json({
+                        return res.status(500).json({
                             errors: {
-                                status: 400,
+                                status: 500,
+                                source: "/copy_orders",
+                                title: "Database error in order_items",
                                 detail: err.message
                             }
                         });

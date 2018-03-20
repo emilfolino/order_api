@@ -93,9 +93,9 @@ describe('invoices', () => {
                 .post("/register")
                 .send(user)
                 .end((err, res) => {
-                    res.should.have.status(401);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
-                    res.body.errors.status.should.be.equal(401);
+                    res.body.errors.status.should.be.equal(500);
 
                     done();
                 });
@@ -160,7 +160,7 @@ describe('invoices', () => {
                 });
         });
 
-        it('should get 400 as we do not supply id', (done) => {
+        it('should get 500 as we do not supply id', (done) => {
             let invoice = {
                 // id: 1,
                 order_id: 1,
@@ -173,18 +173,18 @@ describe('invoices', () => {
                 .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
                 });
         });
 
-        it('should get 400 as we do not supply order_id', (done) => {
+        it('should get 500 as we do not supply order_id', (done) => {
             let invoice = {
                 id: 1,
                 // order_id: 1,
@@ -197,18 +197,18 @@ describe('invoices', () => {
                 .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
                 });
         });
 
-        it('should get 400 as we do not supply total_price', (done) => {
+        it('should get 500 as we do not supply total_price', (done) => {
             let invoice = {
                 id: 1,
                 order_id: 1,
@@ -221,11 +221,11 @@ describe('invoices', () => {
                 .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
@@ -287,7 +287,7 @@ describe('invoices', () => {
                 });
         });
 
-        it('should get 400 UNIQUE CONSTRAINT', (done) => {
+        it('should get 500 UNIQUE CONSTRAINT', (done) => {
             let invoice = {
                 id: 1,
                 order_id: 1,
@@ -300,9 +300,9 @@ describe('invoices', () => {
                 .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
 
                     done();
                 });

@@ -17,9 +17,9 @@ module.exports = (function () {
             " WHERE o.apiKey = ?",
         apiKey, (err, orderRows) => {
             if (err) {
-                return res.status(401).json({
+                return res.status(500).json({
                     errors: {
-                        status: 401,
+                        status: 500,
                         source: "/orders",
                         title: "Database error",
                         detail: err.message
@@ -38,10 +38,10 @@ module.exports = (function () {
                 apiKey,
                 order.id, (err, orderItemRows) => {
                     if (err) {
-                        return res.status(401).json({
+                        return res.status(500).json({
                             errors: {
-                                status: 401,
-                                source: "/orders",
+                                status: 500,
+                                source: "/orders order_items",
                                 title: "Database error",
                                 detail: err.message
                             }
@@ -67,10 +67,10 @@ module.exports = (function () {
             apiKey,
             orderId, (err, order) => {
                 if (err) {
-                    return res.status(401).json({
+                    return res.status(500).json({
                         errors: {
-                            status: 401,
-                            source: "/order/:order_id",
+                            status: 500,
+                            source: "/order/" + orderId,
                             title: "Database error",
                             detail: err.message
                         }
@@ -89,10 +89,10 @@ module.exports = (function () {
                 apiKey,
                 order.id, (err, orderItemRow) => {
                     if (err) {
-                        return res.status(401).json({
+                        return res.status(500).json({
                             errors: {
-                                status: 401,
-                                source: "/order/:order_id",
+                                status: 500,
+                                source: "/order/" + orderId + " order_items",
                                 title: "Database error",
                                 detail: err.message
                             }
@@ -131,10 +131,10 @@ module.exports = (function () {
         searchQuery,
         searchQuery, (err, orderRows) => {
             if (err) {
-                return res.status(401).json({
+                return res.status(500).json({
                     errors: {
-                        status: 401,
-                        source: "/order/search/:query",
+                        status: 500,
+                        source: "/order/search/" + query,
                         title: "Database error",
                         detail: err.message
                     }
@@ -152,10 +152,10 @@ module.exports = (function () {
                 apiKey,
                 order.id, (err, orderItemRows) => {
                     if (err) {
-                        return res.status(401).json({
+                        return res.status(500).json({
                             errors: {
-                                status: 401,
-                                source: "/order/search/:query",
+                                status: 500,
+                                source: "/order/search/" + query + " order_items",
                                 title: "Database error",
                                 detail: err.message
                             }
@@ -185,7 +185,14 @@ module.exports = (function () {
         body.status_id || 100,
         body.api_key, (err) => {
             if (err) {
-                res.status(400).json({ errors: { status: 400, detail: err.message } });
+                return res.status(500).json({
+                    errors: {
+                        status: 500,
+                        source: "POST /order",
+                        title: "Database error",
+                        detail: err.message
+                    }
+                });
             } else {
                 res.status(201).json({ data: body });
             }
@@ -206,7 +213,14 @@ module.exports = (function () {
             body.api_key,
             body.id, (err) => {
                 if (err) {
-                    res.status(400).json({ errors: { status: 400, detail: err.message } });
+                    return res.status(500).json({
+                        errors: {
+                            status: 500,
+                            source: "PUT /order",
+                            title: "Database error",
+                            detail: err.message
+                        }
+                    });
                 } else {
                     res.status(204).send();
                 }
@@ -228,15 +242,24 @@ module.exports = (function () {
                 body.api_key,
                 body.id, (err) => {
                     if (err) {
-                        res.status(400).json({ errors: { status: 400, detail: err.message } });
+                        return res.status(500).json({
+                            errors: {
+                                status: 500,
+                                source: "DELETE /order",
+                                title: "Database error",
+                                detail: err.message
+                            }
+                        });
                     } else {
                         db.run("DELETE FROM order_items WHERE apiKey = ? AND orderId = ?",
                             body.api_key,
                             body.id, (err) => {
                                 if (err) {
-                                    return res.status(400).json({
+                                    return res.status(500).json({
                                         errors: {
-                                            status: 400,
+                                            status: 500,
+                                            source: "DELETE /order order_items",
+                                            title: "Database error",
                                             detail: err.message
                                         }
                                     });

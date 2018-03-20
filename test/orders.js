@@ -108,7 +108,7 @@ describe('orders', () => {
     });
 
     describe('POST /order', () => {
-        it('should get 400 as we do not supply id', (done) => {
+        it('should get 500 as we do not supply id', (done) => {
             let order = {
                 name: "Anders",
                 api_key: apiKey
@@ -118,18 +118,18 @@ describe('orders', () => {
                 .post("/order")
                 .send(order)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
                 });
         });
 
-        it('should get 400 as we do not supply name', (done) => {
+        it('should get 500 as we do not supply name', (done) => {
             let order = {
                 id: 1,
                 api_key: apiKey
@@ -139,11 +139,11 @@ describe('orders', () => {
                 .post("/order")
                 .send(order)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
@@ -182,7 +182,7 @@ describe('orders', () => {
                 });
         });
 
-        it('should get 401 UNIQUE CONSTRAINT error', (done) => {
+        it('should get 500 UNIQUE CONSTRAINT error', (done) => {
             let order = {
                 id: 1,
                 name: "Anders",
@@ -193,11 +193,11 @@ describe('orders', () => {
                 .post("/order")
                 .send(order)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();

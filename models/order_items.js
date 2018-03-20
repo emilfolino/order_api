@@ -8,7 +8,14 @@ module.exports = (function () {
             body.amount,
             body.api_key, (err) => {
                 if (err) {
-                    res.status(400).json({ errors: { status: 400, detail: err.message } });
+                    return res.status(500).json({
+                        errors: {
+                            status: 500,
+                            source: "POST /order_item",
+                            title: "Database error",
+                            detail: err.message
+                        }
+                    });
                 } else {
                     res.status(201).json({ data: body });
                 }
@@ -27,7 +34,14 @@ module.exports = (function () {
             body.order_id,
             body.product_id, (err) => {
                 if (err) {
-                    res.status(400).json({ errors: { status: 400, detail: err.message } });
+                    return res.status(500).json({
+                        errors: {
+                            status: 500,
+                            source: "PUT /order_item",
+                            title: "Database error",
+                            detail: err.message
+                        }
+                    });
                 } else {
                     res.status(204).send();
                 }
@@ -51,7 +65,14 @@ module.exports = (function () {
                 body.order_id,
                 body.product_id, (err) => {
                     if (err) {
-                        res.status(400).json({ errors: { status: 400, detail: err.message } });
+                        return res.status(500).json({
+                            errors: {
+                                status: 500,
+                                source: "DELETE /order_item",
+                                title: "Database error",
+                                detail: err.message
+                            }
+                        });
                     } else {
                         res.status(204).send();
                     }

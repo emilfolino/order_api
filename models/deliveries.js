@@ -8,7 +8,14 @@ module.exports = (function () {
 
         db.all(sql, apiKey, (err, rows) => {
             if (err) {
-                res.status(400).json({ errors: { status: 400, detail: err.message } });
+                return res.status(500).json({
+                    errors: {
+                        status: 500,
+                        source: "/deliveries",
+                        title: "Database error",
+                        detail: err.message
+                    }
+                });
             } else {
                 res.json({ data: rows });
             }
@@ -27,7 +34,14 @@ module.exports = (function () {
             body.comment,
             body.api_key, (err) => {
                 if (err) {
-                    res.status(400).json({ errors: { status: 400, detail: err.message } });
+                    return res.status(500).json({
+                        errors: {
+                            status: 500,
+                            source: "/delivery",
+                            title: "Database error",
+                            detail: err.message
+                        }
+                    });
                 } else {
                     res.status(201).json({ data: body });
                 }

@@ -13,10 +13,10 @@ module.exports = (function () {
             " WHERE i.apiKey = ?",
         apiKey, (err, rows) => {
             if (err) {
-                return res.status(401).json({
+                return res.status(500).json({
                     errors: {
-                        status: 401,
-                        source: "/orders",
+                        status: 500,
+                        source: "/invoices",
                         title: "Database error",
                         detail: err.message
                     }
@@ -37,10 +37,10 @@ module.exports = (function () {
             invoiceId,
             (err, row) => {
                 if (err) {
-                    return res.status(401).json({
+                    return res.status(500).json({
                         errors: {
-                            status: 401,
-                            source: "/orders",
+                            status: 500,
+                            source: "/invoice/" + invoiceId,
                             title: "Database error",
                             detail: err.message
                         }
@@ -68,9 +68,11 @@ module.exports = (function () {
         body.total_price * 100,
         body.api_key, (err) => {
             if (err) {
-                res.status(400).json({
+                return res.status(500).json({
                     errors: {
-                        status: 400,
+                        status: 500,
+                        source: "POST /invoice",
+                        title: "Database error",
                         detail: err.message
                     }
                 });

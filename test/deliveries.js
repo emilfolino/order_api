@@ -66,7 +66,7 @@ describe('deliveries', () => {
     });
 
     describe('POST /delivery', () => {
-        it('should get 400 as we do not supply id', (done) => {
+        it('should get 500 as we do not supply id', (done) => {
             let delivery = {
                 // id: 1,
                 product_id: 1,
@@ -80,18 +80,18 @@ describe('deliveries', () => {
                 .post("/delivery")
                 .send(delivery)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
                 });
         });
 
-        it('should get 400 as we do not supply productId', (done) => {
+        it('should get 500 as we do not supply productId', (done) => {
             let delivery = {
                 id: 1,
                 // product_id: 1,
@@ -105,18 +105,18 @@ describe('deliveries', () => {
                 .post("/delivery")
                 .send(delivery)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
                 });
         });
 
-        it('should get 400 as we do not supply amount', (done) => {
+        it('should get 500 as we do not supply amount', (done) => {
             let delivery = {
                 id: 1,
                 product_id: 1,
@@ -130,18 +130,18 @@ describe('deliveries', () => {
                 .post("/delivery")
                 .send(delivery)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
                 });
         });
 
-        it('should get 400 as we do not supply delivery_date', (done) => {
+        it('should get 500 as we do not supply delivery_date', (done) => {
             let delivery = {
                 id: 1,
                 product_id: 1,
@@ -155,11 +155,11 @@ describe('deliveries', () => {
                 .post("/delivery")
                 .send(delivery)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
@@ -201,7 +201,7 @@ describe('deliveries', () => {
                 });
         });
 
-        it('should get 400 UNIQUE CONSTRAINT', (done) => {
+        it('should get 500 UNIQUE CONSTRAINT', (done) => {
             let delivery = {
                 id: 1,
                 product_id: 1,
@@ -215,11 +215,11 @@ describe('deliveries', () => {
                 .post("/delivery")
                 .send(delivery)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();

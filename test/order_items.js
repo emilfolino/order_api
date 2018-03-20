@@ -72,7 +72,7 @@ describe('order items', () => {
         });
 
 
-        it('should get 400 as we do not supply order id', (done) => {
+        it('should get 500 as we do not supply order id', (done) => {
             let orderItem = {
                 // order_id: 1,
                 product_id: 1,
@@ -84,18 +84,18 @@ describe('order items', () => {
                 .post("/order_item")
                 .send(orderItem)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
                 });
         });
 
-        it('should get 400 as we do not supply product id', (done) => {
+        it('should get 500 as we do not supply product id', (done) => {
             let orderItem = {
                 order_id: 1,
                 // product_id: 1,
@@ -107,11 +107,11 @@ describe('order items', () => {
                 .post("/order_item")
                 .send(orderItem)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
@@ -193,7 +193,7 @@ describe('order items', () => {
                 });
         });
 
-        it('should get 401 UNIQUE CONSTRAINT', (done) => {
+        it('should get 500 UNIQUE CONSTRAINT', (done) => {
             let orderItem = {
                 order_id: 1,
                 product_id: 1,
@@ -205,11 +205,11 @@ describe('order items', () => {
                 .post("/order_item")
                 .send(orderItem)
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(500);
                     res.body.should.be.an("object");
                     res.body.should.have.property("errors");
                     res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.status.should.be.equal(500);
                     res.body.errors.should.have.property("detail");
 
                     done();
@@ -264,7 +264,7 @@ describe('order items', () => {
                 });
         });
 
-        it('should get 200 HAPPY PATH', (done) => {
+        it('should get 204 HAPPY PATH', (done) => {
             let orderItem = {
                 order_id: 1,
                 product_id: 1,

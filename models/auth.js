@@ -11,9 +11,9 @@ module.exports = (function () {
     function isValidAPIKey(apiKey, next, path, res) {
         db.get("SELECT email FROM apikeys WHERE key = ?", apiKey, (err, row) => {
             if (err) {
-                return res.status(401).json({
+                return res.status(500).json({
                     errors: {
-                        status: 401,
+                        status: 500,
                         source: path,
                         title: "Database error",
                         detail: err.message
@@ -49,9 +49,9 @@ module.exports = (function () {
         } else {
             db.get("SELECT email, key FROM apikeys WHERE email = ?", email, (err, row) => {
                 if (err) {
-                    return res.status(401).json({
+                    return res.status(500).json({
                         errors: {
-                            status: 401,
+                            status: 500,
                             source: path,
                             title: "Database error",
                             detail: err.message
@@ -226,9 +226,9 @@ module.exports = (function () {
                 email,
                 hash, (err) => {
                     if (err) {
-                        return res.status(401).json({
+                        return res.status(500).json({
                             errors: {
-                                status: 401,
+                                status: 500,
                                 source: "/register",
                                 title: "Database error",
                                 detail: err.message
@@ -251,9 +251,9 @@ module.exports = (function () {
         if (token) {
             jwt.verify(token, config.secret, function(err, decoded) {
                 if (err) {
-                    return res.status(401).json({
+                    return res.status(500).json({
                         errors: {
-                            status: 401,
+                            status: 500,
                             source: req.path,
                             title: "Failed authentication",
                             detail: err.message
