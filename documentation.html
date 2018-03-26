@@ -258,11 +258,28 @@
 name
 api_key</pre>
 
+            <p>Optional parameters:</p>
+            <pre class="lager">article_number
+description
+specifiers
+stock
+location
+price</pre>
+
             <h3>To update a product:</h3>
             <pre class="lager">PUT /product</pre>
             <p>Required parameters:</p>
             <pre class="lager">id
 api_key</pre>
+
+<p>Optional parameters:</p>
+<pre class="lager">name
+article_number
+description
+specifiers
+stock
+location
+price</pre>
             <p><strong>N.B.</strong> All attributes are updated, send an entire product object.</p>
             <p>Result:</p>
             <pre class="lager">HTTP Status Code 204 No Content</pre>
@@ -503,6 +520,13 @@ api_key</pre>
             <pre class="lager">id
 name
 api_key</pre>
+            <p>Optional parameters:</p>
+            <pre class="lager">address
+zip
+city
+country
+status_id (default value of 100)</pre>
+
             <p><strong>NB!</strong> Use a numeric status_id value to add status.</p>
 
             <h3>To update an order:</h3>
@@ -510,8 +534,18 @@ api_key</pre>
             <p>Required parameters:</p>
             <pre class="lager">id
 api_key</pre>
+
+<p>Optional parameters:</p>
+<pre class="lager">name
+address
+zip
+city
+country
+status_id (default value of 100)</pre>
+
+
             <p><strong>NB!</strong> Use a numeric status_id value to update status.</p>
-            <p><strong>N.B.</strong> All attributes are updated, send an entire order object.</p>
+            <p><strong>N.B.</strong> All attributes are updated, send an entire order object. Send only the order parameters when updating an order. order_items are updated seperately, see <a href="#order_items">order items</a></p>
             <p>Result:</p>
             <pre class="lager">HTTP Status Code 204 No Content</pre>
             <p>Possible error, besides errors returned from database:</p>
@@ -555,6 +589,9 @@ api_key</pre>
             <pre class="lager">order_id
 product_id
 api_key</pre>
+            <p>Optional parameter:</p>
+            <pre class="lager">amount</pre>
+
             <p><strong>N.B.</strong> All attributes are updated, send an entire order object.</p>
             <p>Result:</p>
             <pre class="lager">HTTP Status Code 204 No Content</pre>
@@ -609,6 +646,10 @@ product_id
 amount
 delivery_date
 api_key</pre>
+
+            <p>Optional parameter:</p>
+            <pre class="lager">comment</pre>
+
             <p>Result:</p>
             <pre class="lager">{
     "data": {
