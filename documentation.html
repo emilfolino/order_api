@@ -1089,6 +1089,26 @@ request.setRequestHeader('Content-type','application/json; charset=utf-8');
 request.send(json);</code>
                 </pre>
 
+                <pre class="lager">POST /delivery</pre>
+                <pre>
+                    <code class="javascript">// Creating new delivery with id: 1
+var delivery = {
+    id: 1,
+    product_id: 2,
+    amount: 12,
+    delivery_date: "2018-02-14",
+    comment: "Delivery for Valentines Day",
+    api_key: [YOUR_API_KEY]
+};
+var json = JSON.stringify(delivery);
+
+var request = new XMLHttpRequest();
+request.addEventListener("load", [callbackFunction]);
+request.open("POST", "https://lager.emilfolino.se/delivery");
+request.setRequestHeader('Content-type','application/json; charset=utf-8');
+request.send(json);</code>
+                </pre>
+
                 <pre class="lager">GET /invoices</pre>
                 <pre>
                     <code class="javascript">var token = [TOKEN]; // Token received during login
@@ -1138,6 +1158,29 @@ fetch("https://lager.emilfolino.se/order", {
 });</code>
                 </pre>
 
+                <pre class="lager">POST /delivery</pre>
+                <pre>
+                    <code class="javascript">var delivery = {
+    id: 1,
+    product_id: 2,
+    amount: 12,
+    delivery_date: "2018-02-14",
+    comment: "Delivery for Valentines Day",
+    api_key: [YOUR_API_KEY]
+};
+
+fetch("https://lager.emilfolino.se/delivery", {
+    body: JSON.stringify(delivery),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST'
+})
+.then(function (response) {
+
+});</code>
+                </pre>
+
                 <pre class="lager">GET /invoices</pre>
                 <pre>
                     <code class="javascript">fetch("https://lager.emilfolino.se/invoices?api_key=[YOUR_API_KEY]", {
@@ -1181,8 +1224,26 @@ fetch("https://lager.emilfolino.se/order", {
 
 m.request({
     method: "PUT",
-    url: "https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]",
+    url: "https://lager.emilfolino.se/product",
     data: order
+});</code>
+                </pre>
+
+                <pre class="lager">POST /delivery</pre>
+                <pre>
+                    <code class="javascript">var delivery = {
+    id: 1,
+    product_id: 2,
+    amount: 12,
+    delivery_date: "2018-02-14",
+    comment: "Delivery for Valentines Day",
+    api_key: [YOUR_API_KEY]
+};
+
+m.request({
+    method: "POST",
+    url: "https://lager.emilfolino.se/product",
+    data: delivery
 });</code>
                 </pre>
 
