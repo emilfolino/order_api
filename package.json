@@ -8,10 +8,11 @@
   },
   "main": "app.js",
   "scripts": {
+    "pretest": "rm db/test.sqlite && touch db/test.sqlite && cat db/migrate.sql | sqlite3 db/test.sqlite && cat db/status_seed.sql | sqlite3 db/test.sqlite",
     "test": "nyc --reporter=html --reporter=text mocha --timeout 10000",
+    "posttest": "npm run eslint",
     "start": "node app.js",
     "clean": "rm -rf node_modules package-lock.json",
-    "posttest": "npm run eslint",
     "eslint": "eslint ."
   },
   "author": "Emil Folino",
