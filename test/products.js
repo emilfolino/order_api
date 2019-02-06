@@ -171,8 +171,8 @@ describe('products', () => {
         it('should get 200 HAPPY PATH testing for special characters', (done) => {
             let product = {
                 id: 11,
-                name: "öäåÅÄÖ!#€%&/()=?\'\"éñ''",
-                description: "öäåÅÄÖ!#€%&/()=?\'\"éñ''",
+                name: "öäåÅÄÖ!#€%&/()=?'\"éñ''",
+                description: "öäåÅÄÖ!#€%&/()=?'\"éñ''",
                 price: 14,
                 api_key: apiKey
             };
@@ -206,7 +206,7 @@ describe('products', () => {
             let product = {
                 id: 12,
                 name: "'; DROP TABLE products;--",
-                description: "öäåÅÄÖ!#€%&/()=?\'\"éñ''",
+                description: "öäåÅÄÖ!#€%&/()=?'\"éñ''",
                 price: 14,
                 api_key: apiKey
             };

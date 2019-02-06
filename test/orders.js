@@ -24,44 +24,49 @@ describe('orders', () => {
                 if (err) {
                     console.log("Could not empty test DB", err.message);
                 }
-            });
 
-            db.run("DELETE FROM products", (err) => {
-                if (err) {
-                    console.log("Could not empty test DB table orders", err.message);
-                }
-            });
+                db.run("DELETE FROM products", (err) => {
+                    if (err) {
+                        console.log("Could not empty test DB table orders", err.message);
+                    }
 
-            db.run("DELETE FROM orders", (err) => {
-                if (err) {
-                    console.log("Could not empty test DB table orders", err.message);
-                }
-            });
+                    db.run("DELETE FROM orders", (err) => {
+                        if (err) {
+                            console.log("Could not empty test DB table orders", err.message);
+                        }
 
-            db.run("DELETE FROM order_items", (err) => {
-                if (err) {
-                    console.log("Could not empty test DB table orders", err.message);
-                }
-            });
+                        db.run("DELETE FROM order_items", (err) => {
+                            if (err) {
+                                console.log("Could not empty test DB table orders", err.message);
+                            }
 
-            db.run("DELETE FROM status", (err) => {
-                if (err) {
-                    console.log("Could not empty test DB table orders", err.message);
-                }
-            });
+                            db.run("DELETE FROM status", (err) => {
+                                if (err) {
+                                    console.log(
+                                        "Could not empty test DB table orders",
+                                        err.message
+                                    );
+                                }
 
-            exec('cat db/status_seed.sql | sqlite3 db/test.sqlite', (error, stdout, stderr) => {
-                if (error) {
-                    console.log(error.message);
-                    return;
-                }
+                                exec(
+                                    'cat db/status_seed.sql | sqlite3 db/test.sqlite',
+                                    (error, stdout, stderr) => {
+                                        if (error) {
+                                            console.log(error.message);
+                                            return;
+                                        }
 
-                if (stderr) {
-                    console.log(stderr);
-                    return;
-                }
+                                        if (stderr) {
+                                            console.log(stderr);
+                                            return;
+                                        }
 
-                resolve();
+                                        resolve();
+                                    });
+                            });
+                        });
+                    });
+                });
             });
         });
     });
