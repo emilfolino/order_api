@@ -1,13 +1,15 @@
-## Local Installation
+## Lager API
 
-To get up and running do the following:
+Deployed at [https://lager.emilfolino.se/](https://lager.emilfolino.se/).
 
-1. Create the file db/orders.sqlite.
 
-1. Read the db/migrate.sql file into the db/orders.sqlite db.
+## Badges
 
-1. Optional: Read the db/seed.sql and db/status_seed.sql file into the db/orders.sqlite db.
 
-1. Run: npm install
+[![Build Status](https://travis-ci.org/emilfolino/order_api.svg?branch=master)](https://travis-ci.org/emilfolino/order_api)
 
-1. Run: npm start
+[![CircleCI](https://circleci.com/gh/emilfolino/order_api.svg?style=svg)](https://circleci.com/gh/emilfolino/order_api)
+
+<!-- [![Build Status](https://scrutinizer-ci.com/g/emilfolino/ramverk2-me/badges/build.png?b=master)](https://scrutinizer-ci.com/g/emilfolino/ramverk2-me/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/emilfolino/ramverk2-me/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/emilfolino/ramverk2-me/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/emilfolino/ramverk2-me/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/emilfolino/ramverk2-me/?branch=master) -->
