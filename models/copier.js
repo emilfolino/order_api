@@ -1,10 +1,18 @@
 const db = require("../db/database.js");
 const products = require("./products.js");
 const orders = require("./orders.js");
-const config = require('../config/config.json');
+
+let config = {};
+
+try {
+    config = require('../config/config.json');
+} catch (error) {
+    console.log(error);
+}
+
 
 const copier = (function () {
-    const copyApiKey = config.copyApiKey;
+    const copyApiKey = process.env.COPY_API_KEY || config.copyApiKey;
 
     function copyAll(res, apiKey) {
         let sql = "INSERT INTO products" +

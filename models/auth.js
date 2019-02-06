@@ -5,7 +5,15 @@ const validator = require("email-validator");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const config = require('../config/config.json');
+let config = {};
+
+try {
+    config = require('../config/config.json');
+} catch (error) {
+    console.log(error);
+}
+
+const jwtSecret = process.env.JWT_SECRET || config.copyApiKey;
 
 module.exports = (function () {
     function isValidAPIKey(apiKey, next, path, res) {
@@ -169,7 +177,7 @@ module.exports = (function () {
 
                     if (result) {
                         let payload = { api_key: user.apiKey, email: user.email };
-                        let jwtToken = jwt.sign(payload, config.secret, { expiresIn: '24h' });
+                        let jwtToken = jwt.sign(payload, jwtSecret, { expiresIn: '24h' });
 
                         return res.json({
                             data: {
@@ -249,7 +257,7 @@ module.exports = (function () {
         var token = req.headers['x-access-token'];
 
         if (token) {
-            jwt.verify(token, config.secret, function(err, decoded) {
+            jwt.verify(token, jwtSecret, function(err, decoded) {
                 if (err) {
                     return res.status(500).json({
                         errors: {
