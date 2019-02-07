@@ -13,7 +13,7 @@ try {
     console.log(error);
 }
 
-const jwtSecret = process.env.JWT_SECRET || config.copyApiKey;
+const jwtSecret = process.env.JWT_SECRET || config.secret;
 
 module.exports = (function () {
     function isValidAPIKey(apiKey, next, path, res) {

@@ -1,31 +1,31 @@
 const db = require("../db/database.js");
 
-module.exports = (function () {
-    const dataFields = "productId as id, articleNumber as article_number," +
+const products = {
+    dataFields: "ROWID as id, articleNumber as article_number," +
         " productName as name, productDescription as description," +
-        " productSpecifiers as specifiers, stock, location, (price / 100) as price";
+        " productSpecifiers as specifiers, stock, location, (price / 100) as price",
 
-    function getAllProducts(res, apiKey, status=200) {
-        db.all("SELECT " + dataFields + " FROM products WHERE apiKey = ?",
+    getAllProducts: function(res, apiKey, status=200) {
+        db.all("SELECT " + products.dataFields + " FROM products WHERE apiKey = ?",
             apiKey, (err, rows) => {
                 if (err) {
-                    return errorResponse(res, "/products", err);
+                    return products.errorResponse(res, "/products", err);
                 }
 
                 res.status(status).json( { data: rows } );
             });
-    }
+    },
 
-    function getProduct(res, apiKey, productId) {
+    getProduct: function(res, apiKey, productId, status=200) {
         if (Number.isInteger(parseInt(productId))) {
-            db.get("SELECT " + dataFields + " FROM products WHERE apiKey = ? AND productId = ?",
+            db.get("SELECT " + products.dataFields + " FROM products WHERE apiKey = ? AND ROWID = ?",
                 apiKey,
                 productId, (err, row) => {
                     if (err) {
-                        return errorResponse(res, "/product/:product_id", err);
+                        return products.errorResponse(res, "/product/:product_id", err);
                     }
 
-                    res.json( { data: row } );
+                    res.status(status).json( { data: row } );
                 });
         } else {
             res.status(400).json({
@@ -36,29 +36,28 @@ module.exports = (function () {
                 }
             });
         }
-    }
+    },
 
-    function searchProduct(res, apiKey, query) {
+    searchProduct: function(res, apiKey, query) {
         const searchQuery = "%" + query + "%";
 
-        db.all("SELECT " + dataFields + " FROM products WHERE apiKey = ? AND" +
+        db.all("SELECT " + products.dataFields + " FROM products WHERE apiKey = ? AND" +
             " (productName LIKE ? OR productDescription LIKE ?)",
         apiKey,
         searchQuery,
         searchQuery, (err, rows) => {
             if (err) {
-                return errorResponse(res, "/product/search/:query", err);
+                return products.errorResponse(res, "/product/search/:query", err);
             }
 
             res.json( { data: rows } );
         });
-    }
+    },
 
-    function addProduct(res, body) {
-        db.run("INSERT INTO products (productId, articleNumber, productName," +
+    addProduct: function(res, body) {
+        db.run("INSERT INTO products (articleNumber, productName," +
             " productDescription, productSpecifiers, stock, location, price, apiKey)" +
-            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        body.id,
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         body.article_number,
         body.name,
         body.description,
@@ -68,14 +67,14 @@ module.exports = (function () {
         parseInt(body.price) * 100,
         body.api_key, (err) => {
             if (err) {
-                return errorResponse(res, "/product/search/:query", err);
+                return products.errorResponse(res, "/product/search/:query", err);
             }
 
-            res.status(201).json({ data: body });
+            products.getProduct(res, body.api_key, this.lastID, 201);
         });
-    }
+    },
 
-    function updateProduct(res, body) {
+    updateProduct: function(res, body) {
         if (Number.isInteger(parseInt(body.id))) {
             db.run("UPDATE products SET articleNumber = ?, productName = ?," +
                 " productDescription = ?, productSpecifiers = ?," +
@@ -91,7 +90,7 @@ module.exports = (function () {
             body.api_key,
             body.id, (err) => {
                 if (err) {
-                    return errorResponse(res, "/product", err);
+                    return products.errorResponse(res, "/product", err);
                 }
 
                 res.status(204).send();
@@ -105,15 +104,15 @@ module.exports = (function () {
                 }
             });
         }
-    }
+    },
 
-    function deleteProduct(res, body) {
+    deleteProduct: function(res, body) {
         if (Number.isInteger(parseInt(body.id))) {
             db.run("DELETE FROM products WHERE apiKey = ? AND productId = ?",
                 body.api_key,
                 body.id, (err) => {
                     if (err) {
-                        return errorResponse(res, "/product", err);
+                        return products.errorResponse(res, "/product", err);
                     }
 
                     res.status(204).send();
@@ -127,9 +126,9 @@ module.exports = (function () {
                 }
             });
         }
-    }
+    },
 
-    function errorResponse(res, path, err) {
+    errorResponse: function(res, path, err) {
         return res.status(500).json({
             errors: {
                 status: 500,
@@ -139,13 +138,6 @@ module.exports = (function () {
             }
         });
     }
+};
 
-    return {
-        getAllProducts: getAllProducts,
-        getProduct: getProduct,
-        searchProduct: searchProduct,
-        addProduct: addProduct,
-        updateProduct: updateProduct,
-        deleteProduct: deleteProduct,
-    };
-}());
+module.exports = products;

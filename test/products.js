@@ -66,28 +66,6 @@ describe('products', () => {
     });
 
     describe('POST /product', () => {
-        it('should get 500 as we do not supply id', (done) => {
-            let product = {
-                name: "Screw",
-                description: "Mighty fine screw.",
-                api_key: apiKey
-            };
-
-            chai.request(server)
-                .post("/product")
-                .send(product)
-                .end((err, res) => {
-                    res.should.have.status(500);
-                    res.body.should.be.an("object");
-                    res.body.should.have.property("errors");
-                    res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(500);
-                    res.body.errors.should.have.property("detail");
-
-                    done();
-                });
-        });
-
         it('should get 500 as we do not supply name', (done) => {
             let product = {
                 id: 1,
@@ -110,9 +88,8 @@ describe('products', () => {
                 });
         });
 
-        it('should get 200 HAPPY PATH', (done) => {
+        it('should get 201 HAPPY PATH', (done) => {
             let product = {
-                id: 1,
                 name: "Screw",
                 description: "Mighty fine screw.",
                 price: 12,
@@ -144,33 +121,8 @@ describe('products', () => {
                 });
         });
 
-        it('should get 500 SQL Error product_id UNIQUE CONSTRAINT', (done) => {
+        it('should get 201 HAPPY PATH testing for special characters', (done) => {
             let product = {
-                id: 1,
-                name: "Screw",
-                description: "Mighty fine screw.",
-                price: 12,
-                api_key: apiKey
-            };
-
-            chai.request(server)
-                .post("/product")
-                .send(product)
-                .end((err, res) => {
-                    res.should.have.status(500);
-                    res.body.should.be.an("object");
-                    res.body.should.have.property("errors");
-                    res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(500);
-                    res.body.errors.should.have.property("detail");
-
-                    done();
-                });
-        });
-
-        it('should get 200 HAPPY PATH testing for special characters', (done) => {
-            let product = {
-                id: 11,
                 name: "öäåÅÄÖ!#€%&/()=?'\"éñ''",
                 description: "öäåÅÄÖ!#€%&/()=?'\"éñ''",
                 price: 14,
