@@ -185,7 +185,7 @@ const orders = {
         body.country,
         body.status_id || 100,
         body.api_key,
-        function(err){
+        function(err) {
             if (err) {
                 return res.status(500).json({
                     errors: {

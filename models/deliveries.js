@@ -39,7 +39,7 @@ const deliveries = {
                     });
                 }
 
-                res.status(201).json({ data: row });
+                res.status(status).json({ data: row });
             });
     },
 

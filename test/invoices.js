@@ -33,7 +33,6 @@ describe('invoices', () => {
                 });
             });
         });
-
     });
 
     describe('GET /invoices', () => {
