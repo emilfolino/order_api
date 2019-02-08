@@ -36,7 +36,7 @@ describe('copier', () => {
                         }
 
                         exec(
-                            'cat db/seed.sql | sqlite3 db/test.sqlite',
+                            'cat db/seed_v2.sql | sqlite3 db/test.sqlite',
                             (error, stdout, stderr) => {
                                 if (error) {
                                     console.log(error.message);
