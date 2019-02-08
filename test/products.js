@@ -100,7 +100,6 @@ describe('products', () => {
                 .post("/product")
                 .send(product)
                 .end((err, res) => {
-                    console.log(res);
                     res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.should.have.property("data");

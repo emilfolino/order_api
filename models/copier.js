@@ -16,8 +16,7 @@ const copier = (function () {
 
     function copyAll(res, apiKey) {
         let sql = "INSERT INTO products" +
-            " (productId," +
-            " articleNumber," +
+            " (articleNumber," +
             " productName," +
             " productDescription," +
             " productSpecifiers," +
@@ -25,8 +24,7 @@ const copier = (function () {
             " location," +
             " price," +
             " apiKey)" +
-            " SELECT productId," +
-            " articleNumber," +
+            " SELECT articleNumber," +
             " productName," +
             " productDescription," +
             " productSpecifiers," +
@@ -117,8 +115,7 @@ const copier = (function () {
 
     function copyProducts(res, apiKey) {
         let sql = "INSERT INTO products" +
-            " (productId," +
-            " articleNumber," +
+            " (articleNumber," +
             " productName," +
             " productDescription," +
             " productSpecifiers," +
@@ -126,8 +123,7 @@ const copier = (function () {
             " location," +
             " price," +
             " apiKey)" +
-            " SELECT productId," +
-            " articleNumber," +
+            " SELECT articleNumber," +
             " productName," +
             " productDescription," +
             " productSpecifiers," +
