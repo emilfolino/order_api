@@ -66,31 +66,6 @@ describe('deliveries', () => {
     });
 
     describe('POST /delivery', () => {
-        it('should get 500 as we do not supply id', (done) => {
-            let delivery = {
-                // id: 1,
-                product_id: 1,
-                amount: 10,
-                delivery_date: "2018-02-01",
-                comment: "Leverans av skruvar",
-                api_key: apiKey
-            };
-
-            chai.request(server)
-                .post("/delivery")
-                .send(delivery)
-                .end((err, res) => {
-                    res.should.have.status(500);
-                    res.body.should.be.an("object");
-                    res.body.should.have.property("errors");
-                    res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(500);
-                    res.body.errors.should.have.property("detail");
-
-                    done();
-                });
-        });
-
         it('should get 500 as we do not supply productId', (done) => {
             let delivery = {
                 id: 1,
@@ -168,7 +143,6 @@ describe('deliveries', () => {
 
         it('should get 201 HAPPY PATH', (done) => {
             let delivery = {
-                id: 1,
                 product_id: 1,
                 amount: 10,
                 delivery_date: "2018-02-01",
@@ -183,6 +157,9 @@ describe('deliveries', () => {
                     res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.should.have.property("data");
+                    res.body.data.should.have.property("id");
+                    res.body.data.should.have.property("comment");
+                    res.body.data.comment.should.equal("Leverans av skruvar");
 
                     done();
                 });
@@ -196,31 +173,6 @@ describe('deliveries', () => {
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
                     res.body.data.length.should.be.equal(1);
-
-                    done();
-                });
-        });
-
-        it('should get 500 UNIQUE CONSTRAINT', (done) => {
-            let delivery = {
-                id: 1,
-                product_id: 1,
-                amount: 10,
-                delivery_date: "2018-02-01",
-                comment: "Leverans av skruvar",
-                api_key: apiKey
-            };
-
-            chai.request(server)
-                .post("/delivery")
-                .send(delivery)
-                .end((err, res) => {
-                    res.should.have.status(500);
-                    res.body.should.be.an("object");
-                    res.body.should.have.property("errors");
-                    res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(500);
-                    res.body.errors.should.have.property("detail");
 
                     done();
                 });
