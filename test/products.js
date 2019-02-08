@@ -100,6 +100,7 @@ describe('products', () => {
                 .post("/product")
                 .send(product)
                 .end((err, res) => {
+                    console.log(res);
                     res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.should.have.property("data");
@@ -156,7 +157,6 @@ describe('products', () => {
 
         it('should get 201 creating product with SQL injection', (done) => {
             let product = {
-                id: 12,
                 name: "'; DROP TABLE products;--",
                 description: "öäåÅÄÖ!#€%&/()=?'\"éñ''",
                 price: 14,
@@ -213,7 +213,7 @@ describe('products', () => {
 
         it('should get 200, but empty data object', (done) => {
             chai.request(server)
-                .get("/product/2?api_key=" + apiKey)
+                .get("/product/4?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.eql({});

@@ -65,9 +65,10 @@ const products = {
         body.stock,
         body.location,
         parseInt(body.price) * 100,
-        body.api_key, (err) => {
+        body.api_key,
+        function(err) {
             if (err) {
-                return products.errorResponse(res, "/product/search/:query", err);
+                return products.errorResponse(res, "POST /product", err);
             }
 
             products.getProduct(res, body.api_key, this.lastID, 201);
@@ -79,7 +80,7 @@ const products = {
             db.run("UPDATE products SET articleNumber = ?, productName = ?," +
                 " productDescription = ?, productSpecifiers = ?," +
                 " stock = ?, location = ?, price = ?" +
-                " WHERE apiKey = ? AND productId = ?",
+                " WHERE apiKey = ? AND ROWID = ?",
             body.article_number,
             body.name,
             body.description,
@@ -108,7 +109,7 @@ const products = {
 
     deleteProduct: function(res, body) {
         if (Number.isInteger(parseInt(body.id))) {
-            db.run("DELETE FROM products WHERE apiKey = ? AND productId = ?",
+            db.run("DELETE FROM products WHERE apiKey = ? AND ROWID = ?",
                 body.api_key,
                 body.id, (err) => {
                     if (err) {
