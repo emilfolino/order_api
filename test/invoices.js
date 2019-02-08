@@ -18,11 +18,22 @@ let token = "";
 
 describe('invoices', () => {
     before(() => {
-        db.run("DELETE FROM invoices", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table products", err.message);
-            }
+        return new Promise((resolve) => {
+            db.run("DELETE FROM invoices", (err) => {
+                if (err) {
+                    console.log("Could not empty test DB table invoices", err.message);
+                }
+
+                db.run("DELETE FROM orders", (err) => {
+                    if (err) {
+                        console.log("Could not empty test DB table orders", err.message);
+                    }
+
+                    resolve();
+                });
+            });
         });
+
     });
 
     describe('GET /invoices', () => {
@@ -143,7 +154,6 @@ describe('invoices', () => {
     describe('POST /invoice', () => {
         it('should get 201 HAPPY PATH creating order', (done) => {
             let order = {
-                id: 1,
                 name: "Anders",
                 api_key: apiKey
             };
@@ -160,33 +170,8 @@ describe('invoices', () => {
                 });
         });
 
-        it('should get 500 as we do not supply id', (done) => {
-            let invoice = {
-                // id: 1,
-                order_id: 1,
-                total_price: 100,
-                api_key: apiKey
-            };
-
-            chai.request(server)
-                .post("/invoice")
-                .set("x-access-token", token)
-                .send(invoice)
-                .end((err, res) => {
-                    res.should.have.status(500);
-                    res.body.should.be.an("object");
-                    res.body.should.have.property("errors");
-                    res.body.errors.should.have.property("status");
-                    res.body.errors.status.should.be.equal(500);
-                    res.body.errors.should.have.property("detail");
-
-                    done();
-                });
-        });
-
         it('should get 500 as we do not supply order_id', (done) => {
             let invoice = {
-                id: 1,
                 // order_id: 1,
                 total_price: 100,
                 api_key: apiKey
@@ -210,7 +195,6 @@ describe('invoices', () => {
 
         it('should get 500 as we do not supply total_price', (done) => {
             let invoice = {
-                id: 1,
                 order_id: 1,
                 // total_price: 100,
                 api_key: apiKey
@@ -234,7 +218,6 @@ describe('invoices', () => {
 
         it('should get 401 not providing token', (done) => {
             let invoice = {
-                id: 1,
                 order_id: 1,
                 total_price: 100,
                 api_key: apiKey
@@ -254,7 +237,6 @@ describe('invoices', () => {
 
         it('should get 201 HAPPY PATH', (done) => {
             let invoice = {
-                id: 1,
                 order_id: 1,
                 total_price: 100,
                 api_key: apiKey
@@ -282,27 +264,6 @@ describe('invoices', () => {
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
                     res.body.data.length.should.be.equal(1);
-
-                    done();
-                });
-        });
-
-        it('should get 500 UNIQUE CONSTRAINT', (done) => {
-            let invoice = {
-                id: 1,
-                order_id: 1,
-                total_price: 100,
-                api_key: apiKey
-            };
-
-            chai.request(server)
-                .post("/invoice")
-                .set("x-access-token", token)
-                .send(invoice)
-                .end((err, res) => {
-                    res.should.have.status(500);
-                    res.body.should.be.an("object");
-                    res.body.errors.status.should.be.equal(500);
 
                     done();
                 });

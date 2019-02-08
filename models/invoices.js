@@ -1,15 +1,15 @@
 const db = require("../db/database.js");
 
-module.exports = (function () {
-    const dataFields = "invoiceId as id, o.orderId as order_id," +
+const invoices = {
+    dataFields: "i.ROWID as id, o.ROWID as order_id," +
         " customerName as name, customerAddress as address," +
         " customerZip as zip, customerCity as city," +
-        " customerCountry as country, (totalPrice / 100) as total_price";
+        " customerCountry as country, (totalPrice / 100) as total_price",
 
-    function getInvoices(res, apiKey) {
-        db.all("SELECT " + dataFields +
+    getInvoices: function(res, apiKey) {
+        db.all("SELECT " + invoices.dataFields +
             " FROM invoices i" +
-            " INNER JOIN orders o ON o.orderId = i.orderId AND o.apiKey = i.apiKey" +
+            " INNER JOIN orders o ON o.ROWID = i.orderId AND o.apiKey = i.apiKey" +
             " WHERE i.apiKey = ?",
         apiKey, (err, rows) => {
             if (err) {
@@ -25,17 +25,17 @@ module.exports = (function () {
 
             res.json( { data: rows } );
         });
-    }
+    },
 
-    function getInvoice(res, apiKey, invoiceId) {
+    getInvoice: function(res, apiKey, invoiceId, status=200) {
         if (Number.isInteger(parseInt(invoiceId))) {
-            db.get("SELECT " + dataFields +
+            db.get("SELECT " + invoices.dataFields +
                     " FROM invoices i" +
-                    " INNER JOIN orders o ON o.orderId = i.orderId AND o.apiKey = i.apiKey" +
-                    " WHERE i.apiKey = ? AND invoiceId = ?",
+                    " INNER JOIN orders o ON o.ROWID = i.orderId AND o.apiKey = i.apiKey" +
+                    " WHERE i.apiKey = ? AND i.ROWID = ?",
             apiKey,
             invoiceId,
-            (err, row) => {
+            function(err, row) {
                 if (err) {
                     return res.status(500).json({
                         errors: {
@@ -47,7 +47,7 @@ module.exports = (function () {
                     });
                 }
 
-                res.json( { data: row } );
+                res.status(status).json( { data: row } );
             });
         } else {
             res.status(400).json({
@@ -58,15 +58,15 @@ module.exports = (function () {
                 }
             });
         }
-    }
+    },
 
-    function addInvoice(res, body) {
-        db.run("INSERT INTO invoices (invoiceId, orderId, totalPrice, apiKey)" +
-            " VALUES (?, ?, ?, ?)",
-        body.id,
+    addInvoice: function(res, body) {
+        db.run("INSERT INTO invoices (orderId, totalPrice, apiKey)" +
+            " VALUES (?, ?, ?)",
         body.order_id,
         body.total_price * 100,
-        body.api_key, (err) => {
+        body.api_key,
+        function (err) {
             if (err) {
                 return res.status(500).json({
                     errors: {
@@ -76,15 +76,11 @@ module.exports = (function () {
                         detail: err.message
                     }
                 });
-            } else {
-                res.status(201).json({ data: body });
             }
+
+            invoices.getInvoice(res, body.api_key, this.lastID, 201);
         });
     }
+};
 
-    return {
-        getInvoices: getInvoices,
-        getInvoice: getInvoice,
-        addInvoice: addInvoice
-    };
-}());
+module.exports = invoices;

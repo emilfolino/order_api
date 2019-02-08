@@ -176,9 +176,8 @@ module.exports = (function () {
     }
 
     function addOrder(res, body) {
-        db.run("INSERT INTO orders (orderId, customerName, customerAddress, customerZip," +
-            " customerCity, customerCountry, statusId, apiKey) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-        body.id,
+        db.run("INSERT INTO orders (customerName, customerAddress, customerZip," +
+            " customerCity, customerCountry, statusId, apiKey) VALUES (?, ?, ?, ?, ?, ?, ?)",
         body.name,
         body.address,
         body.zip,
