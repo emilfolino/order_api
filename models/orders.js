@@ -1,20 +1,20 @@
 const db = require("../db/database.js");
 
-module.exports = (function () {
-    const dataFields = "o.ROWID as id, customerName as name," +
+const orders = {
+    dataFields: "o.ROWID as id, customerName as name," +
         " customerAddress as address," +
         " customerZip as zip, customerCity as city," +
-        " customerCountry as country, s.status, s.id as status_id";
+        " customerCountry as country, s.status, s.id as status_id",
 
-    const orderItemsDataFields = "oi.productId as product_id, oi.amount," +
+    orderItemsDataFields: "oi.productId as product_id, oi.amount," +
         " p.articleNumber as article_number, p.productName as name," +
         " p.productDescription as description, p.productSpecifiers as specifiers," +
-        " p.stock, p.location, (p.price/100) as price";
+        " p.stock, p.location, (p.price/100) as price",
 
-    function getAllOrders(res, apiKey, status=200) {
-        let orders = { data: []};
+    getAllOrders: function(res, apiKey, status=200) {
+        let returnedOrders = { data: []};
 
-        db.all("SELECT " + dataFields +
+        db.all("SELECT " + orders.dataFields +
             " FROM orders o INNER JOIN status s ON s.id = o.statusId" +
             " WHERE o.apiKey = ?",
         apiKey, (err, orderRows) => {
@@ -30,11 +30,11 @@ module.exports = (function () {
             }
 
             if (orderRows.length === 0) {
-                return res.status(status).json(orders);
+                return res.status(status).json(returnedOrders);
             }
 
             orderRows.forEach(function(order) {
-                db.all("SELECT " + orderItemsDataFields + " FROM order_items oi " +
+                db.all("SELECT " + orders.orderItemsDataFields + " FROM order_items oi " +
                     "INNER JOIN products p ON oi.productId=p.ROWID AND oi.apiKey=p.apiKey" +
                     " WHERE oi.apiKey = ? AND oi.orderId = ?",
                 apiKey,
@@ -51,21 +51,21 @@ module.exports = (function () {
                     }
 
                     order.order_items = orderItemRows;
-                    orders.data.push(order);
+                    returnedOrders.data.push(order);
 
-                    if (orders.data.length === orderRows.length) {
-                        res.status(status).json(orders);
+                    if (returnedOrders.data.length === orderRows.length) {
+                        res.status(status).json(returnedOrders);
                     }
                 });
             });
         });
-    }
+    },
 
-    function getOrder(res, apiKey, orderId) {
+    getOrder: function(res, apiKey, orderId, status=200) {
         if (Number.isInteger(parseInt(orderId))) {
-            db.get("SELECT " + dataFields +
+            db.get("SELECT " + orders.dataFields +
                 " FROM orders o INNER JOIN status s ON s.id = o.statusId" +
-                " WHERE o.apiKey = ? AND orderId = ?",
+                " WHERE o.apiKey = ? AND o.ROWID = ?",
             apiKey,
             orderId, (err, order) => {
                 if (err) {
@@ -80,11 +80,11 @@ module.exports = (function () {
                 }
 
                 if (order === undefined) {
-                    return res.json({ data: {} });
+                    return res.status(status).json({ data: {} });
                 }
 
                 order.order_items = [];
-                db.each("SELECT " + orderItemsDataFields + " FROM order_items oi " +
+                db.each("SELECT " + orders.orderItemsDataFields + " FROM order_items oi " +
                     " INNER JOIN products p ON oi.productId=p.ROWID" +
                     " AND oi.apiKey=p.apiKey" +
                     " WHERE oi.apiKey = ? AND oi.orderId = ?",
@@ -103,7 +103,7 @@ module.exports = (function () {
 
                     order.order_items.push(orderItemRow);
                 }, function () {
-                    res.json({ data: order });
+                    res.status(status).json({ data: order });
                 });
             });
         } else {
@@ -115,13 +115,13 @@ module.exports = (function () {
                 }
             });
         }
-    }
+    },
 
-    function searchOrder(res, apiKey, query) {
+    searchOrder: function(res, apiKey, query) {
         const searchQuery = "%" + query + "%";
-        let orders = { data: []};
+        let returnedOrders = { data: []};
 
-        db.all("SELECT " + dataFields +
+        db.all("SELECT " + orders.dataFields +
             " FROM orders o INNER JOIN status s ON s.id = o.statusId" +
             " WHERE o.apiKey = ? AND" +
             "(customerName LIKE ? OR customerAddress LIKE ? OR customerZip LIKE ?" +
@@ -144,11 +144,11 @@ module.exports = (function () {
             }
 
             if (orderRows.length === 0) {
-                return res.json(orders);
+                return res.json(returnedOrders);
             }
 
             orderRows.forEach(function(order) {
-                db.all("SELECT " + orderItemsDataFields + " FROM order_items oi " +
+                db.all("SELECT " + orders.orderItemsDataFields + " FROM order_items oi " +
                     " INNER JOIN products p ON oi.productId=p.ROWID" +
                     " AND oi.apiKey=p.apiKey WHERE oi.apiKey = ? AND oi.orderId = ?",
                 apiKey,
@@ -165,17 +165,17 @@ module.exports = (function () {
                     }
 
                     order.order_items = orderItemRows;
-                    orders.data.push(order);
+                    returnedOrders.data.push(order);
 
-                    if (orders.data.length === orderRows.length) {
-                        res.json(orders);
+                    if (returnedOrders.data.length === orderRows.length) {
+                        res.json(returnedOrders);
                     }
                 });
             });
         });
-    }
+    },
 
-    function addOrder(res, body) {
+    addOrder: function(res, body) {
         db.run("INSERT INTO orders (customerName, customerAddress, customerZip," +
             " customerCity, customerCountry, statusId, apiKey) VALUES (?, ?, ?, ?, ?, ?, ?)",
         body.name,
@@ -184,7 +184,8 @@ module.exports = (function () {
         body.city,
         body.country,
         body.status_id || 100,
-        body.api_key, (err) => {
+        body.api_key,
+        function(err){
             if (err) {
                 return res.status(500).json({
                     errors: {
@@ -194,17 +195,18 @@ module.exports = (function () {
                         detail: err.message
                     }
                 });
-            } else {
-                res.status(201).json({ data: body });
             }
-        });
-    }
 
-    function updateOrder(res, body) {
+            orders.getOrder(res, body.api_key, this.lastID, 201);
+        });
+    },
+
+    updateOrder: function(res, body) {
         if (Number.isInteger(parseInt(body.id))) {
-            db.run("UPDATE orders SET customerName = ?, customerAddress = ?, customerZip = ?," +
+            db.run("UPDATE orders SET customerName = ?," +
+                " customerAddress = ?, customerZip = ?," +
                 " customerCity = ?, customerCountry = ?, statusId = ?" +
-                " WHERE apiKey = ? AND orderId = ?",
+                " WHERE apiKey = ? AND ROWID = ?",
             body.name,
             body.address,
             body.zip,
@@ -235,11 +237,11 @@ module.exports = (function () {
                 }
             });
         }
-    }
+    },
 
-    function deleteOrder(res, body) {
+    deleteOrder: function(res, body) {
         if (Number.isInteger(parseInt(body.id))) {
-            db.run("DELETE FROM orders WHERE apiKey = ? AND orderId = ?",
+            db.run("DELETE FROM orders WHERE apiKey = ? AND ROWID = ?",
                 body.api_key,
                 body.id, (err) => {
                     if (err) {
@@ -280,13 +282,6 @@ module.exports = (function () {
             });
         }
     }
+};
 
-    return {
-        getAllOrders: getAllOrders,
-        getOrder: getOrder,
-        searchOrder: searchOrder,
-        addOrder: addOrder,
-        updateOrder: updateOrder,
-        deleteOrder: deleteOrder,
-    };
-}());
+module.exports = orders;
