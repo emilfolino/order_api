@@ -85,7 +85,7 @@ module.exports = (function () {
 
                 order.order_items = [];
                 db.each("SELECT " + orderItemsDataFields + " FROM order_items oi " +
-                    " INNER JOIN products p ON oi.productId=p.productId" +
+                    " INNER JOIN products p ON oi.productId=p.ROWID" +
                     " AND oi.apiKey=p.apiKey" +
                     " WHERE oi.apiKey = ? AND oi.orderId = ?",
                 apiKey,
@@ -149,7 +149,7 @@ module.exports = (function () {
 
             orderRows.forEach(function(order) {
                 db.all("SELECT " + orderItemsDataFields + " FROM order_items oi " +
-                    " INNER JOIN products p ON oi.productId=p.productId" +
+                    " INNER JOIN products p ON oi.productId=p.ROWID" +
                     " AND oi.apiKey=p.apiKey WHERE oi.apiKey = ? AND oi.orderId = ?",
                 apiKey,
                 order.id, (err, orderItemRows) => {
