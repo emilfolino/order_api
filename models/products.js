@@ -18,7 +18,10 @@ const products = {
 
     getProduct: function(res, apiKey, productId, status=200) {
         if (Number.isInteger(parseInt(productId))) {
-            db.get("SELECT " + products.dataFields + " FROM products WHERE apiKey = ? AND ROWID = ?",
+            db.get(
+                "SELECT " +
+                products.dataFields +
+                " FROM products WHERE apiKey = ? AND ROWID = ?",
                 apiKey,
                 productId, (err, row) => {
                     if (err) {
