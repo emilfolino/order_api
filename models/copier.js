@@ -47,16 +47,14 @@ const copier = (function () {
                 });
             } else {
                 let sql = "INSERT INTO orders" +
-                    " (orderId," +
-                    " customerName," +
+                    " (customerName," +
                     " customerAddress," +
                     " customerZip," +
                     " customerCity," +
                     " customerCountry," +
                     " statusId," +
                     " apiKey)" +
-                    " SELECT orderId," +
-                    " customerName," +
+                    " SELECT customerName," +
                     " customerAddress," +
                     " customerZip," +
                     " customerCity," +
@@ -152,16 +150,14 @@ const copier = (function () {
 
     function copyOrders(res, apiKey) {
         let sql = "INSERT INTO orders" +
-            " (orderId," +
-            " customerName," +
+            " (customerName," +
             " customerAddress," +
             " customerZip," +
             " customerCity," +
             " customerCountry," +
             " statusId," +
             " apiKey)" +
-            " SELECT orderId," +
-            " customerName," +
+            " SELECT customerName," +
             " customerAddress," +
             " customerZip," +
             " customerCity," +

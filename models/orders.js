@@ -1,7 +1,7 @@
 const db = require("../db/database.js");
 
 module.exports = (function () {
-    const dataFields = "orderId as id, customerName as name," +
+    const dataFields = "o.ROWID as id, customerName as name," +
         " customerAddress as address," +
         " customerZip as zip, customerCity as city," +
         " customerCountry as country, s.status, s.id as status_id";
