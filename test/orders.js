@@ -102,7 +102,6 @@ describe('orders', () => {
             chai.request(server)
                 .get("/orders?api_key=" + apiKey)
                 .end((err, res) => {
-                    console.log(res.error);
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");

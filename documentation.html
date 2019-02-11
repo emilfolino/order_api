@@ -266,8 +266,7 @@ api_key</pre>
             <h3>To add a product:</h3>
             <pre class="lager">POST /product</pre>
             <p>Required parameters:</p>
-            <pre class="lager">id
-name
+            <pre class="lager">name
 api_key</pre>
 
             <p>Optional parameters:</p>
@@ -406,10 +405,10 @@ api_key</pre>
     },
     {
       "id": 3,
-      "name": "Carl Carlsson",
-      "address": "Carlsgatan 3",
+      "name": "Nora Norrby",
+      "address": "Norasgatan 3",
       "zip": "34567",
-      "city": "Karlstad",
+      "city": "Nora",
       "country": "Sweden",
       "status": "Ny",
       "status_id": 100,
@@ -429,10 +428,10 @@ api_key</pre>
     },
     {
       "id": 4,
-      "name": "David Davidsson",
-      "address": "Davidsallén 4",
+      "name": "Ulla Ullman Davidsson",
+      "address": "Ullasallén 4",
       "zip": "45678",
-      "city": "Davidstorp",
+      "city": "Ullared",
       "country": "Sweden",
       "status": "Ny",
       "status_id": 100,
@@ -540,8 +539,7 @@ api_key</pre>
             <h3>To add an order:</h3>
             <pre class="lager">POST /order</pre>
             <p>Required parameters:</p>
-            <pre class="lager">id
-name
+            <pre class="lager">name
 api_key</pre>
             <p>Optional parameters:</p>
             <pre class="lager">address
@@ -679,8 +677,7 @@ api_key</pre>
             <h3>Add a delivery</h3>
             <pre class="lager">POST /delivery</pre>
             <p>Required parameters:</p>
-            <pre class="lager">id
-product_id
+            <pre class="lager">product_id
 amount
 delivery_date
 api_key</pre>
@@ -792,8 +789,7 @@ password</pre>
             <h3>Add invoice</h3>
             <pre class="lager">POST /invoice</pre>
             <p>Required parameters:</p>
-            <pre class="lager">id
-order_id
+            <pre class="lager">order_id
 total_price
 api_key</pre>
             <p>Result:</p>
@@ -983,10 +979,10 @@ api_key</pre>
         },
         {
             "id": 3,
-            "name": "Carl Carlsson",
-            "address": "Carlsgatan 3",
+            "name": "Nora Norrby",
+            "address": "Norasgatan 3",
             "zip": "34567",
-            "city": "Karlstad",
+            "city": "Nora",
             "country": "Sweden",
             "status": "Ny",
             "order_items": [
@@ -1005,10 +1001,10 @@ api_key</pre>
         },
         {
             "id": 4,
-            "name": "David Davidsson",
-            "address": "Davidsallén 4",
+            "name": "Ulla Ullman",
+            "address": "Ullasallén 4",
             "zip": "45678",
-            "city": "Davidstorp",
+            "city": "Ullared",
             "country": "Sweden",
             "status": "Ny",
             "order_items": [
