@@ -33,30 +33,40 @@ const orders = {
                 return res.status(status).json(returnedOrders);
             }
 
-            orderRows.forEach(function(order) {
-                db.all("SELECT " + orders.orderItemsDataFields + " FROM order_items oi " +
-                    "INNER JOIN products p ON oi.productId=p.ROWID AND oi.apiKey=p.apiKey" +
-                    " WHERE oi.apiKey = ? AND oi.orderId = ?",
+            return orders.getOrderItems(
+                res,
+                orderRows,
                 apiKey,
-                order.id, (err, orderItemRows) => {
-                    if (err) {
-                        return res.status(500).json({
-                            errors: {
-                                status: 500,
-                                source: "/orders order_items",
-                                title: "Database error",
-                                detail: err.message
-                            }
-                        });
-                    }
+                status,
+                returnedOrders
+            );
+        });
+    },
 
-                    order.order_items = orderItemRows;
-                    returnedOrders.data.push(order);
+    getOrderItems: function(res, orderRows, apiKey, status, returnedOrders) {
+        orderRows.forEach(function(order) {
+            db.all("SELECT " + orders.orderItemsDataFields + " FROM order_items oi " +
+                "INNER JOIN products p ON oi.productId=p.ROWID AND oi.apiKey=p.apiKey" +
+                " WHERE oi.apiKey = ? AND oi.orderId = ?",
+            apiKey,
+            order.id, (err, orderItemRows) => {
+                if (err) {
+                    return res.status(500).json({
+                        errors: {
+                            status: 500,
+                            source: "/orders order_items",
+                            title: "Database error",
+                            detail: err.message
+                        }
+                    });
+                }
 
-                    if (returnedOrders.data.length === orderRows.length) {
-                        res.status(status).json(returnedOrders);
-                    }
-                });
+                order.order_items = orderItemRows;
+                returnedOrders.data.push(order);
+
+                if (returnedOrders.data.length === orderRows.length) {
+                    return res.status(status).json(returnedOrders);
+                }
             });
         });
     },
@@ -103,7 +113,7 @@ const orders = {
 
                     order.order_items.push(orderItemRow);
                 }, function () {
-                    res.status(status).json({ data: order });
+                    return res.status(status).json({ data: order });
                 });
             });
         } else {
@@ -117,7 +127,7 @@ const orders = {
         }
     },
 
-    searchOrder: function(res, apiKey, query) {
+    searchOrder: function(res, apiKey, query, status=200) {
         const searchQuery = "%" + query + "%";
         let returnedOrders = { data: []};
 
@@ -144,34 +154,16 @@ const orders = {
             }
 
             if (orderRows.length === 0) {
-                return res.json(returnedOrders);
+                return res.status(status).json(returnedOrders);
             }
 
-            orderRows.forEach(function(order) {
-                db.all("SELECT " + orders.orderItemsDataFields + " FROM order_items oi " +
-                    " INNER JOIN products p ON oi.productId=p.ROWID" +
-                    " AND oi.apiKey=p.apiKey WHERE oi.apiKey = ? AND oi.orderId = ?",
+            return orders.getOrderItems(
+                res,
+                orderRows,
                 apiKey,
-                order.id, (err, orderItemRows) => {
-                    if (err) {
-                        return res.status(500).json({
-                            errors: {
-                                status: 500,
-                                source: "/order/search/" + query + " order_items",
-                                title: "Database error",
-                                detail: err.message
-                            }
-                        });
-                    }
-
-                    order.order_items = orderItemRows;
-                    returnedOrders.data.push(order);
-
-                    if (returnedOrders.data.length === orderRows.length) {
-                        res.json(returnedOrders);
-                    }
-                });
-            });
+                status,
+                returnedOrders
+            );
         });
     },
 
