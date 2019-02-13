@@ -9,7 +9,7 @@
   "main": "app.js",
   "scripts": {
     "pretest": "$(db/reset_test_db.bash)",
-    "test": "nyc --reporter=html --reporter=text mocha --timeout 10000",
+    "test": "nyc --reporter=html --reporter=text --reporter=clover mocha --timeout 10000",
     "posttest": "npm run eslint",
     "start": "node app.js",
     "clean": "rm -rf node_modules package-lock.json",
