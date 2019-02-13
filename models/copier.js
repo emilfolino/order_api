@@ -2,19 +2,19 @@ const db = require("../db/database.js");
 const products = require("./products.js");
 const orders = require("./orders.js");
 
-let config = {};
+let config;
 
 try {
     config = require('../config/config.json');
 } catch (error) {
-    console.log(error);
+    console.error(error);
 }
 
 
-const copier = (function () {
-    const copyApiKey = process.env.COPY_API_KEY || config.copyApiKey;
+const copier = {
+    copyApiKey: process.env.COPY_API_KEY || config.copyApiKey,
 
-    function copyAll(res, apiKey) {
+    copyAll: function(res, apiKey) {
         let sql = "INSERT INTO products" +
             " (articleNumber," +
             " productName," +
@@ -35,7 +35,7 @@ const copier = (function () {
             " FROM products" +
             " WHERE apiKey = ?";
 
-        db.run(sql, copyApiKey, (err) => {
+        db.run(sql, copier.copyApiKey, (err) => {
             if (err) {
                 return res.status(500).json({
                     errors: {
@@ -45,73 +45,73 @@ const copier = (function () {
                         detail: err.message
                     }
                 });
-            } else {
-                let sql = "INSERT INTO orders" +
-                    " (customerName," +
-                    " customerAddress," +
-                    " customerZip," +
-                    " customerCity," +
-                    " customerCountry," +
-                    " statusId," +
+            }
+
+            let sql = "INSERT INTO orders" +
+                " (customerName," +
+                " customerAddress," +
+                " customerZip," +
+                " customerCity," +
+                " customerCountry," +
+                " statusId," +
+                " apiKey)" +
+                " SELECT customerName," +
+                " customerAddress," +
+                " customerZip," +
+                " customerCity," +
+                " customerCountry," +
+                " statusId," +
+                "'" + apiKey + "'" +
+                " FROM orders" +
+                " WHERE apiKey = ?";
+
+            db.run(sql, copier.copyApiKey, (err) => {
+                if (err) {
+                    return res.status(500).json({
+                        errors: {
+                            status: 500,
+                            source: "/copy_orders",
+                            title: "Database error",
+                            detail: err.message
+                        }
+                    });
+                }
+
+                let orderItemsSQL = "INSERT INTO order_items" +
+                    " (orderId," +
+                    " productId," +
+                    " amount," +
                     " apiKey)" +
-                    " SELECT customerName," +
-                    " customerAddress," +
-                    " customerZip," +
-                    " customerCity," +
-                    " customerCountry," +
-                    " statusId," +
+                    " SELECT orderId," +
+                    " productId," +
+                    " amount," +
                     "'" + apiKey + "'" +
-                    " FROM orders" +
+                    " FROM order_items" +
                     " WHERE apiKey = ?";
 
-                db.run(sql, copyApiKey, (err) => {
+                db.run(orderItemsSQL, copier.copyApiKey, (err) => {
                     if (err) {
                         return res.status(500).json({
                             errors: {
                                 status: 500,
                                 source: "/copy_orders",
-                                title: "Database error",
+                                title: "Database error in order_items",
                                 detail: err.message
                             }
                         });
-                    } else {
-                        let orderItemsSQL = "INSERT INTO order_items" +
-                            " (orderId," +
-                            " productId," +
-                            " amount," +
-                            " apiKey)" +
-                            " SELECT orderId," +
-                            " productId," +
-                            " amount," +
-                            "'" + apiKey + "'" +
-                            " FROM order_items" +
-                            " WHERE apiKey = ?";
-
-                        db.run(orderItemsSQL, copyApiKey, (err) => {
-                            if (err) {
-                                return res.status(500).json({
-                                    errors: {
-                                        status: 500,
-                                        source: "/copy_orders",
-                                        title: "Database error in order_items",
-                                        detail: err.message
-                                    }
-                                });
-                            } else {
-                                return res.status(201).json({
-                                    data: {
-                                        message: "Products and orders have been copied"
-                                    }
-                                });
-                            }
-                        });
                     }
-                });
-            }
-        });
-    }
 
-    function copyProducts(res, apiKey) {
+                    return res.status(201).json({
+                        data: {
+                            message: "Products and orders have been copied"
+                        }
+                    });
+                });
+            });
+        });
+    },
+
+    copyProducts: function(res, apiKey) {
         let sql = "INSERT INTO products" +
             " (articleNumber," +
             " productName," +
@@ -132,7 +132,7 @@ const copier = (function () {
             " FROM products" +
             " WHERE apiKey = ?";
 
-        db.run(sql, copyApiKey, (err) => {
+        db.run(sql, copier.copyApiKey, (err) => {
             if (err) {
                 return res.status(500).json({
                     errors: {
@@ -142,13 +142,13 @@ const copier = (function () {
                         detail: err.message
                     }
                 });
-            } else {
-                products.getAllProducts(res, apiKey, 201);
             }
-        });
-    }
 
-    function copyOrders(res, apiKey) {
+            return products.getAllProducts(res, apiKey, 201);
+        });
+    },
+
+    copyOrders: function(res, apiKey) {
         let sql = "INSERT INTO orders" +
             " (customerName," +
             " customerAddress," +
@@ -167,7 +167,7 @@ const copier = (function () {
             " FROM orders" +
             " WHERE apiKey = ?";
 
-        db.run(sql, copyApiKey, (err) => {
+        db.run(sql, copier.copyApiKey, (err) => {
             if (err) {
                 return res.status(500).json({
                     errors: {
@@ -177,42 +177,36 @@ const copier = (function () {
                         detail: err.message
                     }
                 });
-            } else {
-                let orderItemsSQL = "INSERT INTO order_items" +
-                    " (orderId," +
-                    " productId," +
-                    " amount," +
-                    " apiKey)" +
-                    " SELECT orderId," +
-                    " productId," +
-                    " amount," +
-                    "'" + apiKey + "'" +
-                    " FROM order_items" +
-                    " WHERE apiKey = ?";
-
-                db.run(orderItemsSQL, copyApiKey, (err) => {
-                    if (err) {
-                        return res.status(500).json({
-                            errors: {
-                                status: 500,
-                                source: "/copy_orders",
-                                title: "Database error in order_items",
-                                detail: err.message
-                            }
-                        });
-                    } else {
-                        orders.getAllOrders(res, apiKey, 201);
-                    }
-                });
             }
+
+            let orderItemsSQL = "INSERT INTO order_items" +
+                " (orderId," +
+                " productId," +
+                " amount," +
+                " apiKey)" +
+                " SELECT orderId," +
+                " productId," +
+                " amount," +
+                "'" + apiKey + "'" +
+                " FROM order_items" +
+                " WHERE apiKey = ?";
+
+            db.run(orderItemsSQL, copier.copyApiKey, (err) => {
+                if (err) {
+                    return res.status(500).json({
+                        errors: {
+                            status: 500,
+                            source: "/copy_orders",
+                            title: "Database error in order_items",
+                            detail: err.message
+                        }
+                    });
+                }
+
+                return orders.getAllOrders(res, apiKey, 201);
+            });
         });
     }
-
-    return {
-        copyAll: copyAll,
-        copyProducts: copyProducts,
-        copyOrders: copyOrders,
-    };
-}());
+};
 
 module.exports = copier;
