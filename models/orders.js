@@ -117,7 +117,7 @@ const orders = {
                 });
             });
         } else {
-            res.status(400).json({
+            return res.status(400).json({
                 errors: {
                     status: 400,
                     detail: "Required attribute order id " +
@@ -189,7 +189,7 @@ const orders = {
                 });
             }
 
-            orders.getOrder(res, body.api_key, this.lastID, 201);
+            return orders.getOrder(res, body.api_key, this.lastID, 201);
         });
     },
 
@@ -216,12 +216,12 @@ const orders = {
                             detail: err.message
                         }
                     });
-                } else {
-                    res.status(204).send();
                 }
+
+                return res.status(204).send();
             });
         } else {
-            res.status(400).json({
+            return res.status(400).json({
                 errors: {
                     status: 400,
                     detail: "Required attribute order id (id) " +
@@ -245,27 +245,27 @@ const orders = {
                                 detail: err.message
                             }
                         });
-                    } else {
-                        db.run("DELETE FROM order_items WHERE apiKey = ? AND orderId = ?",
-                            body.api_key,
-                            body.id, (err) => {
-                                if (err) {
-                                    return res.status(500).json({
-                                        errors: {
-                                            status: 500,
-                                            source: "DELETE /order order_items",
-                                            title: "Database error",
-                                            detail: err.message
-                                        }
-                                    });
-                                } else {
-                                    res.status(204).send();
-                                }
-                            });
                     }
+
+                    db.run("DELETE FROM order_items WHERE apiKey = ? AND orderId = ?",
+                        body.api_key,
+                        body.id, (err) => {
+                            if (err) {
+                                return res.status(500).json({
+                                    errors: {
+                                        status: 500,
+                                        source: "DELETE /order order_items",
+                                        title: "Database error",
+                                        detail: err.message
+                                    }
+                                });
+                            }
+
+                            return res.status(204).send();
+                        });
                 });
         } else {
-            res.status(400).json({
+            return res.status(400).json({
                 errors: {
                     status: 400,
                     detail: "Required attribute order id (id) " +
