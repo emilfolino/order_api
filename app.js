@@ -100,6 +100,7 @@ app.delete('/order_item', (req, res) => orderItems.deleteOrderItem(res, req.body
 // Delivery routes
 app.get('/deliveries', (req, res) => deliveries.getDeliveries(res, req.query.api_key));
 app.post('/delivery', (req, res) => deliveries.addDelivery(res, req.body));
+app.delete('/delivery', (req, res) => deliveries.deleteDelivery(res, req.body));
 
 
 

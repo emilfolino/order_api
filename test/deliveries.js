@@ -178,4 +178,56 @@ describe('deliveries', () => {
                 });
         });
     });
+
+    describe('DELETE /delivery', () => {
+        it('should get 400 as we do not supply id', (done) => {
+            let delivery = {
+                // id: 1,
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .delete("/delivery")
+                .send(delivery)
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("errors");
+                    res.body.errors.should.have.property("status");
+                    res.body.errors.status.should.be.equal(400);
+                    res.body.errors.should.have.property("detail");
+
+                    done();
+                });
+        });
+
+        it('should get 204 HAPPY PATH', (done) => {
+            let delivery = {
+                id: 1,
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .delete("/delivery")
+                .send(delivery)
+                .end((err, res) => {
+                    res.should.have.status(204);
+
+                    done();
+                });
+        });
+
+        it('should get 200 HAPPY PATH getting zero deliveries', (done) => {
+            chai.request(server)
+                .get("/deliveries?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.be.equal(0);
+
+                    done();
+                });
+        });
+    });
 });

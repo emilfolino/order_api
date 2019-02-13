@@ -314,7 +314,7 @@ describe('products', () => {
             };
 
             chai.request(server)
-                .delete("/product?api_key=" + apiKey)
+                .delete("/product")
                 .send(product)
                 .end((err, res) => {
                     res.should.have.status(400);

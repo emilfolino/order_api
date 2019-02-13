@@ -67,8 +67,38 @@ const deliveries = {
 
                 deliveries.getDelivery(res, this.lastID, body.api_key, 201);
             });
-    }
+    },
 
+    deleteDelivery: function(res, body) {
+        if (Number.isInteger(parseInt(body.id))) {
+            const sql = "DELETE FROM deliveries WHERE apiKey = ? AND ROWID = ?";
+
+            db.run(sql,
+                body.api_key,
+                body.id, (err) => {
+                    if (err) {
+                        return res.status(500).json({
+                            errors: {
+                                status: 500,
+                                source: "/orders",
+                                title: "Database error",
+                                detail: err.message
+                            }
+                        });
+                    }
+
+                    res.status(204).send();
+                });
+        } else {
+            res.status(400).json({
+                errors: {
+                    status: 400,
+                    detail: "Required attribute delivery id (id)" +
+                        " was not included in the request."
+                }
+            });
+        }
+    }
 };
 
 module.exports = deliveries;
