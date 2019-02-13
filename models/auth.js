@@ -5,18 +5,18 @@ const validator = require("email-validator");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-let config = {};
+let config;
 
 try {
     config = require('../config/config.json');
 } catch (error) {
-    console.log(error);
+    console.error(error);
 }
 
 const jwtSecret = process.env.JWT_SECRET || config.secret;
 
-module.exports = (function () {
-    function isValidAPIKey(apiKey, next, path, res) {
+const auth = {
+    isValidAPIKey: function(apiKey, next, path, res) {
         db.get("SELECT email FROM apikeys WHERE key = ?", apiKey, (err, row) => {
             if (err) {
                 return res.status(500).json({
@@ -33,7 +33,7 @@ module.exports = (function () {
                 return next();
             }
 
-            res.status(401).json({
+            return res.status(401).json({
                 errors: {
                     status: 401,
                     source: path,
@@ -42,11 +42,11 @@ module.exports = (function () {
                 }
             });
         });
-    }
+    },
 
-    function getNewAPIKey(res, path, email) {
+    getNewAPIKey: function(res, path, email) {
         if (email === undefined || !validator.validate(email)) {
-            res.status(401).json({
+            return res.status(401).json({
                 errors: {
                     status: 401,
                     source: path,
@@ -54,34 +54,34 @@ module.exports = (function () {
                     detail: "A valid email address is required to obtain an API key."
                 }
             });
-        } else {
-            db.get("SELECT email, key FROM apikeys WHERE email = ?", email, (err, row) => {
-                if (err) {
-                    return res.status(500).json({
-                        errors: {
-                            status: 500,
-                            source: path,
-                            title: "Database error",
-                            detail: err.message
-                        }
-                    });
-                }
-
-                if (row !== undefined) {
-                    return res.json({
-                        data: {
-                            message: "Email address already used for api key.",
-                            apiKey: row.key
-                        }
-                    });
-                }
-
-                getUniqueAPIKey(res, path, email);
-            });
         }
-    }
 
-    function getUniqueAPIKey(res, path, email) {
+        db.get("SELECT email, key FROM apikeys WHERE email = ?", email, (err, row) => {
+            if (err) {
+                return res.status(500).json({
+                    errors: {
+                        status: 500,
+                        source: path,
+                        title: "Database error",
+                        detail: err.message
+                    }
+                });
+            }
+
+            if (row !== undefined) {
+                return res.json({
+                    data: {
+                        message: "Email address already used for api key.",
+                        apiKey: row.key
+                    }
+                });
+            }
+
+            return auth.getUniqueAPIKey(res, path, email);
+        });
+    },
+
+    getUniqueAPIKey: function(res, path, email) {
         const apiKey = hat();
 
         db.get("SELECT key FROM apikeys WHERE key = ?", apiKey, (err, row) => {
@@ -111,15 +111,15 @@ module.exports = (function () {
                             });
                         }
 
-                        res.json({ data: { key: apiKey }});
+                        return res.json({ data: { key: apiKey }});
                     });
             } else {
-                getUniqueAPIKey(res, email);
+                return auth.getUniqueAPIKey(res, email);
             }
         });
-    }
+    },
 
-    function login(res, body) {
+    login: function(res, body) {
         const email = body.email;
         const password = body.password;
         const apiKey = body.api_key;
@@ -187,21 +187,21 @@ module.exports = (function () {
                                 token: jwtToken
                             }
                         });
-                    } else {
-                        return res.status(401).json({
-                            errors: {
-                                status: 401,
-                                source: "/login",
-                                title: "Wrong password",
-                                detail: "Password is incorrect."
-                            }
-                        });
                     }
+
+                    return res.status(401).json({
+                        errors: {
+                            status: 401,
+                            source: "/login",
+                            title: "Wrong password",
+                            detail: "Password is incorrect."
+                        }
+                    });
                 });
             });
-    }
+    },
 
-    function register(res, body) {
+    register: function(res, body) {
         const email = body.email;
         const password = body.password;
         const apiKey = body.api_key;
@@ -244,16 +244,16 @@ module.exports = (function () {
                         });
                     }
 
-                    res.status(201).json({
+                    return res.status(201).json({
                         data: {
                             message: "User successfully registered."
                         }
                     });
                 });
         });
-    }
+    },
 
-    function checkToken(req, res, next) {
+    checkToken: function(req, res, next) {
         var token = req.headers['x-access-token'];
 
         if (token) {
@@ -274,6 +274,8 @@ module.exports = (function () {
                 req.user.email = decoded.email;
 
                 next();
+
+                return undefined;
             });
         } else {
             return res.status(401).json({
@@ -286,12 +288,6 @@ module.exports = (function () {
             });
         }
     }
+};
 
-    return {
-        isValidAPIKey: isValidAPIKey,
-        getNewAPIKey: getNewAPIKey,
-        login: login,
-        register: register,
-        checkToken: checkToken
-    };
-}());
+module.exports = auth;
