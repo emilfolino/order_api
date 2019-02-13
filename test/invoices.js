@@ -21,12 +21,12 @@ describe('invoices', () => {
         return new Promise((resolve) => {
             db.run("DELETE FROM invoices", (err) => {
                 if (err) {
-                    console.log("Could not empty test DB table invoices", err.message);
+                    console.error("Could not empty test DB table invoices", err.message);
                 }
 
                 db.run("DELETE FROM orders", (err) => {
                     if (err) {
-                        console.log("Could not empty test DB table orders", err.message);
+                        console.error("Could not empty test DB table orders", err.message);
                     }
 
                     resolve();

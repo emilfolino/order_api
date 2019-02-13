@@ -19,13 +19,13 @@ describe('auth', () => {
     before(() => {
         db.run("DELETE FROM apiKeys", (err) => {
             if (err) {
-                console.log("Could not empty test DB apiKeys", err.message);
+                console.error("Could not empty test DB apiKeys", err.message);
             }
         });
 
         db.run("DELETE FROM users", (err) => {
             if (err) {
-                console.log("Could not empty test DB users", err.message);
+                console.error("Could not empty test DB users", err.message);
             }
         });
     });
