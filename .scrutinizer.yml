@@ -6,4 +6,4 @@ build:
           - command: npm test
             coverage:
               file: coverage/clover.xml
-              format: name-of-format
+              format: clover
