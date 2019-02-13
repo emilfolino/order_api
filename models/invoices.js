@@ -1,10 +1,11 @@
 const db = require("../db/database.js");
 
 const invoices = {
-    dataFields: "i.ROWID as id, o.ROWID as order_id," +
-        " customerName as name, customerAddress as address," +
-        " customerZip as zip, customerCity as city," +
-        " customerCountry as country, (totalPrice / 100) as total_price",
+    dataFields: "i.ROWID as id, i.creationDate as creation_date," +
+        " i.dueDate as due_date, o.ROWID as order_id," +
+        " o.customerName as name, o.customerAddress as address," +
+        " o.customerZip as zip, o.customerCity as city," +
+        " o.customerCountry as country, (i.totalPrice / 100) as total_price",
 
     getInvoices: function(res, apiKey) {
         db.all("SELECT " + invoices.dataFields +
@@ -61,10 +62,12 @@ const invoices = {
     },
 
     addInvoice: function(res, body) {
-        db.run("INSERT INTO invoices (orderId, totalPrice, apiKey)" +
-            " VALUES (?, ?, ?)",
+        db.run("INSERT INTO invoices (orderId, totalPrice, creationDate, dueDate, apiKey)" +
+            " VALUES (?, ?, ?, ?, ?)",
         body.order_id,
         body.total_price * 100,
+        body.creation_date,
+        body.due_date,
         body.api_key,
         function (err) {
             if (err) {

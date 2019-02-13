@@ -65,6 +65,8 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS invoices (
     orderId INTEGER NOT NULL,
     totalPrice INTEGER NOT NULL DEFAULT 0,
+    creationDate TEXT,
+    dueDate TEXT,
     apiKey VARCHAR(32) NOT NULL,
     FOREIGN KEY(apiKey) REFERENCES apikeys(key),
     FOREIGN KEY(orderId) REFERENCES orders(ROWID)

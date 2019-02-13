@@ -688,10 +688,9 @@ api_key</pre>
             <p>Result:</p>
             <pre class="lager">{
     "data": {
-        "api_key": "...",
-        "id": "1",
-        "product_id": "2",
-        "amount": "10",
+        "id": 1,
+        "product_id": 2,
+        "amount": 10,
         "delivery_date": "2018-02-14",
         "comment": "Inleverans för Alla Hjärtans dag"
     }
@@ -708,6 +707,8 @@ api_key</pre>
             <pre class="lager">id
 order_id
 total_price
+creation_date
+due_date
 api_key</pre>
 
             <p>
@@ -764,7 +765,9 @@ password</pre>
             "zip": "12345",
             "city": "Anderstorp",
             "country": "Sweden",
-            "total_price": 100
+            "total_price": 100,
+            "creation_date": "2019-02-13",
+            "due_date": "2019-03-13"
         }
     ]
 }</pre>
@@ -781,7 +784,9 @@ password</pre>
         "zip": "12345",
         "city": "Anderstorp",
         "country": "Sweden",
-        "total_price": 100
+        "total_price": 100,
+        "creation_date": "2019-02-13",
+        "due_date": "2019-03-13"
     }
 }</pre>
 
@@ -792,13 +797,22 @@ password</pre>
             <pre class="lager">order_id
 total_price
 api_key</pre>
+            <p>Optional parameters:</p>
+            <pre class="lager">creation_date
+due_date</pre>
             <p>Result:</p>
             <pre class="lager">{
     "data": {
-        "api_key": "...",
-        "id": "1",
-        "order_id": "1",
-        "total_price": "100"
+        "id": 1,
+        "order_id": 1,
+        "name": "Anders Andersson",
+        "address": "Andersgatan 1",
+        "zip": "12345",
+        "city": "Anderstorp",
+        "country": "Sweden",
+        "total_price": 100,
+        "creation_date": "2019-02-13",
+        "due_date": "2019-03-13"
     }
 }</pre>
 

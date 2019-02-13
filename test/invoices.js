@@ -267,6 +267,78 @@ describe('invoices', () => {
                     done();
                 });
         });
+
+        it('should get 201 Creating invoice with creation_date', (done) => {
+            let invoice = {
+                order_id: 1,
+                total_price: 100,
+                creation_date: "2019-02-13",
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/invoice")
+                .set("x-access-token", token)
+                .send(invoice)
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("data");
+                    res.body.data.should.have.property("creation_date");
+                    res.body.data.creation_date.should.equal("2019-02-13");
+
+                    done();
+                });
+        });
+
+        it('should get 201 Creating invoice with due_date', (done) => {
+            let invoice = {
+                order_id: 1,
+                total_price: 100,
+                due_date: "2019-03-13",
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/invoice")
+                .set("x-access-token", token)
+                .send(invoice)
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("data");
+                    res.body.data.should.have.property("due_date");
+                    res.body.data.due_date.should.equal("2019-03-13");
+
+                    done();
+                });
+        });
+
+        it('should get 201 Creating invoice with creation_date and due_date', (done) => {
+            let invoice = {
+                order_id: 1,
+                total_price: 100,
+                creation_date: "2019-02-13",
+                due_date: "2019-03-13",
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/invoice")
+                .set("x-access-token", token)
+                .send(invoice)
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("data");
+                    res.body.data.should.have.property("creation_date");
+                    res.body.data.creation_date.should.equal("2019-02-13");
+                    res.body.data.should.have.property("due_date");
+                    res.body.data.due_date.should.equal("2019-03-13");
+
+                    done();
+                });
+        });
     });
 
     describe('GET /invoice', () => {
@@ -320,7 +392,7 @@ describe('invoices', () => {
 
         it('should get 200, but empty data object', (done) => {
             chai.request(server)
-                .get("/invoice/2?api_key=" + apiKey)
+                .get("/invoice/99?api_key=" + apiKey)
                 .set("x-access-token", token)
                 .end((err, res) => {
                     res.should.have.status(200);
