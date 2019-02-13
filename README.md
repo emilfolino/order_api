@@ -9,6 +9,6 @@ Deployed at [https://lager.emilfolino.se/](https://lager.emilfolino.se/).
 
 
 
-[![Build Status](https://scrutinizer-ci.com/g/canax/remserver/badges/build.png?b=master)](https://scrutinizer-ci.com/g/canax/remserver/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/canax/remserver/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/canax/remserver/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/canax/remserver/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/canax/remserver/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/emilfolino/order_api/badges/build.png?b=master)](https://scrutinizer-ci.com/g/emilfolino/order_api/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/emilfolino/order_api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/emilfolino/order_api/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/emilfolino/order_api/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/emilfolino/order_api/?branch=master)
