@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lager API documentation</title>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <style>
+        html { font-size: 100% }
+        body { margin: 0; padding: 0; }
+        p { font-size: 1em }
+        @media (min-width: 64em) { html { font-size: 112.5%; } }
+        main { width: 960px; margin: 20px auto; font-family: sans-serif; }
+        pre.lager { background: #ace; border-left: 3px solid #57c; padding: 10px; box-sizing: border-box; }
+        h1 { font-size: 3rem; }
+        h2 { font-size: 2.4rem; }
+        h3 { font-size: 1.8rem; }
+        .footer { background-color: #13395f; color: white; padding: 4rem 0;}
+        .inner-footer { width: 960px; margin: 0 auto; font-family: sans-serif; }
+        .inner-footer a { color: white; }
+    </style>
+</head>
+<body>
+
+<main>
+    <header>
+        <h1>Lager API documentation</h1>
+    </header>
+
+    <article>
+        <section id="toc">
+            <ol>
+                <li>
+                    <a href="#apikeys">API keys</a>
+                </li>
+                <li>
+                    <a href="#products">Products</a>
+                </li>
+                <li>
+                    <a href="#orders">Orders</a>
+                </li>
+                <li>
+                    <a href="#order_items">Order items</a>
+                </li>
+                <li>
+                    <a href="#deliveries">Deliveries</a>
+                </li>
+                <li>
+                    <a href="#invoices">Invoices and Login</a>
+                </li>
+                <li>
+                    <a href="#copier">Copier</a>
+                </li>
+                <li>
+                    <a href="#examples">Code examples</a>
+                </li>
+                <li>
+                    <a href="#installation">Local Installation</a>
+                </li>
+            </ol>
+
+
+        </section>
+
+        <section id="apikeys">
+            <h2>API keys</h2>
+            <h3>To request an API key:</h3>
+            <pre class="lager">GET /api_key?email=[YOUR_EMAIL]</pre>
+            <p>Result:</p>
+            <pre class="lager">{
+    "data": {
+        "key": "6eae78f64e3b6b9bfb2e3904469e8c30"
+    }
+}</pre>
+            <p>Errors:</p>
+            <pre class="lager">{
+    "data": {
+        "message": "Email address already used for api key.",
+        "api_key": "1bdd5c943e664d399f2a298fca0dabfd"
+    }
+}</pre>
+
+            <h3>An API key is required for all requests except the following:</h3>
+            <pre class="lager">GET /</pre>
+            <pre class="lager">GET /api_key?email=[YOUR_EMAIL]</pre>
+            <p>If an API key is not provided the following error is given:</p>
+            <pre class="lager">{
+    "errors": {
+        "status": 401,
+        "source": "/products",
+        "title": "Valid API key",
+        "detail": "No valid API key provided."
+    }
+}</pre>
+        </section>
+
+        <section id="products">
+            <h2>Products</h2>
+
+            <p>A product has the following attributes:</p>
+            <pre class="lager">id
+article_number
+name
+description
+specifiers
+stock
+location
+price
+api_key</pre>
+
+            <h3>To get all your products:</h3>
+            <pre class="lager">GET /products?api_key=[YOUR_API_KEY]</pre>
+            <p>Result:</p>
+            <pre class="lager">{
+    "data": [
+        {
+            "id": 1,
+            "article_number": "1214-RNT",
+            "name": "Skruv M14",
+            "description": "Skruv M14, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '14mm'}",
+            "stock": 12,
+            "location": "A1B4",
+            "price": 10
+        },
+        {
+            "id": 2,
+            "article_number": "1212-RNT",
+            "name": "Skruv M12",
+            "description": "Skruv M12, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '12mm'}",
+            "stock": 14,
+            "location": "A1B5",
+            "price": 10
+        },
+        {
+            "id": 3,
+            "article_number": "1210-RNT",
+            "name": "Skruv M10",
+            "description": "Skruv M10, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '10mm'}",
+            "stock": 20,
+            "location": "A1B6",
+            "price": 10
+        },
+        {
+            "id": 4,
+            "article_number": "1208-RNT",
+            "name": "Skruv M8",
+            "description": "Skruv M8, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '8mm'}",
+            "stock": 2,
+            "location": "A1B7",
+            "price": 10
+        },
+        {
+            "id": 5,
+            "article_number": "1206-RNT",
+            "name": "Skruv M6",
+            "description": "Skruv M6, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '6mm'}",
+            "stock": 6,
+            "location": "A1B8",
+            "price": 10
+        },
+        {
+            "id": 6,
+            "article_number": "1214-TNT",
+            "name": "Mutter M14",
+            "description": "Mutter M14, värmförsinkad, passar 1214-RNT",
+            "specifiers": "{'diameter' : '14mm'}",
+            "stock": 13,
+            "location": "A1C4",
+            "price": 10
+        },
+        {
+            "id": 7,
+            "article_number": "1212-TNT",
+            "name": "Mutter M12",
+            "description": "Mutter M12, värmförsinkad, passar 1212-RNT",
+            "specifiers": "{'diameter' : '12mm'}",
+            "stock": 23,
+            "location": "A1C4",
+            "price": 10
+        },
+        {
+            "id": 8,
+            "article_number": "1210-TNT",
+            "name": "Mutter M10",
+            "description": "Mutter M10, värmförsinkad, passar 1210-RNT",
+            "specifiers": "{'diameter' : '10mm'}",
+            "stock": 12,
+            "location": "A1C4",
+            "price": 10
+        },
+        {
+            "id": 9,
+            "article_number": "1208-TNT",
+            "name": "Mutter M8",
+            "description": "Mutter M8, värmförsinkad, passar 1208-RNT",
+            "specifiers": "{'diameter' : '8mm'}",
+            "stock": 4,
+            "location": "A1C4",
+            "price": 10
+        },
+        {
+            "id": 10,
+            "article_number": "1206-TNT",
+            "name": "Mutter M6",
+            "description": "Mutter M6, värmförsinkad, passar 1206-RNT",
+            "specifiers": "{'diameter' : '6mm'}",
+            "stock": 1,
+            "location": "A1C4",
+            "price": 10
+        }
+    ]
+}</pre>
+
+            <h3>To get a specific product:</h3>
+            <pre class="lager">GET /product/:product_id?api_key=[YOUR_API_KEY]</pre>
+            <p>Result:</p>
+            <pre class="lager">{
+    "data": {
+        "id": 1,
+        "article_number": "1214-RNT",
+        "name": "Skruv M14",
+        "description": "Skruv M14, värmförsinkad",
+        "specifiers": "{'length' : '60mm', 'width' : '14mm'}",
+        "stock": 12,
+        "location": "A1B4",
+        "price": 10
+    }
+}</pre>
+            <h3>To search for a product:</h3>
+            <pre class="lager">GET /product/search/:query?api_key=[YOUR_API_KEY]</pre>
+            <p>Result (search query was m14):</p>
+            <pre class="lager">{
+    "data": [
+        {
+            "id": 1,
+            "article_number": "1214-RNT",
+            "name": "Skruv M14",
+            "description": "Skruv M14, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '14mm'}",
+            "stock": 12,
+            "location": "A1B4",
+            "price": 10
+        },
+        {
+            "id": 6,
+            "article_number": "1214-TNT",
+            "name": "Mutter M14",
+            "description": "Mutter M14, värmförsinkad, passar 1214-RNT",
+            "specifiers": "{'diameter' : '14mm'}",
+            "stock": 13,
+            "location": "A1C4",
+            "price": 10
+        }
+    ]
+}</pre>
+
+            <h3>To add a product:</h3>
+            <pre class="lager">POST /product</pre>
+            <p>Required parameters:</p>
+            <pre class="lager">id
+name
+api_key</pre>
+
+            <p>Optional parameters:</p>
+            <pre class="lager">article_number
+description
+specifiers
+stock
+location
+price</pre>
+
+            <h3>To update a product:</h3>
+            <pre class="lager">PUT /product</pre>
+            <p>Required parameters:</p>
+            <pre class="lager">id
+name
+api_key</pre>
+
+<p>Optional parameters:</p>
+<pre class="lager">name
+article_number
+description
+specifiers
+stock
+location
+price</pre>
+            <p><strong>N.B.</strong> All attributes are updated, send an entire product object.</p>
+            <p>Result:</p>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
+            <p>Possible error, besides errors returned from database:</p>
+            <pre class="lager">{
+    "errors": {
+        "status": 400,
+        "detail": "Required attribute product id (id) was not included in the request."
+    }
+}</pre>
+
+            <h3>To delete a product:</h3>
+            <pre class="lager">DELETE /product</pre>
+            <p>Required parameters:</p>
+            <pre class="lager">id
+api_key</pre>
+            <p>Result:</p>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
+            <p>Possible error, besides errors returned from database:</p>
+            <pre class="lager">{
+    "errors": {
+        "status": 400,
+        "detail": "Required attribute product id (id) was not included in the request."
+    }
+}</pre>
+        </section>
+
+        <section id="orders">
+            <h2>Orders</h2>
+
+            <p>An order has the following attributes:</p>
+            <pre class="lager">id
+name
+address
+zip
+city
+country
+status_id
+api_key</pre>
+
+            <h3>Status</h3>
+            <p>All orders have a status, it can take the following numeric values, corresponding to the descriptions. Orders have a default status value of 100.</p>
+            <pre class="lager">100: "Ny"
+200: "Packad"
+400: "Skickad"
+600: "Fakturerad"
+800: "Retur"
+900: "Återbetald"</pre>
+
+            <h3>To get all your orders and associated order items:</h3>
+            <pre class="lager">GET /orders?api_key=[YOUR_API_KEY]</pre>
+            <p>Result:</p>
+            <pre class="lager">{
+  "data": [
+    {
+      "id": 1,
+      "name": "Anders Andersson",
+      "address": "Andersgatan 1",
+      "zip": "12345",
+      "city": "Anderstorp",
+      "country": "Sweden",
+      "status": "Ny",
+      "status_id": 100,
+      "order_items": [
+        {
+          "product_id": 1,
+          "amount": 2,
+          "article_number": "1214-RNT",
+          "name": "Skruv M14",
+          "description": "Skruv M14, värmförsinkad",
+          "specifiers": "{'length' : '60mm', 'width' : '14mm'}",
+          "stock": 12,
+          "location": "A1B4",
+          "price": 10
+        },
+        {
+          "product_id": 2,
+          "amount": 3,
+          "article_number": "1212-RNT",
+          "name": "Skruv M12",
+          "description": "Skruv M12, värmförsinkad",
+          "specifiers": "{'length' : '60mm', 'width' : '12mm'}",
+          "stock": 14,
+          "location": "A1B5",
+          "price": 10
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Bengt Bengtsson",
+      "address": "Bengtsgatan 2",
+      "zip": "23457",
+      "city": "Bengtfors",
+      "country": "Sweden",
+      "status": "Ny",
+      "status_id": 100,
+      "order_items": [
+        {
+          "product_id": 3,
+          "amount": 4,
+          "article_number": "1210-RNT",
+          "name": "Skruv M10",
+          "description": "Skruv M10, värmförsinkad",
+          "specifiers": "{'length' : '60mm', 'width' : '10mm'}",
+          "stock": 20,
+          "location": "A1B6",
+          "price": 10
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Carl Carlsson",
+      "address": "Carlsgatan 3",
+      "zip": "34567",
+      "city": "Karlstad",
+      "country": "Sweden",
+      "status": "Ny",
+      "status_id": 100,
+      "order_items": [
+        {
+          "product_id": 6,
+          "amount": 5,
+          "article_number": "1214-TNT",
+          "name": "Mutter M14",
+          "description": "Mutter M14, värmförsinkad, passar 1214-RNT",
+          "specifiers": "{'diameter' : '14mm'}",
+          "stock": 13,
+          "location": "A1C4",
+          "price": 10
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "David Davidsson",
+      "address": "Davidsallén 4",
+      "zip": "45678",
+      "city": "Davidstorp",
+      "country": "Sweden",
+      "status": "Ny",
+      "status_id": 100,
+      "order_items": [
+        {
+          "product_id": 8,
+          "amount": 6,
+          "article_number": "1210-TNT",
+          "name": "Mutter M10",
+          "description": "Mutter M10, värmförsinkad, passar 1210-RNT",
+          "specifiers": "{'diameter' : '10mm'}",
+          "stock": 12,
+          "location": "A1C4",
+          "price": 10
+        }
+      ]
+    }
+  ]
+}</pre>
+
+            <h3>To get a specific order and associated order items:</h3>
+            <pre class="lager">GET /order/:order_id?api_key=[YOUR_API_KEY]</pre>
+            <p>Result:</p>
+            <pre class="lager">{
+  "data": {
+    "id": 1,
+    "name": "Anders Andersson",
+    "address": "Andersgatan 1",
+    "zip": "12345",
+    "city": "Anderstorp",
+    "country": "Sweden",
+    "status": "Ny",
+    "status_id": 100,
+    "order_items": [
+      {
+        "product_id": 1,
+        "amount": 2,
+        "article_number": "1214-RNT",
+        "name": "Skruv M14",
+        "description": "Skruv M14, värmförsinkad",
+        "specifiers": "{'length' : '60mm', 'width' : '14mm'}",
+        "stock": 12,
+        "location": "A1B4",
+        "price": 10
+      },
+      {
+        "product_id": 2,
+        "amount": 3,
+        "article_number": "1212-RNT",
+        "name": "Skruv M12",
+        "description": "Skruv M12, värmförsinkad",
+        "specifiers": "{'length' : '60mm', 'width' : '12mm'}",
+        "stock": 14,
+        "location": "A1B5",
+        "price": 10
+      }
+    ]
+  }
+}</pre>
+            <h3>To search for an order and associated order items:</h3>
+            <p>
+                You can search on the following parameters: name, address, zip, city and country.
+            </p>
+            <pre class="lager">GET /order/search/:query?api_key=[YOUR_API_KEY]</pre>
+            <p>Result (search query was anders):</p>
+            <pre class="lager">{
+  "data": [
+    {
+      "id": 1,
+      "name": "Anders Andersson",
+      "address": "Andersgatan 1",
+      "zip": "12345",
+      "city": "Anderstorp",
+      "country": "Sweden",
+      "status": "Ny",
+      "status_id": 100,
+      "order_items": [
+        {
+          "product_id": 1,
+          "amount": 2,
+          "article_number": "1214-RNT",
+          "name": "Skruv M14",
+          "description": "Skruv M14, värmförsinkad",
+          "specifiers": "{'length' : '60mm', 'width' : '14mm'}",
+          "stock": 12,
+          "location": "A1B4",
+          "price": 10
+        },
+        {
+          "product_id": 2,
+          "amount": 3,
+          "article_number": "1212-RNT",
+          "name": "Skruv M12",
+          "description": "Skruv M12, värmförsinkad",
+          "specifiers": "{'length' : '60mm', 'width' : '12mm'}",
+          "stock": 14,
+          "location": "A1B5",
+          "price": 10
+        }
+      ]
+    }
+  ]
+}</pre>
+
+            <h3>To add an order:</h3>
+            <pre class="lager">POST /order</pre>
+            <p>Required parameters:</p>
+            <pre class="lager">id
+name
+api_key</pre>
+            <p>Optional parameters:</p>
+            <pre class="lager">address
+zip
+city
+country
+status_id (default value of 100)</pre>
+
+            <p><strong>NB!</strong> Use a numeric status_id value to add status.</p>
+
+            <h3>To update an order:</h3>
+            <pre class="lager">PUT /order</pre>
+            <p>Required parameters:</p>
+            <pre class="lager">id
+name
+api_key</pre>
+
+<p>Optional parameters:</p>
+<pre class="lager">name
+address
+zip
+city
+country
+status_id (default value of 100)</pre>
+
+
+            <p><strong>NB!</strong> Use a numeric status_id value to update status.</p>
+            <p><strong>N.B.</strong> All attributes are updated, send an entire order object. Send only the order parameters when updating an order. order_items are updated seperately, see <a href="#order_items">order items</a></p>
+            <p>Result:</p>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
+            <p>Possible error, besides errors returned from database:</p>
+            <pre class="lager">{
+    "errors": {
+        "status": 400,
+        "detail": "Required attribute order id (id) was not included in the request."
+    }
+}</pre>
+
+            <h3>To delete an order and associated order items:</h3>
+            <pre class="lager">DELETE /order</pre>
+            <p>Required parameters:</p>
+            <pre class="lager">id
+api_key</pre>
+            <p>Result:</p>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
+            <p>Possible error, besides errors returned from database:</p>
+            <pre class="lager">{
+    "errors": {
+        "status": 400,
+        "detail": "Required attribute order id (id) was not included in the request."
+    }
+}</pre>
+        </section>
+
+        <section id="order_items">
+            <h2>Order items</h2>
+
+            <p>An order item has the following attributes:</p>
+            <pre class="lager">order_id
+product_id
+amount
+api_key</pre>
+
+            <h3>To add an order item to an order:</h3>
+            <pre class="lager">POST /order_item</pre>
+            <p>Required parameters:</p>
+            <pre class="lager">order_id
+product_id
+amount
+api_key</pre>
+
+            <h3>To update an order item:</h3>
+            <pre class="lager">PUT /order</pre>
+            <p>Required parameters:</p>
+            <pre class="lager">order_id
+product_id
+api_key</pre>
+            <p>Optional parameter:</p>
+            <pre class="lager">amount</pre>
+
+            <p><strong>N.B.</strong> All attributes are updated, send an entire order object.</p>
+            <p>Result:</p>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
+            <p>Possible error, besides errors returned from database:</p>
+            <pre class="lager">{
+    "errors": {
+        "status": 400,
+        "detail": "Required attributes order_id and product_id was not included in the request."
+    }
+}</pre>
+
+            <h3>To delete an order item:</h3>
+            <pre class="lager">DELETE /order</pre>
+            <p>Required parameters:</p>
+            <pre class="lager">order_id
+product_id
+api_key</pre>
+            <p>Result:</p>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
+            <p>Possible error, besides errors returned from database:</p>
+            <pre class="lager">{
+    "errors": {
+        "status": 400,
+        "detail": "Required attribute order id and product id was not included in the request."
+    }
+}</pre>
+        </section>
+
+        <section id="deliveries">
+            <h2>Deliveries</h2>
+
+            <p>A delivery has the following attributes:</p>
+            <pre class="lager">id
+product_id
+amount
+delivery_date
+comment
+api_key</pre>
+
+            <h3>Get all deliveries</h3>
+            <pre class="lager">GET /deliveries?api_key=[YOUR_API_KEY]</pre>
+            <p>Result</p>
+            <pre class="lager">{
+    "data": [
+        {
+            "id": 1,
+            "product_id": 2,
+            "amount": 10,
+            "delivery_date": "2018-02-14",
+            "comment": "Inleverans för Alla Hjärtans dag"
+        }
+    ]
+}</pre>
+
+            <h3>Add a delivery</h3>
+            <pre class="lager">POST /delivery</pre>
+            <p>Required parameters:</p>
+            <pre class="lager">id
+product_id
+amount
+delivery_date
+api_key</pre>
+
+            <p>Optional parameter:</p>
+            <pre class="lager">comment</pre>
+
+            <p>Result:</p>
+            <pre class="lager">{
+    "data": {
+        "api_key": "...",
+        "id": "1",
+        "product_id": "2",
+        "amount": "10",
+        "delivery_date": "2018-02-14",
+        "comment": "Inleverans för Alla Hjärtans dag"
+    }
+}</pre>
+
+        </p>
+
+        </section>
+
+        <section id="invoices">
+            <h2>Invoices and Login</h2>
+
+            <p>An invoice has the following attributes:</p>
+            <pre class="lager">id
+order_id
+total_price
+api_key</pre>
+
+            <p>
+                To use the following routes, you need a valid JSON Web Token (JWT) set in the HTTP-header.<br />
+                The 'x-access-token' header should contain the JWT.
+            </p>
+
+            <pre class="lager">GET /invoices?api_key=[YOUR_API_KEY]
+GET /invoice/:invoice_id?api_key=[YOUR_API_KEY]
+POST /invoice</pre>
+
+            <h3>Register</h3>
+            <pre class="lager">POST /register</pre>
+            <p>Required paramters:</p>
+            <pre class="lager">api_key
+email
+password</pre>
+            <p>Result:</p>
+            <pre class="lager">{
+    "data": {
+        "message": "User successfully registered."
+    }
+}</pre>
+
+            <h3>Login</h3>
+            <pre class="lager">POST /login</pre>
+            <pre class="lager">api_key
+email
+password</pre>
+            <p>Result:</p>
+            <pre class="lager">{
+    "data": {
+        "type": "success",
+        "message": "User logged in",
+        "user": {
+            "api_key": "...",
+            "email": "unknown@example.com"
+        },
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey..."
+    }
+}</pre>
+            <p><strong>N.B.</strong> The access token expires after 24 hours.</p>
+
+            <h3>Get all invoices</h3>
+            <pre class="lager">GET /invoices?api_key=[YOUR_API_KEY]</pre>
+            <p>Result:</p>
+            <pre class="lager">{
+    "data": [
+        {
+            "id": 1,
+            "order_id": 1,
+            "name": "Anders Andersson",
+            "address": "Andersgatan 1",
+            "zip": "12345",
+            "city": "Anderstorp",
+            "country": "Sweden",
+            "total_price": 100
+        }
+    ]
+}</pre>
+
+            <h3>Get specific invoice</h3>
+            <pre class="lager">GET /invoice/:invoice_id?api_key=[YOUR_API_KEY]</pre>
+            <p>Result:</p>
+            <pre class="lager">{
+    "data": {
+        "id": 1,
+        "order_id": 1,
+        "name": "Anders Andersson",
+        "address": "Andersgatan 1",
+        "zip": "12345",
+        "city": "Anderstorp",
+        "country": "Sweden",
+        "total_price": 100
+    }
+}</pre>
+
+
+            <h3>Add invoice</h3>
+            <pre class="lager">POST /invoice</pre>
+            <p>Required parameters:</p>
+            <pre class="lager">id
+order_id
+total_price
+api_key</pre>
+            <p>Result:</p>
+            <pre class="lager">{
+    "data": {
+        "api_key": "...",
+        "id": "1",
+        "order_id": "1",
+        "total_price": "100"
+    }
+}</pre>
+
+        </section>
+
+        <section id="copier">
+            <h2>Copier</h2>
+
+            <p>As always 'api_key' is a required parameter.</p>
+
+            <h3>Copy products</h3>
+            <pre class="lager">POST /copy_products</pre>
+            <p>Result:</p>
+            <pre class="lager">{
+    "data": [
+        {
+            "id": 1,
+            "article_number": "1214-RNT",
+            "name": "Skruv M14",
+            "description": "Skruv M14, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '14mm'}",
+            "stock": 12,
+            "location": "A1B4",
+            "price": 10
+        },
+        {
+            "id": 2,
+            "article_number": "1212-RNT",
+            "name": "Skruv M12",
+            "description": "Skruv M12, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '12mm'}",
+            "stock": 14,
+            "location": "A1B5",
+            "price": 10
+        },
+        {
+            "id": 3,
+            "article_number": "1210-RNT",
+            "name": "Skruv M10",
+            "description": "Skruv M10, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '10mm'}",
+            "stock": 20,
+            "location": "A1B6",
+            "price": 10
+        },
+        {
+            "id": 4,
+            "article_number": "1208-RNT",
+            "name": "Skruv M8",
+            "description": "Skruv M8, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '8mm'}",
+            "stock": 2,
+            "location": "A1B7",
+            "price": 10
+        },
+        {
+            "id": 5,
+            "article_number": "1206-RNT",
+            "name": "Skruv M6",
+            "description": "Skruv M6, värmförsinkad",
+            "specifiers": "{'length' : '60mm', 'width' : '6mm'}",
+            "stock": 6,
+            "location": "A1B8",
+            "price": 10
+        },
+        {
+            "id": 6,
+            "article_number": "1214-TNT",
+            "name": "Mutter M14",
+            "description": "Mutter M14, värmförsinkad, passar 1214-RNT",
+            "specifiers": "{'diameter' : '14mm'}",
+            "stock": 13,
+            "location": "A1C4",
+            "price": 10
+        },
+        {
+            "id": 7,
+            "article_number": "1212-TNT",
+            "name": "Mutter M12",
+            "description": "Mutter M12, värmförsinkad, passar 1212-RNT",
+            "specifiers": "{'diameter' : '12mm'}",
+            "stock": 23,
+            "location": "A1C4",
+            "price": 10
+        },
+        {
+            "id": 8,
+            "article_number": "1210-TNT",
+            "name": "Mutter M10",
+            "description": "Mutter M10, värmförsinkad, passar 1210-RNT",
+            "specifiers": "{'diameter' : '10mm'}",
+            "stock": 12,
+            "location": "A1C4",
+            "price": 10
+        },
+        {
+            "id": 9,
+            "article_number": "1208-TNT",
+            "name": "Mutter M8",
+            "description": "Mutter M8, värmförsinkad, passar 1208-RNT",
+            "specifiers": "{'diameter' : '8mm'}",
+            "stock": 4,
+            "location": "A1C4",
+            "price": 10
+        },
+        {
+            "id": 10,
+            "article_number": "1206-TNT",
+            "name": "Mutter M6",
+            "description": "Mutter M6, värmförsinkad, passar 1206-RNT",
+            "specifiers": "{'diameter' : '6mm'}",
+            "stock": 1,
+            "location": "A1C4",
+            "price": 10
+        }
+    ]
+}</pre>
+
+            <h3>Copy orders</h3>
+            <pre class="lager">POST /copy_orders</pre>
+            <p>Result:</p>
+            <pre class="lager">{
+    "data": [
+        {
+            "id": 1,
+            "name": "Anders Andersson",
+            "address": "Andersgatan 1",
+            "zip": "12345",
+            "city": "Anderstorp",
+            "country": "Sweden",
+            "status": "Ny",
+            "order_items": [
+                {
+                    "product_id": 1,
+                    "amount": 2,
+                    "article_number": "1214-RNT",
+                    "name": "Skruv M14",
+                    "description": "Skruv M14, värmförsinkad",
+                    "specifiers": "{'length' : '60mm', 'width' : '14mm'}",
+                    "stock": 12,
+                    "location": "A1B4",
+                    "price": 10
+                },
+                {
+                    "product_id": 2,
+                    "amount": 3,
+                    "article_number": "1212-RNT",
+                    "name": "Skruv M12",
+                    "description": "Skruv M12, värmförsinkad",
+                    "specifiers": "{'length' : '60mm', 'width' : '12mm'}",
+                    "stock": 14,
+                    "location": "A1B5",
+                    "price": 10
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Bengt Bengtsson",
+            "address": "Bengtsgatan 2",
+            "zip": "23457",
+            "city": "Bengtfors",
+            "country": "Sweden",
+            "status": "Ny",
+            "order_items": [
+                {
+                    "product_id": 3,
+                    "amount": 4,
+                    "article_number": "1210-RNT",
+                    "name": "Skruv M10",
+                    "description": "Skruv M10, värmförsinkad",
+                    "specifiers": "{'length' : '60mm', 'width' : '10mm'}",
+                    "stock": 20,
+                    "location": "A1B6",
+                    "price": 10
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Carl Carlsson",
+            "address": "Carlsgatan 3",
+            "zip": "34567",
+            "city": "Karlstad",
+            "country": "Sweden",
+            "status": "Ny",
+            "order_items": [
+                {
+                    "product_id": 6,
+                    "amount": 5,
+                    "article_number": "1214-TNT",
+                    "name": "Mutter M14",
+                    "description": "Mutter M14, värmförsinkad, passar 1214-RNT",
+                    "specifiers": "{'diameter' : '14mm'}",
+                    "stock": 13,
+                    "location": "A1C4",
+                    "price": 10
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "David Davidsson",
+            "address": "Davidsallén 4",
+            "zip": "45678",
+            "city": "Davidstorp",
+            "country": "Sweden",
+            "status": "Ny",
+            "order_items": [
+                {
+                    "product_id": 8,
+                    "amount": 6,
+                    "article_number": "1210-TNT",
+                    "name": "Mutter M10",
+                    "description": "Mutter M10, värmförsinkad, passar 1210-RNT",
+                    "specifiers": "{'diameter' : '10mm'}",
+                    "stock": 12,
+                    "location": "A1C4",
+                    "price": 10
+                }
+            ]
+        }
+    ]
+}</pre>
+
+            <h3>Copy products & orders</h3>
+            <pre class="lager">POST /copy_all</pre>
+            <p>Result:</p>
+            <pre class="lager">{
+    "data": {
+        "message": "Products and orders have been copied"
+    }
+}</pre>
+        </section>
+
+        <section id="examples">
+            <h1>Code Examples</h1>
+            <p>All examples below show the following API calls:</p>
+
+            <pre class="lager">GET /products
+PUT /order
+GET /invoices</pre>
+
+            <ol>
+                <li><a href="#xmlttprequest">XMLHttpRequest</a></li>
+                <li><a href="#fetch">fetch</a></li>
+                <li><a href="#mithril">mithril m.request</a></li>
+                <li><a href="#php">PHP curl</a></li>
+                <li><a href="#curl">curl</a></li>
+            </ol>
+
+
+            <section id="xmlttprequest">
+                <h3>XMLHttpRequest</h3>
+
+                <pre class="lager">GET /products</pre>
+                <pre>
+                    <code class="javascript">var request = new XMLHttpRequest();
+
+request.addEventListener("load", [callbackFunction]);
+request.open("GET", "https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]");
+request.send();</code>
+                </pre>
+
+                <pre class="lager">PUT /order</pre>
+                <pre>
+                    <code class="javascript">// Updating status for order, setting 200 as new status
+var order = {
+    id: 1,
+    name: "Anders Andersson",
+    address: "Andersgatan 1",
+    zip: "12345",
+    city: "Anderstorp",
+    country: "Sweden",
+    status_id: 200,
+    api_key: [YOUR_API_KEY]
+};
+var json = JSON.stringify(order);
+
+var request = new XMLHttpRequest();
+request.addEventListener("load", [callbackFunction]);
+request.open("PUT", "https://lager.emilfolino.se/order");
+request.setRequestHeader('Content-type','application/json; charset=utf-8');
+request.send(json);</code>
+                </pre>
+
+                <pre class="lager">POST /delivery</pre>
+                <pre>
+                    <code class="javascript">// Creating new delivery with id: 1
+var delivery = {
+    id: 1,
+    product_id: 2,
+    amount: 12,
+    delivery_date: "2018-02-14",
+    comment: "Delivery for Valentines Day",
+    api_key: [YOUR_API_KEY]
+};
+var json = JSON.stringify(delivery);
+
+var request = new XMLHttpRequest();
+request.addEventListener("load", [callbackFunction]);
+request.open("POST", "https://lager.emilfolino.se/delivery");
+request.setRequestHeader('Content-type','application/json; charset=utf-8');
+request.send(json);</code>
+                </pre>
+
+                <pre class="lager">GET /invoices</pre>
+                <pre>
+                    <code class="javascript">var token = [TOKEN]; // Token received during login
+var request = new XMLHttpRequest();
+request.addEventListener("load", [callbackFunction]);
+request.open("GET", "https://lager.emilfolino.se/invoices?api_key=[YOUR_API_KEY]");
+request.setRequestHeader('x-access-token', token);
+request.send();</code>
+                </pre>
+            </section>
+
+            <section id="fetch">
+                <h3>fetch</h3>
+
+                <pre class="lager">GET /products</pre>
+                <pre>
+                    <code class="javascript">fetch("https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]")
+.then(function (response) {
+    return response.json();
+}).then(function(data) {
+
+});</code>
+                </pre>
+
+                <pre class="lager">PUT /order</pre>
+                <pre>
+                    <code class="javascript">var order = {
+    id: 1,
+    name: "Anders Andersson",
+    address: "Andersgatan 1",
+    zip: "12345",
+    city: "Anderstorp",
+    country: "Sweden",
+    status_id: 200,
+    api_key: [YOUR_API_KEY]
+};
+
+fetch("https://lager.emilfolino.se/order", {
+    body: JSON.stringify(order),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'PUT'
+})
+.then(function (response) {
+
+});</code>
+                </pre>
+
+                <pre class="lager">POST /delivery</pre>
+                <pre>
+                    <code class="javascript">var delivery = {
+    id: 1,
+    product_id: 2,
+    amount: 12,
+    delivery_date: "2018-02-14",
+    comment: "Delivery for Valentines Day",
+    api_key: [YOUR_API_KEY]
+};
+
+fetch("https://lager.emilfolino.se/delivery", {
+    body: JSON.stringify(delivery),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST'
+})
+.then(function (response) {
+
+});</code>
+                </pre>
+
+                <pre class="lager">GET /invoices</pre>
+                <pre>
+                    <code class="javascript">fetch("https://lager.emilfolino.se/invoices?api_key=[YOUR_API_KEY]", {
+    headers: {
+      'x-access-token': [TOKEN]
+    },
+})
+.then(function (response) {
+    return response.json();
+}).then(function(data) {
+
+});</code>
+                </pre>
+            </section>
+
+            <section id="mithril">
+                <h3>mithril m.request</h3>
+                <pre class="lager">GET /products</pre>
+                <pre>
+                    <code class="javascript">m.request({
+    method: "GET",
+    url: "https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]"
+})
+.then(function(result) {
+
+});</code>
+                </pre>
+
+                <pre class="lager">PUT /order</pre>
+                <pre>
+                    <code class="javascript">var order = {
+    id: 1,
+    name: "Anders Andersson",
+    address: "Andersgatan 1",
+    zip: "12345",
+    city: "Anderstorp",
+    country: "Sweden",
+    status_id: 200,
+    api_key: [YOUR_API_KEY]
+};
+
+m.request({
+    method: "PUT",
+    url: "https://lager.emilfolino.se/order",
+    data: order
+});</code>
+                </pre>
+
+                <pre class="lager">POST /delivery</pre>
+                <pre>
+                    <code class="javascript">var delivery = {
+    id: 1,
+    product_id: 2,
+    amount: 12,
+    delivery_date: "2018-02-14",
+    comment: "Delivery for Valentines Day",
+    api_key: [YOUR_API_KEY]
+};
+
+m.request({
+    method: "POST",
+    url: "https://lager.emilfolino.se/delivery",
+    data: delivery
+});</code>
+                </pre>
+
+                <pre class="lager">GET /invoices</pre>
+                <pre>
+                    <code class="javascript">m.request({
+    method: "GET",
+    url: "https://lager.emilfolino.se/invoices?api_key=[YOUR_API_KEY]",
+    headers: {
+        'x-access-token': [TOKEN]
+    }
+})
+.then(function(result) {
+
+});</code>
+                </pre>
+            </section>
+
+            <section id="php">
+                <h3>PHP curl</h3>
+                <pre class="lager">GET /products</pre>
+                <pre>
+                    <code class="php">$request = curl_init();
+
+curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($request, CURLOPT_URL, "https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]");
+$result = curl_exec($request);
+curl_close($request);
+
+$obj = json_decode($result);</code>
+                </pre>
+            </section>
+
+
+            <section id="curl">
+                <h3>curl</h3>
+                <pre class="lager">GET /products</pre>
+                <pre>
+                    <code class="bash">curl https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]</code>
+                </pre>
+            </section>
+        </section>
+
+
+        <section id="installation">
+            <h2>Local Installation</h2>
+            <p>To get up and running do the following:</p>
+            <ol>
+                <li>
+                    Create the file db/orders.sqlite.
+                </li>
+                <li>
+                    Read the db/migrate.sql file into the db/orders.sqlite db.
+                </li>
+                <li>
+                    Optional: Read the db/seed.sql and db/status_seed.sql file into the db/orders.sqlite db.
+                </li>
+                <li>
+                    Run: npm install
+                </li>
+                <li>
+                    Run: npm start
+                </li>
+            </ol>
+        </section>
+    </article>
+</main>
+
+<footer class="footer">
+    <div class="inner-footer">
+        <p>&copy; <a href="https://emilfolino.se">Emil Folino</a></p>
+        <p>The API is used in a course given in the Webprogrammering Cluster <a href="https://dbwebb.se">dbwebb</a> at <a href="https://bth.se">Blekinge Tekniska Högskola</a>.</p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

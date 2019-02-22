@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS apikeys (
 );
 
 CREATE TABLE IF NOT EXISTS products (
-    productId INTEGER NOT NULL,
     articleNumber VARCHAR(32),
     productName VARCHAR(255) NOT NULL,
     productDescription TEXT,
@@ -13,8 +12,7 @@ CREATE TABLE IF NOT EXISTS products (
     location VARCHAR(255),
     price INTEGER,
     apiKey VARCHAR(32) NOT NULL,
-    FOREIGN KEY(apiKey) REFERENCES apikeys(key),
-    UNIQUE(productId, apiKey)
+    FOREIGN KEY(apiKey) REFERENCES apikeys(key)
 );
 
 CREATE TABLE IF NOT EXISTS status (
@@ -24,7 +22,6 @@ CREATE TABLE IF NOT EXISTS status (
 );
 
 CREATE TABLE IF NOT EXISTS orders (
-    orderId INTEGER NOT NULL,
     customerName VARCHAR(255) NOT NULL,
     customerAddress VARCHAR(255),
     customerZip VARCHAR(12),
@@ -33,8 +30,7 @@ CREATE TABLE IF NOT EXISTS orders (
     statusId INTEGER NOT NULL DEFAULT 100,
     apiKey VARCHAR(32) NOT NULL,
     FOREIGN KEY(apiKey) REFERENCES apikeys(key),
-    FOREIGN KEY(statusId) REFERENCES status(id),
-    UNIQUE(orderId, apiKey)
+    FOREIGN KEY(statusId) REFERENCES status(id)
 );
 
 CREATE TABLE IF NOT EXISTS order_items (
@@ -43,20 +39,19 @@ CREATE TABLE IF NOT EXISTS order_items (
     amount INTEGER NOT NULL,
     apiKey VARCHAR(32) NOT NULL,
     FOREIGN KEY(apiKey) REFERENCES apikeys(key),
-    FOREIGN KEY(orderId) REFERENCES orders(orderId),
-    FOREIGN KEY(productId) REFERENCES products(productId),
+    FOREIGN KEY(orderId) REFERENCES orders(ROWID),
+    FOREIGN KEY(productId) REFERENCES products(ROWID),
     UNIQUE(orderId, productId, apiKey)
 );
 
 CREATE TABLE IF NOT EXISTS deliveries (
-    deliveryId INTEGER NOT NULL,
     productId INTEGER NOT NULL,
     amount INTEGER NOT NULL,
     deliveryDate TEXT NOT NULL,
     comment TEXT,
     apiKey VARCHAR(32) NOT NULL,
     FOREIGN KEY(apiKey) REFERENCES apikeys(key),
-    UNIQUE(deliveryId, apiKey)
+    FOREIGN KEY(productId) REFERENCES products(ROWID)
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -68,11 +63,11 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS invoices (
-    invoiceId INTEGER NOT NULL,
     orderId INTEGER NOT NULL,
     totalPrice INTEGER NOT NULL DEFAULT 0,
+    creationDate TEXT,
+    dueDate TEXT,
     apiKey VARCHAR(32) NOT NULL,
     FOREIGN KEY(apiKey) REFERENCES apikeys(key),
-    FOREIGN KEY(orderId) REFERENCES orders(orderId),
-    UNIQUE(invoiceId, apiKey)
+    FOREIGN KEY(orderId) REFERENCES orders(ROWID)
 );
