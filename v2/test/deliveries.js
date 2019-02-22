@@ -5,7 +5,7 @@ process.env.NODE_ENV = 'test';
 //Require the dev-dependencies
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../app.js');
+const server = require('../../app.js');
 
 chai.should();
 
@@ -27,7 +27,7 @@ describe('deliveries', () => {
     describe('GET /deliveries', () => {
         it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
-                .get("/deliveries")
+                .get("/v2/deliveries")
                 .end((err, res) => {
                     res.should.have.status(401);
                     res.body.should.be.an("object");
@@ -38,7 +38,7 @@ describe('deliveries', () => {
 
         it('should get 200 HAPPY PATH FROM GETTING API KEY', (done) => {
             chai.request(server)
-                .get("/api_key?email=test@deliveries.com")
+                .get("/v2/auth/api_key?email=test@deliveries.com")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -53,7 +53,7 @@ describe('deliveries', () => {
 
         it('should get 200 HAPPY PATH getting no deliveries', (done) => {
             chai.request(server)
-                .get("/deliveries?api_key=" + apiKey)
+                .get("/v2/deliveries?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -77,7 +77,7 @@ describe('deliveries', () => {
             };
 
             chai.request(server)
-                .post("/delivery")
+                .post("/v2/deliveries")
                 .send(delivery)
                 .end((err, res) => {
                     res.should.have.status(500);
@@ -102,7 +102,7 @@ describe('deliveries', () => {
             };
 
             chai.request(server)
-                .post("/delivery")
+                .post("/v2/deliveries")
                 .send(delivery)
                 .end((err, res) => {
                     res.should.have.status(500);
@@ -127,7 +127,7 @@ describe('deliveries', () => {
             };
 
             chai.request(server)
-                .post("/delivery")
+                .post("/v2/deliveries")
                 .send(delivery)
                 .end((err, res) => {
                     res.should.have.status(500);
@@ -151,7 +151,7 @@ describe('deliveries', () => {
             };
 
             chai.request(server)
-                .post("/delivery")
+                .post("/v2/deliveries")
                 .send(delivery)
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -167,7 +167,7 @@ describe('deliveries', () => {
 
         it('should get 200 HAPPY PATH getting the one product we just created', (done) => {
             chai.request(server)
-                .get("/deliveries?api_key=" + apiKey)
+                .get("/v2/deliveries?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -187,7 +187,7 @@ describe('deliveries', () => {
             };
 
             chai.request(server)
-                .delete("/delivery")
+                .delete("/v2/deliveries")
                 .send(delivery)
                 .end((err, res) => {
                     res.should.have.status(400);
@@ -208,7 +208,7 @@ describe('deliveries', () => {
             };
 
             chai.request(server)
-                .delete("/delivery")
+                .delete("/v2/deliveries")
                 .send(delivery)
                 .end((err, res) => {
                     res.should.have.status(204);
@@ -219,7 +219,7 @@ describe('deliveries', () => {
 
         it('should get 200 HAPPY PATH getting zero deliveries', (done) => {
             chai.request(server)
-                .get("/deliveries?api_key=" + apiKey)
+                .get("/v2/deliveries?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");

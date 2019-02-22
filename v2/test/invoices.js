@@ -5,7 +5,7 @@ process.env.NODE_ENV = 'test';
 //Require the dev-dependencies
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../app.js');
+const server = require('../../app.js');
 
 chai.should();
 
@@ -38,7 +38,7 @@ describe('invoices', () => {
     describe('GET /invoices', () => {
         it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
-                .get("/invoices")
+                .get("/v2/invoices")
                 .end((err, res) => {
                     res.should.have.status(401);
                     res.body.should.be.an("object");
@@ -49,7 +49,7 @@ describe('invoices', () => {
 
         it('should get 200 HAPPY PATH FROM GETTING API KEY', (done) => {
             chai.request(server)
-                .get("/api_key?email=test@invoice.com")
+                .get("/v2/auth/api_key?email=test@invoice.com")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -64,7 +64,7 @@ describe('invoices', () => {
 
         it('should get 401 as we have not logged in', (done) => {
             chai.request(server)
-                .get("/invoices?api_key=" + apiKey)
+                .get("/v2/invoices?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(401);
                     res.body.should.be.an("object");
@@ -81,7 +81,7 @@ describe('invoices', () => {
             };
 
             chai.request(server)
-                .post("/register")
+                .post("/v2/auth/register")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -100,7 +100,7 @@ describe('invoices', () => {
             };
 
             chai.request(server)
-                .post("/register")
+                .post("/v2/auth/register")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(500);
@@ -119,7 +119,7 @@ describe('invoices', () => {
             };
 
             chai.request(server)
-                .post("/login")
+                .post("/v2/auth/login")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -137,7 +137,7 @@ describe('invoices', () => {
 
         it('should get 200 HAPPY PATH getting no invoices', (done) => {
             chai.request(server)
-                .get("/invoices?api_key=" + apiKey)
+                .get("/v2/invoices?api_key=" + apiKey)
                 .set("x-access-token", token)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -158,7 +158,7 @@ describe('invoices', () => {
             };
 
             chai.request(server)
-                .post("/order")
+                .post("/v2/orders")
                 .send(order)
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -177,7 +177,7 @@ describe('invoices', () => {
             };
 
             chai.request(server)
-                .post("/invoice")
+                .post("/v2/invoices")
                 .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
@@ -200,7 +200,7 @@ describe('invoices', () => {
             };
 
             chai.request(server)
-                .post("/invoice")
+                .post("/v2/invoices")
                 .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
@@ -223,7 +223,7 @@ describe('invoices', () => {
             };
 
             chai.request(server)
-                .post("/invoice")
+                .post("/v2/invoices")
                 .send(invoice)
                 .end((err, res) => {
                     res.should.have.status(401);
@@ -242,7 +242,7 @@ describe('invoices', () => {
             };
 
             chai.request(server)
-                .post("/invoice")
+                .post("/v2/invoices")
                 .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
@@ -256,7 +256,7 @@ describe('invoices', () => {
 
         it('should get 200 HAPPY PATH getting the one invoice we just created', (done) => {
             chai.request(server)
-                .get("/invoices?api_key=" + apiKey)
+                .get("/v2/invoices?api_key=" + apiKey)
                 .set("x-access-token", token)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -277,7 +277,7 @@ describe('invoices', () => {
             };
 
             chai.request(server)
-                .post("/invoice")
+                .post("/v2/invoices")
                 .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
@@ -300,7 +300,7 @@ describe('invoices', () => {
             };
 
             chai.request(server)
-                .post("/invoice")
+                .post("/v2/invoices")
                 .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
@@ -324,7 +324,7 @@ describe('invoices', () => {
             };
 
             chai.request(server)
-                .post("/invoice")
+                .post("/v2/invoices")
                 .set("x-access-token", token)
                 .send(invoice)
                 .end((err, res) => {
@@ -342,19 +342,9 @@ describe('invoices', () => {
     });
 
     describe('GET /invoice', () => {
-        it('should get 404 no id supplied', (done) => {
-            chai.request(server)
-                .get("/invoice?api_key=" + apiKey)
-                .end((err, res) => {
-                    res.should.have.status(404);
-
-                    done();
-                });
-        });
-
         it('should get 400 string id supplied', (done) => {
             chai.request(server)
-                .get("/invoice/test?api_key=" + apiKey)
+                .get("/v2/invoices/test?api_key=" + apiKey)
                 .set("x-access-token", token)
                 .end((err, res) => {
                     res.should.have.status(400);
@@ -365,7 +355,7 @@ describe('invoices', () => {
 
         it('should get 401 not providing token', (done) => {
             chai.request(server)
-                .get("/invoice/1?api_key=" + apiKey)
+                .get("/v2/invoices/1?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(401);
                     res.body.should.be.an("object");
@@ -377,7 +367,7 @@ describe('invoices', () => {
 
         it('should get 200 HAPPY PATH', (done) => {
             chai.request(server)
-                .get("/invoice/1?api_key=" + apiKey)
+                .get("/v2/invoices/1?api_key=" + apiKey)
                 .set("x-access-token", token)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -392,7 +382,7 @@ describe('invoices', () => {
 
         it('should get 200, but empty data object', (done) => {
             chai.request(server)
-                .get("/invoice/99?api_key=" + apiKey)
+                .get("/v2/invoices/99?api_key=" + apiKey)
                 .set("x-access-token", token)
                 .end((err, res) => {
                     res.should.have.status(200);

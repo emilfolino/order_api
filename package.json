@@ -8,8 +8,10 @@
   },
   "main": "app.js",
   "scripts": {
-    "pretest": "$(db/reset_test_db.bash)",
-    "test": "nyc --reporter=html --reporter=text --reporter=clover mocha --timeout 10000",
+    "pretest": "$(v1/db/reset_test_db.bash) && $(v2/db/reset_test_db.bash)",
+    "test": "npm run test-v1 && npm run test-v2",
+    "test-v1": "nyc --reporter=html --reporter=text --reporter=clover mocha --timeout 10000 'v1/test/*.js'",
+    "test-v2": "nyc --reporter=html --reporter=text --reporter=clover mocha 'v2/test/*.js' --timeout 10000",
     "posttest": "npm run eslint",
     "start": "node app.js",
     "clean": "rm -rf node_modules package-lock.json",

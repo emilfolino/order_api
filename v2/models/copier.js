@@ -5,7 +5,7 @@ const orders = require("./orders.js");
 let config;
 
 try {
-    config = require('../config/config.json');
+    config = require('../../config/config.json');
 } catch (error) {
     console.error(error);
 }

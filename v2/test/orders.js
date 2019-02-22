@@ -5,7 +5,9 @@ process.env.NODE_ENV = 'test';
 //Require the dev-dependencies
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../app.js');
+const server = require('../../app.js');
+
+const { exec } = require('child_process');
 
 chai.should();
 
@@ -15,19 +17,64 @@ chai.use(chaiHttp);
 
 let apiKey = "";
 
-describe('products', () => {
+describe('orders', () => {
     before(() => {
-        db.run("DELETE FROM products", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table products", err.message);
-            }
+        return new Promise((resolve) => {
+            db.run("DELETE FROM apiKeys", (err) => {
+                if (err) {
+                    console.log("Could not empty test DB", err.message);
+                }
+
+                db.run("DELETE FROM products", (err) => {
+                    if (err) {
+                        console.log("Could not empty test DB table orders", err.message);
+                    }
+
+                    db.run("DELETE FROM orders", (err) => {
+                        if (err) {
+                            console.log("Could not empty test DB table orders", err.message);
+                        }
+
+                        db.run("DELETE FROM order_items", (err) => {
+                            if (err) {
+                                console.log("Could not empty test DB table orders", err.message);
+                            }
+
+                            db.run("DELETE FROM status", (err) => {
+                                if (err) {
+                                    console.log(
+                                        "Could not empty test DB table orders",
+                                        err.message
+                                    );
+                                }
+
+                                exec(
+                                    'cat v2/db/status_seed.sql | sqlite3 v2/db/test.sqlite',
+                                    (error, stdout, stderr) => {
+                                        if (error) {
+                                            console.log(error.message);
+                                            return;
+                                        }
+
+                                        if (stderr) {
+                                            console.log(stderr);
+                                            return;
+                                        }
+
+                                        resolve();
+                                    });
+                            });
+                        });
+                    });
+                });
+            });
         });
     });
 
-    describe('GET /products', () => {
+    describe('GET /orders', () => {
         it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
-                .get("/products")
+                .get("/v2/orders")
                 .end((err, res) => {
                     res.should.have.status(401);
                     res.body.should.be.an("object");
@@ -38,7 +85,7 @@ describe('products', () => {
 
         it('should get 200 HAPPY PATH FROM GETTING API KEY', (done) => {
             chai.request(server)
-                .get("/api_key?email=test@product.com")
+                .get("/v2/auth/api_key?email=test@order.com")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -51,9 +98,9 @@ describe('products', () => {
                 });
         });
 
-        it('should get 200 HAPPY PATH getting no products', (done) => {
+        it('should get 200 HAPPY PATH getting no orders', (done) => {
             chai.request(server)
-                .get("/products?api_key=" + apiKey)
+                .get("/v2/orders?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -65,17 +112,16 @@ describe('products', () => {
         });
     });
 
-    describe('POST /product', () => {
+    describe('POST /order', () => {
         it('should get 500 as we do not supply name', (done) => {
-            let product = {
+            let order = {
                 id: 1,
-                description: "Mighty fine screw.",
                 api_key: apiKey
             };
 
             chai.request(server)
-                .post("/product")
-                .send(product)
+                .post("/v2/orders")
+                .send(order)
                 .end((err, res) => {
                     res.should.have.status(500);
                     res.body.should.be.an("object");
@@ -89,16 +135,15 @@ describe('products', () => {
         });
 
         it('should get 201 HAPPY PATH', (done) => {
-            let product = {
-                name: "Screw",
-                description: "Mighty fine screw.",
-                price: 12,
+            let order = {
+                id: 1,
+                name: "Anders",
                 api_key: apiKey
             };
 
             chai.request(server)
-                .post("/product")
-                .send(product)
+                .post("/v2/orders")
+                .send(order)
                 .end((err, res) => {
                     res.should.have.status(201);
                     res.body.should.be.an("object");
@@ -108,9 +153,9 @@ describe('products', () => {
                 });
         });
 
-        it('should get 200 HAPPY PATH getting the one product we just created', (done) => {
+        it('should get 200 HAPPY PATH getting the one order we just created', (done) => {
             chai.request(server)
-                .get("/products?api_key=" + apiKey)
+                .get("/v2/orders?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -120,75 +165,12 @@ describe('products', () => {
                     done();
                 });
         });
-
-        it('should get 201 HAPPY PATH testing for special characters', (done) => {
-            let product = {
-                name: "öäåÅÄÖ!#€%&/()=?'\"éñ''",
-                description: "öäåÅÄÖ!#€%&/()=?'\"éñ''",
-                price: 14,
-                api_key: apiKey
-            };
-
-            chai.request(server)
-                .post("/product")
-                .send(product)
-                .end((err, res) => {
-                    res.should.have.status(201);
-                    res.body.should.be.an("object");
-                    res.body.should.have.property("data");
-
-                    done();
-                });
-        });
-
-        it('should get 200 HAPPY PATH getting the two products we just created', (done) => {
-            chai.request(server)
-                .get("/products?api_key=" + apiKey)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.an("object");
-                    res.body.data.should.be.an("array");
-                    res.body.data.length.should.be.equal(2);
-
-                    done();
-                });
-        });
-
-        it('should get 201 creating product with SQL injection', (done) => {
-            let product = {
-                name: "'; DROP TABLE products;--",
-                description: "öäåÅÄÖ!#€%&/()=?'\"éñ''",
-                price: 14,
-                api_key: apiKey
-            };
-
-            chai.request(server)
-                .post("/product")
-                .send(product)
-                .end((err, res) => {
-                    res.should.have.status(201);
-                    res.body.should.be.an("object");
-                    res.body.should.have.property("data");
-
-                    done();
-                });
-        });
     });
 
-    describe('GET /product', () => {
-        it('should get 404 no id supplied', (done) => {
-            chai.request(server)
-                .get("/product?api_key=" + apiKey)
-                .end((err, res) => {
-                    res.should.have.status(404);
-
-                    done();
-                });
-        });
-
+    describe('GET /order', () => {
         it('should get 400 string id supplied', (done) => {
             chai.request(server)
-                .get("/product/test?api_key=" + apiKey)
+                .get("/v2/orders/test?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(400);
 
@@ -198,13 +180,15 @@ describe('products', () => {
 
         it('should get 200 HAPPY PATH', (done) => {
             chai.request(server)
-                .get("/product/1?api_key=" + apiKey)
+                .get("/v2/orders/1?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("object");
                     res.body.data.should.have.property("id");
                     res.body.data.id.should.be.equal(1);
+                    res.body.data.order_items.should.be.an("array");
+                    res.body.data.order_items.length.should.be.equal(0);
 
                     done();
                 });
@@ -212,20 +196,20 @@ describe('products', () => {
 
         it('should get 200, but empty data object', (done) => {
             chai.request(server)
-                .get("/product/4?api_key=" + apiKey)
+                .get("/v2/orders/2?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.body.should.be.eql({});
+                    res.body.data.should.be.eql({});
 
                     done();
                 });
         });
     });
 
-    describe('GET /product/search/:query', () => {
+    describe('GET /order/search/:query', () => {
         it('should get 200 HAPPY PATH', (done) => {
             chai.request(server)
-                .get("/product/search/screw?api_key=" + apiKey)
+                .get("/v2/orders/search/anders?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -238,7 +222,7 @@ describe('products', () => {
 
         it('should get 200, but empty data object', (done) => {
             chai.request(server)
-                .get("/product/search/bolt?api_key=" + apiKey)
+                .get("/v2/orders/search/bengt?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.data.should.be.eql([]);
@@ -248,17 +232,16 @@ describe('products', () => {
         });
     });
 
-    describe('PUT /product', () => {
+    describe('PUT /order', () => {
         it('should get 400 no id supplied', (done) => {
-            let product = {
-                name: "Big Screw",
-                description: "Mighty fine big screw.",
+            let order = {
+                name: "Bengt",
                 api_key: apiKey
             };
 
             chai.request(server)
-                .put("/product?api_key=" + apiKey)
-                .send(product)
+                .put("/v2/orders")
+                .send(order)
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.should.be.an("object");
@@ -272,17 +255,15 @@ describe('products', () => {
         });
 
         it('should get 204 HAPPY PATH', (done) => {
-            let product = {
+            let order = {
                 id: 1,
-                name: "Big Screw",
-                description: "Mighty fine big screw.",
-                price: 14,
+                name: "Bengt",
                 api_key: apiKey
             };
 
             chai.request(server)
-                .put("/product?api_key=" + apiKey)
-                .send(product)
+                .put("/v2/orders")
+                .send(order)
                 .end((err, res) => {
                     res.should.have.status(204);
 
@@ -292,30 +273,26 @@ describe('products', () => {
 
         it('should get 200, with changed name and description', (done) => {
             chai.request(server)
-                .get("/product/1?api_key=" + apiKey)
+                .get("/v2/orders/1?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.data.should.have.property("name");
-                    res.body.data.name.should.be.equal("Big Screw");
-                    res.body.data.should.have.property("description");
-                    res.body.data.description.should.be.equal("Mighty fine big screw.");
-                    res.body.data.should.have.property("price");
-                    res.body.data.price.should.be.equal(14);
+                    res.body.data.name.should.be.equal("Bengt");
 
                     done();
                 });
         });
     });
 
-    describe('DELETE /product', () => {
+    describe('DELETE /order', () => {
         it('should get 400 no id supplied', (done) => {
-            let product = {
+            let order = {
                 api_key: apiKey
             };
 
             chai.request(server)
-                .delete("/product")
-                .send(product)
+                .delete("/v2/orders")
+                .send(order)
                 .end((err, res) => {
                     res.should.have.status(400);
                     res.body.should.be.an("object");
@@ -329,14 +306,14 @@ describe('products', () => {
         });
 
         it('should get 204 HAPPY PATH', (done) => {
-            let product = {
+            let order = {
                 id: 1,
                 api_key: apiKey
             };
 
             chai.request(server)
-                .delete("/product")
-                .send(product)
+                .delete("/v2/orders")
+                .send(order)
                 .end((err, res) => {
                     res.should.have.status(204);
 
@@ -344,14 +321,14 @@ describe('products', () => {
                 });
         });
 
-        it('should get 200 HAPPY PATH getting two products', (done) => {
+        it('should get 200 HAPPY PATH getting no orders', (done) => {
             chai.request(server)
-                .get("/products?api_key=" + apiKey)
+                .get("/v2/orders?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
-                    res.body.data.length.should.be.equal(2);
+                    res.body.data.length.should.be.equal(0);
 
                     done();
                 });

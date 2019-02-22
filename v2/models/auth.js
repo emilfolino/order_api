@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 let config;
 
 try {
-    config = require('../config/config.json');
+    config = require('../../config/config.json');
 } catch (error) {
     console.error(error);
 }
@@ -16,6 +16,18 @@ try {
 const jwtSecret = process.env.JWT_SECRET || config.secret;
 
 const auth = {
+    checkAPIKey: function (req, res, next) {
+        if ( req.path == '/') {
+            return next();
+        }
+
+        if ( req.path == '/auth/api_key') {
+            return next();
+        }
+
+        auth.isValidAPIKey(req.query.api_key || req.body.api_key, next, req.path, res);
+    },
+
     isValidAPIKey: function(apiKey, next, path, res) {
         db.get("SELECT email FROM apikeys WHERE key = ?", apiKey, (err, row) => {
             if (err) {
