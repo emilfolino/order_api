@@ -19,6 +19,10 @@ function checkAPIKey(req, res, next) {
         return next();
     }
 
+    if ( req.path == '/docs') {
+        return next();
+    }
+
     if ( req.path == '/api_key') {
         return next();
     }
@@ -29,7 +33,7 @@ function checkAPIKey(req, res, next) {
 
 
 // Base route with api-documentation
-router.get('/', (req, res) => res.sendFile(path.join(__dirname + '/documentation.html')));
+router.get('/docs', (req, res) => res.sendFile(path.join(__dirname + '/documentation.html')));
 
 
 

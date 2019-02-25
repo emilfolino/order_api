@@ -27,10 +27,11 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use("/v2", v2);
+
 app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/public/base.html')));
 
-app.use("/v1", v1);
-app.use("/v2", v2);
+app.use("/", v1);
 
 const server = app.listen(port, () => console.log('Order api listening on port ' + port));
 

@@ -59,7 +59,7 @@ describe('copier', () => {
     describe('POST /copy_products', () => {
         it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
-                .post("/v1/copy_products")
+                .post("/copy_products")
                 .end((err, res) => {
                     res.should.have.status(401);
                     res.body.should.be.an("object");
@@ -71,7 +71,7 @@ describe('copier', () => {
 
         it('should get 200 HAPPY PATH FROM GETTING API KEY', (done) => {
             chai.request(server)
-                .get("/v1/api_key?email=test@copy.com")
+                .get("/api_key?email=test@copy.com")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -86,7 +86,7 @@ describe('copier', () => {
 
         it('should get 201 HAPPY PATH, 10 products should have been created', (done) => {
             chai.request(server)
-                .post("/v1/copy_products")
+                .post("/copy_products")
                 .send({ api_key: apiKey })
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -102,7 +102,7 @@ describe('copier', () => {
     describe('POST /copy_orders', () => {
         it('should get 201 HAPPY PATH, 4 orders should have been created', (done) => {
             chai.request(server)
-                .post("/v1/copy_orders")
+                .post("/copy_orders")
                 .send({ api_key: apiKey })
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -118,7 +118,7 @@ describe('copier', () => {
     describe("POST /copy_all", () => {
         it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
-                .post("/v1/copy_all")
+                .post("/copy_all")
                 .end((err, res) => {
                     res.should.have.status(401);
                     res.body.should.be.an("object");
@@ -130,7 +130,7 @@ describe('copier', () => {
 
         it('should get 200 HAPPY PATH FROM GETTING API KEY', (done) => {
             chai.request(server)
-                .get("/v1/api_key?email=test@copyall.com")
+                .get("/api_key?email=test@copyall.com")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -145,7 +145,7 @@ describe('copier', () => {
 
         it('should get 201 HAPPY PATH', (done) => {
             chai.request(server)
-                .post("/v1/copy_all")
+                .post("/copy_all")
                 .send({ api_key: apiKey })
                 .end((err, res) => {
                     res.should.have.status(201);

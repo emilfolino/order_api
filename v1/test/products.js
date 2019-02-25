@@ -27,7 +27,7 @@ describe('products', () => {
     describe('GET /products', () => {
         it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
-                .get("/v1/products")
+                .get("/products")
                 .end((err, res) => {
                     res.should.have.status(401);
                     res.body.should.be.an("object");
@@ -38,7 +38,7 @@ describe('products', () => {
 
         it('should get 200 HAPPY PATH FROM GETTING API KEY', (done) => {
             chai.request(server)
-                .get("/v1/api_key?email=test@product.com")
+                .get("/api_key?email=test@product.com")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -53,7 +53,7 @@ describe('products', () => {
 
         it('should get 200 HAPPY PATH getting no products', (done) => {
             chai.request(server)
-                .get("/v1/products?api_key=" + apiKey)
+                .get("/products?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -74,7 +74,7 @@ describe('products', () => {
             };
 
             chai.request(server)
-                .post("/v1/product")
+                .post("/product")
                 .send(product)
                 .end((err, res) => {
                     res.should.have.status(500);
@@ -96,7 +96,7 @@ describe('products', () => {
             };
 
             chai.request(server)
-                .post("/v1/product")
+                .post("/product")
                 .send(product)
                 .end((err, res) => {
                     res.should.have.status(500);
@@ -120,7 +120,7 @@ describe('products', () => {
             };
 
             chai.request(server)
-                .post("/v1/product")
+                .post("/product")
                 .send(product)
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -133,7 +133,7 @@ describe('products', () => {
 
         it('should get 200 HAPPY PATH getting the one product we just created', (done) => {
             chai.request(server)
-                .get("/v1/products?api_key=" + apiKey)
+                .get("/products?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -154,7 +154,7 @@ describe('products', () => {
             };
 
             chai.request(server)
-                .post("/v1/product")
+                .post("/product")
                 .send(product)
                 .end((err, res) => {
                     res.should.have.status(500);
@@ -178,7 +178,7 @@ describe('products', () => {
             };
 
             chai.request(server)
-                .post("/v1/product")
+                .post("/product")
                 .send(product)
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -191,7 +191,7 @@ describe('products', () => {
 
         it('should get 200 HAPPY PATH getting the two products we just created', (done) => {
             chai.request(server)
-                .get("/v1/products?api_key=" + apiKey)
+                .get("/products?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -212,7 +212,7 @@ describe('products', () => {
             };
 
             chai.request(server)
-                .post("/v1/product")
+                .post("/product")
                 .send(product)
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -227,7 +227,7 @@ describe('products', () => {
     describe('GET /product', () => {
         it('should get 404 no id supplied', (done) => {
             chai.request(server)
-                .get("/v1/product?api_key=" + apiKey)
+                .get("/product?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(404);
 
@@ -237,7 +237,7 @@ describe('products', () => {
 
         it('should get 400 string id supplied', (done) => {
             chai.request(server)
-                .get("/v1/product/test?api_key=" + apiKey)
+                .get("/product/test?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(400);
 
@@ -247,7 +247,7 @@ describe('products', () => {
 
         it('should get 200 HAPPY PATH', (done) => {
             chai.request(server)
-                .get("/v1/product/1?api_key=" + apiKey)
+                .get("/product/1?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -261,7 +261,7 @@ describe('products', () => {
 
         it('should get 200, but empty data object', (done) => {
             chai.request(server)
-                .get("/v1/product/2?api_key=" + apiKey)
+                .get("/product/2?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.eql({});
@@ -274,7 +274,7 @@ describe('products', () => {
     describe('GET /product/search/:query', () => {
         it('should get 200 HAPPY PATH', (done) => {
             chai.request(server)
-                .get("/v1/product/search/screw?api_key=" + apiKey)
+                .get("/product/search/screw?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -287,7 +287,7 @@ describe('products', () => {
 
         it('should get 200, but empty data object', (done) => {
             chai.request(server)
-                .get("/v1/product/search/bolt?api_key=" + apiKey)
+                .get("/product/search/bolt?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.data.should.be.eql([]);
@@ -306,7 +306,7 @@ describe('products', () => {
             };
 
             chai.request(server)
-                .put("/v1/product?api_key=" + apiKey)
+                .put("/product?api_key=" + apiKey)
                 .send(product)
                 .end((err, res) => {
                     res.should.have.status(400);
@@ -330,7 +330,7 @@ describe('products', () => {
             };
 
             chai.request(server)
-                .put("/v1/product?api_key=" + apiKey)
+                .put("/product?api_key=" + apiKey)
                 .send(product)
                 .end((err, res) => {
                     res.should.have.status(204);
@@ -341,7 +341,7 @@ describe('products', () => {
 
         it('should get 200, with changed name and description', (done) => {
             chai.request(server)
-                .get("/v1/product/1?api_key=" + apiKey)
+                .get("/product/1?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.data.should.have.property("name");
@@ -363,7 +363,7 @@ describe('products', () => {
             };
 
             chai.request(server)
-                .delete("/v1/product?api_key=" + apiKey)
+                .delete("/product?api_key=" + apiKey)
                 .send(product)
                 .end((err, res) => {
                     res.should.have.status(400);
@@ -384,7 +384,7 @@ describe('products', () => {
             };
 
             chai.request(server)
-                .delete("/v1/product")
+                .delete("/product")
                 .send(product)
                 .end((err, res) => {
                     res.should.have.status(204);
@@ -395,7 +395,7 @@ describe('products', () => {
 
         it('should get 200 HAPPY PATH getting two products', (done) => {
             chai.request(server)
-                .get("/v1/products?api_key=" + apiKey)
+                .get("/products?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");

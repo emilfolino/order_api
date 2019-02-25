@@ -33,7 +33,7 @@ describe('auth', () => {
     describe('GET /api_key', () => {
         it('should get 401 as we do not provide an email address', (done) => {
             chai.request(server)
-                .get("/v1/api_key")
+                .get("/api_key")
                 .end((err, res) => {
                     res.should.have.status(401);
                     res.body.should.be.a("object");
@@ -44,7 +44,7 @@ describe('auth', () => {
 
         it('should get 401 as we do not provide a valid email address', (done) => {
             chai.request(server)
-                .get("/v1/api_key?email=test")
+                .get("/api_key?email=test")
                 .end((err, res) => {
                     res.should.have.status(401);
                     res.body.should.be.a("object");
@@ -55,7 +55,7 @@ describe('auth', () => {
 
         it('should get 200 HAPPY PATH', (done) => {
             chai.request(server)
-                .get("/v1/api_key?email=test@auth.com")
+                .get("/api_key?email=test@auth.com")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
@@ -70,7 +70,7 @@ describe('auth', () => {
 
         it('should get 200 email already used', (done) => {
             chai.request(server)
-                .get("/v1/api_key?email=test@auth.com")
+                .get("/api_key?email=test@auth.com")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a("object");
@@ -95,7 +95,7 @@ describe('auth', () => {
             };
 
             chai.request(server)
-                .post("/v1/register")
+                .post("/register")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(401);
@@ -113,7 +113,7 @@ describe('auth', () => {
             };
 
             chai.request(server)
-                .post("/v1/register")
+                .post("/register")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(401);
@@ -131,7 +131,7 @@ describe('auth', () => {
             };
 
             chai.request(server)
-                .post("/v1/register")
+                .post("/register")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(401);
@@ -149,7 +149,7 @@ describe('auth', () => {
             };
 
             chai.request(server)
-                .post("/v1/register")
+                .post("/register")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -172,7 +172,7 @@ describe('auth', () => {
             };
 
             chai.request(server)
-                .post("/v1/login")
+                .post("/login")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(401);
@@ -190,7 +190,7 @@ describe('auth', () => {
             };
 
             chai.request(server)
-                .post("/v1/login")
+                .post("/login")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(401);
@@ -208,7 +208,7 @@ describe('auth', () => {
             };
 
             chai.request(server)
-                .post("/v1/login")
+                .post("/login")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(401);
@@ -226,7 +226,7 @@ describe('auth', () => {
             };
 
             chai.request(server)
-                .post("/v1/login")
+                .post("/login")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(401);
@@ -244,7 +244,7 @@ describe('auth', () => {
             };
 
             chai.request(server)
-                .post("/v1/login")
+                .post("/login")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(401);
@@ -262,7 +262,7 @@ describe('auth', () => {
             };
 
             chai.request(server)
-                .post("/v1/login")
+                .post("/login")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(200);

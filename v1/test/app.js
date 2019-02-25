@@ -15,7 +15,7 @@ describe('app', () => {
     describe('GET /', () => {
         it('200 HAPPY PATH', (done) => {
             chai.request(server)
-                .get("/")
+                .get("/docs")
                 .end((err, res) => {
                     res.should.have.status(200);
 

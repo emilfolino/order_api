@@ -27,7 +27,7 @@ describe('deliveries', () => {
     describe('GET /deliveries', () => {
         it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
-                .get("/v1/deliveries")
+                .get("/deliveries")
                 .end((err, res) => {
                     res.should.have.status(401);
                     res.body.should.be.an("object");
@@ -38,7 +38,7 @@ describe('deliveries', () => {
 
         it('should get 200 HAPPY PATH FROM GETTING API KEY', (done) => {
             chai.request(server)
-                .get("/v1/api_key?email=test@deliveries.com")
+                .get("/api_key?email=test@deliveries.com")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -53,7 +53,7 @@ describe('deliveries', () => {
 
         it('should get 200 HAPPY PATH getting no deliveries', (done) => {
             chai.request(server)
-                .get("/v1/deliveries?api_key=" + apiKey)
+                .get("/deliveries?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -77,7 +77,7 @@ describe('deliveries', () => {
             };
 
             chai.request(server)
-                .post("/v1/delivery")
+                .post("/delivery")
                 .send(delivery)
                 .end((err, res) => {
                     res.should.have.status(500);
@@ -102,7 +102,7 @@ describe('deliveries', () => {
             };
 
             chai.request(server)
-                .post("/v1/delivery")
+                .post("/delivery")
                 .send(delivery)
                 .end((err, res) => {
                     res.should.have.status(500);
@@ -127,7 +127,7 @@ describe('deliveries', () => {
             };
 
             chai.request(server)
-                .post("/v1/delivery")
+                .post("/delivery")
                 .send(delivery)
                 .end((err, res) => {
                     res.should.have.status(500);
@@ -152,7 +152,7 @@ describe('deliveries', () => {
             };
 
             chai.request(server)
-                .post("/v1/delivery")
+                .post("/delivery")
                 .send(delivery)
                 .end((err, res) => {
                     res.should.have.status(500);
@@ -177,7 +177,7 @@ describe('deliveries', () => {
             };
 
             chai.request(server)
-                .post("/v1/delivery")
+                .post("/delivery")
                 .send(delivery)
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -190,7 +190,7 @@ describe('deliveries', () => {
 
         it('should get 200 HAPPY PATH getting the one product we just created', (done) => {
             chai.request(server)
-                .get("/v1/deliveries?api_key=" + apiKey)
+                .get("/deliveries?api_key=" + apiKey)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
@@ -212,7 +212,7 @@ describe('deliveries', () => {
             };
 
             chai.request(server)
-                .post("/v1/delivery")
+                .post("/delivery")
                 .send(delivery)
                 .end((err, res) => {
                     res.should.have.status(500);

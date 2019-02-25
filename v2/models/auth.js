@@ -21,6 +21,10 @@ const auth = {
             return next();
         }
 
+        if ( req.path == '/v2') {
+            return next();
+        }
+
         if ( req.path == '/auth/api_key') {
             return next();
         }
