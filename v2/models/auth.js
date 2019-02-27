@@ -29,6 +29,10 @@ const auth = {
             return next();
         }
 
+        if ( req.path == '/auth/api_key/confirmation') {
+            return next();
+        }
+
         auth.isValidAPIKey(req.query.api_key || req.body.api_key, next, req.path, res);
     },
 
@@ -60,56 +64,48 @@ const auth = {
         });
     },
 
-    getNewAPIKey: function(res, path, email) {
+    getNewAPIKey: function(res, email) {
+        let data = {
+            apiKey: ""
+        };
+
         if (email === undefined || !validator.validate(email)) {
-            return res.status(401).json({
-                errors: {
-                    status: 401,
-                    source: path,
-                    title: "Valid email",
-                    detail: "A valid email address is required to obtain an API key."
-                }
-            });
+            data.message = "A valid email address is required to obtain an API key.";
+            data.email = email;
+
+            return res.render("api_key/form", data);
         }
 
         db.get("SELECT email, key FROM apikeys WHERE email = ?", email, (err, row) => {
             if (err) {
-                return res.status(500).json({
-                    errors: {
-                        status: 500,
-                        source: path,
-                        title: "Database error",
-                        detail: err.message
-                    }
-                });
+                data.message = "Database error: " + err.message;
+                data.email = email;
+
+                return res.render("api_key/form", data);
             }
 
             if (row !== undefined) {
-                return res.json({
-                    data: {
-                        message: "Email address already used for api key.",
-                        apiKey: row.key
-                    }
-                });
+                data.apiKey = row.key;
+
+                return res.render("api_key/confirmation", data);
             }
 
-            return auth.getUniqueAPIKey(res, path, email);
+            return auth.getUniqueAPIKey(res, email);
         });
     },
 
-    getUniqueAPIKey: function(res, path, email) {
+    getUniqueAPIKey: function(res, email) {
         const apiKey = hat();
+        let data = {
+            apiKey: ""
+        };
 
         db.get("SELECT key FROM apikeys WHERE key = ?", apiKey, (err, row) => {
             if (err) {
-                return res.status(401).json({
-                    errors: {
-                        status: 401,
-                        source: path,
-                        title: "Database error",
-                        detail: err.message
-                    }
-                });
+                data.message = "Database error: " + err.message;
+                data.email = email;
+
+                return res.render("api_key/form", data);
             }
 
             if (row === undefined) {
@@ -117,17 +113,15 @@ const auth = {
                     apiKey,
                     email, (err) => {
                         if (err) {
-                            return res.status(401).json({
-                                errors: {
-                                    status: 401,
-                                    source: path,
-                                    title: "Database error",
-                                    detail: err.message
-                                }
-                            });
+                            data.message = "Database error: " + err.message;
+                            data.email = email;
+
+                            return res.render("api_key/form", data);
                         }
 
-                        return res.json({ data: { key: apiKey }});
+                        data.apiKey = apiKey;
+
+                        return res.render("api_key/confirmation", data);
                     });
             } else {
                 return auth.getUniqueAPIKey(res, email);

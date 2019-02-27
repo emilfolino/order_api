@@ -5,6 +5,8 @@ process.env.NODE_ENV = 'test';
 //Require the dev-dependencies
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const HTMLParser = require('node-html-parser');
+
 const server = require('../../app.js');
 
 const { exec } = require('child_process');
@@ -83,16 +85,22 @@ describe('orders', () => {
                 });
         });
 
-        it('should get 200 HAPPY PATH FROM GETTING API KEY', (done) => {
+        it('should get 200 as we get apiKey', (done) => {
+            let user = {
+                email: "test@orders.com",
+                gdpr: "gdpr"
+            };
+
             chai.request(server)
-                .get("/v2/auth/api_key?email=test@order.com")
+                .post("/v2/auth/api_key/confirmation")
+                .send(user)
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.body.should.be.an("object");
-                    res.body.data.should.be.an("object");
-                    res.body.data.should.have.property("key");
 
-                    apiKey = res.body.data.key;
+                    let HTMLResponse = HTMLParser.parse(res.text);
+                    let apiKeyElement = HTMLResponse.querySelector('#apikey');
+
+                    apiKey = apiKeyElement.childNodes[0].rawText;
 
                     done();
                 });

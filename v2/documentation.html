@@ -9,20 +9,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
-    <style>
-        html { font-size: 100% }
-        body { margin: 0; padding: 0; }
-        p { font-size: 1em }
-        @media (min-width: 64em) { html { font-size: 112.5%; } }
-        main { width: 960px; margin: 20px auto; font-family: sans-serif; }
-        pre.lager { background: #ace; border-left: 3px solid #57c; padding: 10px; box-sizing: border-box; }
-        h1 { font-size: 3rem; }
-        h2 { font-size: 2.4rem; }
-        h3 { font-size: 1.8rem; }
-        .footer { background-color: #13395f; color: white; padding: 4rem 0;}
-        .inner-footer { width: 960px; margin: 0 auto; font-family: sans-serif; }
-        .inner-footer a { color: white; }
-    </style>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
@@ -66,25 +53,10 @@
 
         <section id="apikeys">
             <h2>API keys</h2>
-            <h3>To request an API key:</h3>
-            <pre class="lager">GET /api_key?email=[YOUR_EMAIL]</pre>
-            <p>Result:</p>
-            <pre class="lager">{
-    "data": {
-        "key": "6eae78f64e3b6b9bfb2e3904469e8c30"
-    }
-}</pre>
-            <p>Errors:</p>
-            <pre class="lager">{
-    "data": {
-        "message": "Email address already used for api key.",
-        "api_key": "1bdd5c943e664d399f2a298fca0dabfd"
-    }
-}</pre>
+            <p><a href="/v2/auth/api_key">Request a personal API key.</a></p>
 
-            <h3>An API key is required for all requests except the following:</h3>
-            <pre class="lager">GET /</pre>
-            <pre class="lager">GET /api_key?email=[YOUR_EMAIL]</pre>
+            <p>An API key is required for all requests.</p>
+
             <p>If an API key is not provided the following error is given:</p>
             <pre class="lager">{
     "errors": {

@@ -5,6 +5,8 @@ process.env.NODE_ENV = 'test';
 //Require the dev-dependencies
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const HTMLParser = require('node-html-parser');
+
 const server = require('../../app.js');
 
 chai.should();
@@ -31,55 +33,126 @@ describe('auth', () => {
     });
 
     describe('GET /api_key', () => {
-        it('should get 401 as we do not provide an email address', (done) => {
+        it('200 HAPPY PATH getting form', (done) => {
             chai.request(server)
                 .get("/v2/auth/api_key")
                 .end((err, res) => {
-                    res.should.have.status(401);
-                    res.body.should.be.a("object");
-                    res.body.errors.status.should.be.eql(401);
+                    res.should.have.status(200);
+
                     done();
                 });
         });
 
-        it('should get 401 as we do not provide a valid email address', (done) => {
-            chai.request(server)
-                .get("/v2/auth/api_key?email=test")
-                .end((err, res) => {
-                    res.should.have.status(401);
-                    res.body.should.be.a("object");
-                    res.body.errors.status.should.be.eql(401);
-                    done();
-                });
-        });
+        it('should get 200 as we get apiKey', (done) => {
+            let user = {
+                email: "test@auth.com",
+                gdpr: "gdpr"
+            };
 
-        it('should get 200 HAPPY PATH', (done) => {
             chai.request(server)
-                .get("/v2/auth/api_key?email=test@auth.com")
+                .post("/v2/auth/api_key/confirmation")
+                .send(user)
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.body.should.be.a("object");
-                    res.body.data.should.be.a("object");
-                    res.body.data.should.have.property("key");
+                    res.text.should.be.a("string");
 
-                    apiKey = res.body.data.key;
+                    let HTMLResponse = HTMLParser.parse(res.text);
+                    let apiKeyElement = HTMLResponse.querySelector('#apikey');
+
+                    apiKeyElement.should.be.an("object");
+
+                    apiKey = apiKeyElement.childNodes[0].rawText;
+
+                    apiKey.length.should.equal(32);
 
                     done();
                 });
         });
 
-        it('should get 200 email already used', (done) => {
+        it('should get 200 but no apikey element not a valid email', (done) => {
+            let user = {
+                email: "test",
+                gdpr: "gdpr"
+            };
+
             chai.request(server)
-                .get("/v2/auth/api_key?email=test@auth.com")
+                .post("/v2/auth/api_key/confirmation")
+                .send(user)
                 .end((err, res) => {
                     res.should.have.status(200);
-                    res.body.should.be.a("object");
-                    res.body.data.should.be.a("object");
-                    res.body.data.should.have.property("apiKey");
-                    res.body.data.should.have.property("message");
-                    res.body.data.message.should.equal(
-                        "Email address already used for api key."
-                    );
+                    res.text.should.be.a("string");
+
+                    let HTMLResponse = HTMLParser.parse(res.text);
+                    let apiKeyElement = HTMLResponse.querySelector('#apikey');
+
+                    (apiKeyElement === null).should.be.true;
+
+                    let messageElement = HTMLResponse.querySelector('#error');
+
+                    messageElement.should.be.an("object");
+
+                    let message = messageElement.childNodes[0].rawText;
+
+                    message.should.equal("A valid email address is required to obtain an API key.");
+
+                    done();
+                });
+        });
+
+        it('should get 200 but no apikey element no gdpr', (done) => {
+            let user = {
+                email: "test@auth.com"
+            };
+
+            chai.request(server)
+                .post("/v2/auth/api_key/confirmation")
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.text.should.be.a("string");
+
+                    let HTMLResponse = HTMLParser.parse(res.text);
+                    let apiKeyElement = HTMLResponse.querySelector('#apikey');
+
+                    (apiKeyElement === null).should.be.true;
+
+                    let messageElement = HTMLResponse.querySelector('#error');
+
+                    messageElement.should.be.an("object");
+
+                    let message = messageElement.childNodes[0].rawText;
+
+                    message.should.equal("Approve the terms and conditions.");
+
+                    done();
+                });
+        });
+
+        it('should get 200 but no apikey element not correct gdpr', (done) => {
+            let user = {
+                email: "test@auth.com",
+                gdpr: "gdprgdpr"
+            };
+
+            chai.request(server)
+                .post("/v2/auth/api_key/confirmation")
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.text.should.be.a("string");
+
+                    let HTMLResponse = HTMLParser.parse(res.text);
+                    let apiKeyElement = HTMLResponse.querySelector('#apikey');
+
+                    (apiKeyElement === null).should.be.true;
+
+                    let messageElement = HTMLResponse.querySelector('#error');
+
+                    messageElement.should.be.an("object");
+
+                    let message = messageElement.childNodes[0].rawText;
+
+                    message.should.equal("Approve the terms and conditions.");
 
                     done();
                 });

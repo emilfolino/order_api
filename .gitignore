@@ -68,3 +68,5 @@ typings/
 config/
 docs_test/
 db/do_migrate.sh
+
+test_output

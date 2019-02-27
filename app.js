@@ -14,6 +14,8 @@ app.options('*', cors());
 
 app.disable('x-powered-by');
 
+app.set("view engine", "ejs");
+
 const port = 8111;
 
 // don't show the log when it is test
