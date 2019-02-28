@@ -107,22 +107,6 @@ describe('copier', () => {
         });
     });
 
-    describe('POST /copy_orders', () => {
-        it('should get 201 HAPPY PATH, 4 orders should have been created', (done) => {
-            chai.request(server)
-                .post("/v2/copier/orders")
-                .send({ api_key: apiKey })
-                .end((err, res) => {
-                    res.should.have.status(201);
-                    res.body.should.be.an("object");
-                    res.body.data.should.be.an("array");
-                    res.body.data.length.should.equal(4);
-
-                    done();
-                });
-        });
-    });
-
     describe("POST /copy_all", () => {
         it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
