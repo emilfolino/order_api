@@ -10,7 +10,4 @@ router.post('/products', (req, res) => copier.copyProducts(
     req.body.api_key
 ));
 
-router.post('/orders', (req, res) => copier.copyOrders(res, req.body.api_key));
-
-
 module.exports = router;
