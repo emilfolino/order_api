@@ -147,6 +147,7 @@ const copier = {
 
                                         return copier.organizeOrderItems(
                                             res,
+                                            apiKey,
                                             copiedProducts,
                                             copiedOrders,
                                             oiRows
@@ -158,28 +159,49 @@ const copier = {
             });
     },
 
-    organizeOrderItems: function(res, products, orders, orderItems) {
+    organizeOrderItems: function(
+        res,
+        apiKey,
+        copiedProducts,
+        copiedOrders,
+        orderItems
+    ) {
+        let sqlReadyOrderItems = [];
+
         orderItems.forEach(function(orderItem) {
-            let originalOrderId = orderItem.orderId;
+            orderItem.orderId = copiedOrders[orderItem.orderId - 1].id;
+            orderItem.productId = copiedProducts[orderItem.productId - 1].id;
 
-            orderItem.orderId = orders[orderItem.orderId - 1].id;
-            orderItem.productId = products[orderItem.productId - 1].id;
-
-            if (!orders[originalOrderId - 1].order_items) {
-                orders[originalOrderId - 1].order_items = [];
-            }
-
-            orders[originalOrderId - 1].order_items.push(orderItem);
+            sqlReadyOrderItems.push(
+                `(${orderItem.orderId}, ${orderItem.productId}, ${orderItem.amount}, '${apiKey}')`
+            );
         });
 
-        let copyResponse = {
-            data: {
-                products: products,
-                orders: orders
-            }
-        };
+        let sql = "INSERT INTO order_items" +
+            " (orderId, productId, amount, apiKey)" +
+            " VALUES " + sqlReadyOrderItems.join(", ");
 
-        return res.status(201).json(copyResponse);
+        db.run(sql, (err) => {
+            if (err) {
+                return res.status(500).json({
+                    errors: {
+                        status: 500,
+                        source: "/copy_all",
+                        title: "Database error in insert order_items",
+                        detail: err.message
+                    }
+                });
+            }
+
+            let copyResponse = {
+                data: {
+                    products: copiedProducts,
+                    orders: []
+                }
+            };
+
+            return orders.getAllOrders(res, apiKey, 201, copyResponse);
+        });
     },
 
     copyProducts: function(res, apiKey) {

@@ -11,7 +11,7 @@ const orders = {
         " p.productDescription as description, p.productSpecifiers as specifiers," +
         " p.stock, p.location, (p.price/100) as price",
 
-    getAllOrders: function(res, apiKey, status=200) {
+    getAllOrders: function(res, apiKey, status=200, prependData={}) {
         let returnedOrders = { data: []};
 
         db.all("SELECT " + orders.dataFields +
@@ -38,15 +38,25 @@ const orders = {
                 orderRows,
                 apiKey,
                 status,
-                returnedOrders
+                returnedOrders,
+                prependData
             );
         });
     },
 
-    getOrderItems: function(res, orderRows, apiKey, status, returnedOrders) {
+    getOrderItems: function(
+        res,
+        orderRows,
+        apiKey,
+        status,
+        returnedOrders,
+        prependData
+    ) {
         orderRows.forEach(function(order) {
-            db.all("SELECT " + orders.orderItemsDataFields + " FROM order_items oi" +
-                " INNER JOIN products p ON oi.productId=p.ROWID AND oi.apiKey=p.apiKey" +
+            db.all("SELECT " + orders.orderItemsDataFields +
+                " FROM order_items oi" +
+                " INNER JOIN products p ON oi.productId=p.ROWID" +
+                " AND oi.apiKey=p.apiKey" +
                 " WHERE oi.apiKey = ? AND oi.orderId = ?",
             apiKey,
             order.id, (err, orderItemRows) => {
@@ -65,6 +75,12 @@ const orders = {
                 returnedOrders.data.push(order);
 
                 if (returnedOrders.data.length === orderRows.length) {
+                    if (status > 200) {
+                        prependData.data.orders = returnedOrders.data;
+
+                        return res.status(status).json(prependData);
+                    }
+
                     return res.status(status).json(returnedOrders);
                 }
             });
