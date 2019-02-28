@@ -83,7 +83,7 @@ price
 api_key</pre>
 
             <h3>To get all your products:</h3>
-            <pre class="lager">GET /products?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /v2/products?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre class="lager">{
     "data": [
@@ -191,7 +191,7 @@ api_key</pre>
 }</pre>
 
             <h3>To get a specific product:</h3>
-            <pre class="lager">GET /product/:product_id?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /v2/products/:product_id?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre class="lager">{
     "data": {
@@ -206,7 +206,7 @@ api_key</pre>
     }
 }</pre>
             <h3>To search for a product:</h3>
-            <pre class="lager">GET /product/search/:query?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /v2/products/search/:query?api_key=[YOUR_API_KEY]</pre>
             <p>Result (search query was m14):</p>
             <pre class="lager">{
     "data": [
@@ -234,7 +234,7 @@ api_key</pre>
 }</pre>
 
             <h3>To add a product:</h3>
-            <pre class="lager">POST /product</pre>
+            <pre class="lager">POST /v2/products</pre>
             <p>Required parameters:</p>
             <pre class="lager">name
 api_key</pre>
@@ -248,7 +248,7 @@ location
 price</pre>
 
             <h3>To update a product:</h3>
-            <pre class="lager">PUT /product</pre>
+            <pre class="lager">PUT /v2/products</pre>
             <p>Required parameters:</p>
             <pre class="lager">id
 name
@@ -274,7 +274,7 @@ price</pre>
 }</pre>
 
             <h3>To delete a product:</h3>
-            <pre class="lager">DELETE /product</pre>
+            <pre class="lager">DELETE /v2/products</pre>
             <p>Required parameters:</p>
             <pre class="lager">id
 api_key</pre>
@@ -312,7 +312,7 @@ api_key</pre>
 900: "Återbetald"</pre>
 
             <h3>To get all your orders and associated order items:</h3>
-            <pre class="lager">GET /orders?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /v2/orders?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre class="lager">{
   "data": [
@@ -423,7 +423,7 @@ api_key</pre>
 }</pre>
 
             <h3>To get a specific order and associated order items:</h3>
-            <pre class="lager">GET /order/:order_id?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /v2/orders/:order_id?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre class="lager">{
   "data": {
@@ -465,7 +465,7 @@ api_key</pre>
             <p>
                 You can search on the following parameters: name, address, zip, city and country.
             </p>
-            <pre class="lager">GET /order/search/:query?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /v2/orders/search/:query?api_key=[YOUR_API_KEY]</pre>
             <p>Result (search query was anders):</p>
             <pre class="lager">{
   "data": [
@@ -507,7 +507,7 @@ api_key</pre>
 }</pre>
 
             <h3>To add an order:</h3>
-            <pre class="lager">POST /order</pre>
+            <pre class="lager">POST /v2/orders</pre>
             <p>Required parameters:</p>
             <pre class="lager">name
 api_key</pre>
@@ -521,7 +521,7 @@ status_id (default value of 100)</pre>
             <p><strong>NB!</strong> Use a numeric status_id value to add status.</p>
 
             <h3>To update an order:</h3>
-            <pre class="lager">PUT /order</pre>
+            <pre class="lager">PUT /v2/orders</pre>
             <p>Required parameters:</p>
             <pre class="lager">id
 name
@@ -549,7 +549,7 @@ status_id (default value of 100)</pre>
 }</pre>
 
             <h3>To delete an order and associated order items:</h3>
-            <pre class="lager">DELETE /order</pre>
+            <pre class="lager">DELETE /v2/orders</pre>
             <p>Required parameters:</p>
             <pre class="lager">id
 api_key</pre>
@@ -574,7 +574,7 @@ amount
 api_key</pre>
 
             <h3>To add an order item to an order:</h3>
-            <pre class="lager">POST /order_item</pre>
+            <pre class="lager">POST /v2/order_items</pre>
             <p>Required parameters:</p>
             <pre class="lager">order_id
 product_id
@@ -582,7 +582,7 @@ amount
 api_key</pre>
 
             <h3>To update an order item:</h3>
-            <pre class="lager">PUT /order</pre>
+            <pre class="lager">PUT /v2/order_items</pre>
             <p>Required parameters:</p>
             <pre class="lager">order_id
 product_id
@@ -602,7 +602,7 @@ api_key</pre>
 }</pre>
 
             <h3>To delete an order item:</h3>
-            <pre class="lager">DELETE /order</pre>
+            <pre class="lager">DELETE /v2/order_items</pre>
             <p>Required parameters:</p>
             <pre class="lager">order_id
 product_id
@@ -630,7 +630,7 @@ comment
 api_key</pre>
 
             <h3>Get all deliveries</h3>
-            <pre class="lager">GET /deliveries?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /v2/deliveries?api_key=[YOUR_API_KEY]</pre>
             <p>Result</p>
             <pre class="lager">{
     "data": [
@@ -645,7 +645,7 @@ api_key</pre>
 }</pre>
 
             <h3>Add a delivery</h3>
-            <pre class="lager">POST /delivery</pre>
+            <pre class="lager">POST /v2/deliveries</pre>
             <p>Required parameters:</p>
             <pre class="lager">product_id
 amount
@@ -666,7 +666,22 @@ api_key</pre>
     }
 }</pre>
 
-        </p>
+            <h3>To delete a delivery</h3>
+            <pre class="lager">DELETE /v2/deliveries</pre>
+            <p>Required parameters:</p>
+            <pre class="lager">id
+api_key</pre>
+
+            <p>Result:</p>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
+            <p>Possible error, besides errors returned from database:</p>
+            <pre class="lager">{
+    "errors": {
+        "status": 400,
+        "detail": "Required attribute delivery id (id) was not included in the request."
+    }
+}</pre>
+
 
         </section>
 
@@ -686,12 +701,12 @@ api_key</pre>
                 The 'x-access-token' header should contain the JWT.
             </p>
 
-            <pre class="lager">GET /invoices?api_key=[YOUR_API_KEY]
-GET /invoice/:invoice_id?api_key=[YOUR_API_KEY]
-POST /invoice</pre>
+            <pre class="lager">GET /v2/invoices?api_key=[YOUR_API_KEY]
+GET /v2/invoice/:invoice_id?api_key=[YOUR_API_KEY]
+POST /v2/invoice</pre>
 
             <h3>Register</h3>
-            <pre class="lager">POST /register</pre>
+            <pre class="lager">POST /v2/register</pre>
             <p>Required paramters:</p>
             <pre class="lager">api_key
 email
@@ -704,7 +719,7 @@ password</pre>
 }</pre>
 
             <h3>Login</h3>
-            <pre class="lager">POST /login</pre>
+            <pre class="lager">POST /v2/login</pre>
             <pre class="lager">api_key
 email
 password</pre>
@@ -723,7 +738,7 @@ password</pre>
             <p><strong>N.B.</strong> The access token expires after 24 hours.</p>
 
             <h3>Get all invoices</h3>
-            <pre class="lager">GET /invoices?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /v2/invoices?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre class="lager">{
     "data": [
@@ -743,7 +758,7 @@ password</pre>
 }</pre>
 
             <h3>Get specific invoice</h3>
-            <pre class="lager">GET /invoice/:invoice_id?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /v2/invoice/:invoice_id?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre class="lager">{
     "data": {
@@ -762,7 +777,7 @@ password</pre>
 
 
             <h3>Add invoice</h3>
-            <pre class="lager">POST /invoice</pre>
+            <pre class="lager">POST /v2/invoice</pre>
             <p>Required parameters:</p>
             <pre class="lager">order_id
 total_price
@@ -794,7 +809,7 @@ due_date</pre>
             <p>As always 'api_key' is a required parameter.</p>
 
             <h3>Copy products</h3>
-            <pre class="lager">POST /copier/products</pre>
+            <pre class="lager">POST /v2/copier/products</pre>
             <p>Result:</p>
             <pre class="lager">{
     "data": [
@@ -902,7 +917,7 @@ due_date</pre>
 }</pre>
 
             <h3>Copy products & orders</h3>
-            <pre class="lager">POST /copy_all</pre>
+            <pre class="lager">POST /v2/copy_all</pre>
             <p>Result:</p>
             <pre class="lager">{
     "data": {
@@ -1121,9 +1136,9 @@ due_date</pre>
             <h1>Code Examples</h1>
             <p>All examples below show the following API calls:</p>
 
-            <pre class="lager">GET /products
-PUT /order
-GET /invoices</pre>
+            <pre class="lager">GET /v2/products
+PUT /v2/order
+GET /v2/invoices</pre>
 
             <ol>
                 <li><a href="#xmlttprequest">XMLHttpRequest</a></li>
@@ -1135,7 +1150,7 @@ GET /invoices</pre>
             <section id="xmlttprequest">
                 <h3>XMLHttpRequest</h3>
 
-                <pre class="lager">GET /products</pre>
+                <pre class="lager">GET /v2/products</pre>
                 <pre>
                     <code class="javascript">var request = new XMLHttpRequest();
 
@@ -1144,7 +1159,7 @@ request.open("GET", "https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]
 request.send();</code>
                 </pre>
 
-                <pre class="lager">PUT /order</pre>
+                <pre class="lager">PUT /v2/order</pre>
                 <pre>
                     <code class="javascript">// Updating status for order, setting 200 as new status
 var order = {
@@ -1166,9 +1181,9 @@ request.setRequestHeader('Content-type','application/json; charset=utf-8');
 request.send(json);</code>
                 </pre>
 
-                <pre class="lager">POST /delivery</pre>
+                <pre class="lager">POST /v2/deliveries</pre>
                 <pre>
-                    <code class="javascript">// Creating new delivery with id: 1
+                    <code class="javascript">// Creating new delivery
 var delivery = {
     product_id: 2,
     amount: 12,
@@ -1185,7 +1200,7 @@ request.setRequestHeader('Content-type','application/json; charset=utf-8');
 request.send(json);</code>
                 </pre>
 
-                <pre class="lager">GET /invoices</pre>
+                <pre class="lager">GET /v2/invoices</pre>
                 <pre>
                     <code class="javascript">var token = [TOKEN]; // Token received during login
 var request = new XMLHttpRequest();
@@ -1199,7 +1214,7 @@ request.send();</code>
             <section id="fetch">
                 <h3>fetch</h3>
 
-                <pre class="lager">GET /products</pre>
+                <pre class="lager">GET /v2/products</pre>
                 <pre>
                     <code class="javascript">fetch("https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]")
 .then(function (response) {
@@ -1209,7 +1224,7 @@ request.send();</code>
 });</code>
                 </pre>
 
-                <pre class="lager">PUT /order</pre>
+                <pre class="lager">PUT /v2/order</pre>
                 <pre>
                     <code class="javascript">var order = {
     id: 1,
@@ -1234,7 +1249,7 @@ fetch("https://lager.emilfolino.se/order", {
 });</code>
                 </pre>
 
-                <pre class="lager">POST /delivery</pre>
+                <pre class="lager">POST /v2/deliveries</pre>
                 <pre>
                     <code class="javascript">var delivery = {
     product_id: 2,
@@ -1256,7 +1271,7 @@ fetch("https://lager.emilfolino.se/delivery", {
 });</code>
                 </pre>
 
-                <pre class="lager">GET /invoices</pre>
+                <pre class="lager">GET /v2/invoices</pre>
                 <pre>
                     <code class="javascript">fetch("https://lager.emilfolino.se/invoices?api_key=[YOUR_API_KEY]", {
     headers: {
@@ -1273,7 +1288,7 @@ fetch("https://lager.emilfolino.se/delivery", {
 
             <section id="mithril">
                 <h3>mithril m.request</h3>
-                <pre class="lager">GET /products</pre>
+                <pre class="lager">GET /v2/products</pre>
                 <pre>
                     <code class="javascript">m.request({
     method: "GET",
@@ -1284,7 +1299,7 @@ fetch("https://lager.emilfolino.se/delivery", {
 });</code>
                 </pre>
 
-                <pre class="lager">PUT /order</pre>
+                <pre class="lager">PUT /v2/order</pre>
                 <pre>
                     <code class="javascript">var order = {
     id: 1,
@@ -1304,7 +1319,7 @@ m.request({
 });</code>
                 </pre>
 
-                <pre class="lager">POST /delivery</pre>
+                <pre class="lager">POST /v2/deliveries</pre>
                 <pre>
                     <code class="javascript">var delivery = {
     product_id: 2,
@@ -1321,7 +1336,7 @@ m.request({
 });</code>
                 </pre>
 
-                <pre class="lager">GET /invoices</pre>
+                <pre class="lager">GET /v2/invoices</pre>
                 <pre>
                     <code class="javascript">m.request({
     method: "GET",
