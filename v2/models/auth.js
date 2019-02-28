@@ -145,17 +145,111 @@ const auth = {
                     let data = {
                         message: "Database error: " + err.message,
                         email: email,
-                        apikey: apikey
+                        apikey: apiKey
                     };
 
                     return res.render("api_key/deregister", data);
                 }
 
                 if (row === undefined) {
+                    let data = {
+                        message: "The E-mail and API-key combination does not exist.",
+                        email: email,
+                        apikey: apiKey
+                    };
 
+                    return res.render("api_key/deregister", data);
                 }
-            });
 
+                return auth.deleteData(res, apiKey, email);
+            });
+    },
+
+    deleteData: function(res, apiKey, email) {
+        let errorMessages = [];
+
+        db.run("DELETE FROM apikeys WHERE key = ?",
+            apiKey,
+            (err) => {
+                if (err) {
+                    errorMessages.push(err);
+                }
+
+                db.run("DELETE FROM deliveries WHERE apiKey = ?",
+                    apiKey,
+                    (err) => {
+                        if (err) {
+                            errorMessages.push(err);
+                        }
+
+                        db.run("DELETE FROM invoices WHERE apiKey = ?",
+                            apiKey,
+                            (err) => {
+                                if (err) {
+                                    errorMessages.push(err);
+                                }
+
+                                db.run("DELETE FROM orders WHERE apiKey = ?",
+                                    apiKey,
+                                    (err) => {
+                                        if (err) {
+                                            errorMessages.push(err);
+                                        }
+
+                                        db.run("DELETE FROM order_items WHERE apiKey = ?",
+                                            apiKey,
+                                            (err) => {
+                                                if (err) {
+                                                    errorMessages.push(err);
+                                                }
+
+                                                db.run("DELETE FROM products WHERE apiKey = ?",
+                                                    apiKey,
+                                                    (err) => {
+                                                        if (err) {
+                                                            errorMessages.push(err);
+                                                        }
+
+                                                        db.run("DELETE FROM users WHERE apiKey = ?",
+                                                            apiKey,
+                                                            (err) => {
+                                                                if (err) {
+                                                                    errorMessages.push(err);
+                                                                }
+
+                                                                return auth.afterDelete(
+                                                                    res,
+                                                                    apiKey,
+                                                                    email,
+                                                                    errorMessages
+                                                                );
+                                                            });
+                                                    });
+                                            });
+                                    });
+                            });
+                    });
+            });
+    },
+
+    afterDelete: function(res, apiKey, email, errorMessages) {
+        if (errorMessages.length > 0) {
+            let data = {
+                message: "Could not delete data due to: " +
+                    errorMessages.join(" | "),
+                email: email,
+                apikey: apiKey
+            };
+
+            return res.render("api_key/deregister", data);
+        }
+
+        let data = {
+            message: "All data has been deleted",
+            email: ""
+        };
+
+        return res.render("api_key/form", data);
     },
 
     login: function(res, body) {

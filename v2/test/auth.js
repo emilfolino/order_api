@@ -19,7 +19,7 @@ let apiKey = "";
 
 describe('auth', () => {
     before(() => {
-        db.run("DELETE FROM apiKeys", (err) => {
+        db.run("DELETE FROM apikeys", (err) => {
             if (err) {
                 console.error("Could not empty test DB apiKeys", err.message);
             }

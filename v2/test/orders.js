@@ -22,7 +22,7 @@ let apiKey = "";
 describe('orders', () => {
     before(() => {
         return new Promise((resolve) => {
-            db.run("DELETE FROM apiKeys", (err) => {
+            db.run("DELETE FROM apikeys", (err) => {
                 if (err) {
                     console.log("Could not empty test DB", err.message);
                 }
