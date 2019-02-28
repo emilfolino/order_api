@@ -33,6 +33,10 @@ const auth = {
             return next();
         }
 
+        if ( req.path == '/auth/api_key/deregister') {
+            return next();
+        }
+
         auth.isValidAPIKey(req.query.api_key || req.body.api_key, next, req.path, res);
     },
 
@@ -127,6 +131,31 @@ const auth = {
                 return auth.getUniqueAPIKey(res, email);
             }
         });
+    },
+
+    deregister: function(res, body) {
+        const email = body.email;
+        const apiKey = body.apikey;
+
+        db.get("SELECT key FROM apikeys WHERE key = ? and email = ?",
+            apiKey,
+            email,
+            (err, row) => {
+                if (err) {
+                    let data = {
+                        message: "Database error: " + err.message,
+                        email: email,
+                        apikey: apikey
+                    };
+
+                    return res.render("api_key/deregister", data);
+                }
+
+                if (row === undefined) {
+
+                }
+            });
+
     },
 
     login: function(res, body) {

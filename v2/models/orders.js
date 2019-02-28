@@ -45,8 +45,8 @@ const orders = {
 
     getOrderItems: function(res, orderRows, apiKey, status, returnedOrders) {
         orderRows.forEach(function(order) {
-            db.all("SELECT " + orders.orderItemsDataFields + " FROM order_items oi " +
-                "INNER JOIN products p ON oi.productId=p.ROWID AND oi.apiKey=p.apiKey" +
+            db.all("SELECT " + orders.orderItemsDataFields + " FROM order_items oi" +
+                " INNER JOIN products p ON oi.productId=p.ROWID AND oi.apiKey=p.apiKey" +
                 " WHERE oi.apiKey = ? AND oi.orderId = ?",
             apiKey,
             order.id, (err, orderItemRows) => {
