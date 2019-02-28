@@ -22,36 +22,42 @@ let apiKey = "";
 describe('copier', () => {
     before(() => {
         return new Promise((resolve) => {
-            db.run("DELETE FROM products", (err) => {
+            db.run("DELETE FROM apikeys", (err) => {
                 if (err) {
                     console.error("Could not empty test DB table orders", err.message);
                 }
 
-                db.run("DELETE FROM orders", (err) => {
+                db.run("DELETE FROM products", (err) => {
                     if (err) {
                         console.error("Could not empty test DB table orders", err.message);
                     }
 
-                    db.run("DELETE FROM order_items", (err) => {
+                    db.run("DELETE FROM orders", (err) => {
                         if (err) {
                             console.error("Could not empty test DB table orders", err.message);
                         }
 
-                        exec(
-                            'cat v2/db/seed.sql | sqlite3 v2/db/test.sqlite',
-                            (error, stdout, stderr) => {
-                                if (error) {
-                                    console.error(error.message);
-                                    return;
-                                }
+                        db.run("DELETE FROM order_items", (err) => {
+                            if (err) {
+                                console.error("Could not empty test DB table orders", err.message);
+                            }
 
-                                if (stderr) {
-                                    console.error(stderr);
-                                    return;
-                                }
+                            exec(
+                                'cat v2/db/seed.sql | sqlite3 v2/db/test.sqlite',
+                                (error, stdout, stderr) => {
+                                    if (error) {
+                                        console.error(error.message);
+                                        return;
+                                    }
 
-                                resolve();
-                            });
+                                    if (stderr) {
+                                        console.error(stderr);
+                                        return;
+                                    }
+
+                                    resolve();
+                                });
+                        });
                     });
                 });
             });

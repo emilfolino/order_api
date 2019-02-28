@@ -7,6 +7,8 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const HTMLParser = require('node-html-parser');
 
+const { exec } = require('child_process');
+
 const server = require('../../app.js');
 
 chai.should();
@@ -19,16 +21,46 @@ let apiKey = "";
 
 describe('auth', () => {
     before(() => {
-        db.run("DELETE FROM apikeys", (err) => {
-            if (err) {
-                console.error("Could not empty test DB apiKeys", err.message);
-            }
-        });
+        return new Promise((resolve) => {
+            db.run("DELETE FROM apikeys", (err) => {
+                if (err) {
+                    console.error("Could not empty test DB table orders", err.message);
+                }
 
-        db.run("DELETE FROM users", (err) => {
-            if (err) {
-                console.error("Could not empty test DB users", err.message);
-            }
+                db.run("DELETE FROM products", (err) => {
+                    if (err) {
+                        console.error("Could not empty test DB table orders", err.message);
+                    }
+
+                    db.run("DELETE FROM orders", (err) => {
+                        if (err) {
+                            console.error("Could not empty test DB table orders", err.message);
+                        }
+
+                        db.run("DELETE FROM order_items", (err) => {
+                            if (err) {
+                                console.error("Could not empty test DB table orders", err.message);
+                            }
+
+                            exec(
+                                'cat v2/db/seed.sql | sqlite3 v2/db/test.sqlite',
+                                (error, stdout, stderr) => {
+                                    if (error) {
+                                        console.error(error.message);
+                                        return;
+                                    }
+
+                                    if (stderr) {
+                                        console.error(stderr);
+                                        return;
+                                    }
+
+                                    resolve();
+                                });
+                        });
+                    });
+                });
+            });
         });
     });
 
@@ -344,6 +376,131 @@ describe('auth', () => {
                     res.body.data.should.have.property("type");
                     res.body.data.type.should.equal("success");
                     res.body.data.should.have.property("type");
+
+                    done();
+                });
+        });
+    });
+
+    describe('deregister', () => {
+        it('200 HAPPY PATH getting deregister form', (done) => {
+            chai.request(server)
+                .get("/v2/auth/api_key/deregister")
+                .end((err, res) => {
+                    res.should.have.status(200);
+
+                    done();
+                });
+        });
+
+        it('should get 200 with message no apikey', (done) => {
+            let user = {
+                email: "test@auth.com",
+                // apikey: apiKey
+            };
+
+            chai.request(server)
+                .post("/v2/auth/api_key/deregister")
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.text.should.be.a("string");
+
+                    let HTMLResponse = HTMLParser.parse(res.text);
+                    let messageElement = HTMLResponse.querySelector('#error');
+
+                    messageElement.should.be.an("object");
+
+                    let message = messageElement.childNodes[0].rawText;
+
+                    message.should.equal("Both E-mail and API-key is needed to deregister.");
+
+                    done();
+                });
+        });
+
+        it('should get 200 with message no email', (done) => {
+            let user = {
+                //email: "test@auth.com",
+                apikey: apiKey
+            };
+
+            chai.request(server)
+                .post("/v2/auth/api_key/deregister")
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.text.should.be.a("string");
+
+                    let HTMLResponse = HTMLParser.parse(res.text);
+                    let messageElement = HTMLResponse.querySelector('#error');
+
+                    messageElement.should.be.an("object");
+
+                    let message = messageElement.childNodes[0].rawText;
+
+                    message.should.equal("Both E-mail and API-key is needed to deregister.");
+
+                    done();
+                });
+        });
+
+        it('should get 201 HAPPY PATH copying data', (done) => {
+            chai.request(server)
+                .post("/v2/copier/all")
+                .send({ api_key: apiKey })
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.an("object");
+                    res.body.data.should.have.property("products");
+                    res.body.data.should.have.property("orders");
+
+                    res.body.data.products.should.be.an("array");
+                    res.body.data.products.length.should.equal(10);
+
+                    res.body.data.orders.should.be.an("array");
+                    res.body.data.orders.length.should.equal(4);
+
+                    res.body.data.orders[0].order_items.should.be.an("array");
+                    res.body.data.orders[0].order_items.length.should.equal(2);
+
+                    done();
+                });
+        });
+
+        it('should get 200 with message all data deleted', (done) => {
+            let user = {
+                email: "test@auth.com",
+                apikey: apiKey
+            };
+
+            chai.request(server)
+                .post("/v2/auth/api_key/deregister")
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.text.should.be.a("string");
+
+                    let HTMLResponse = HTMLParser.parse(res.text);
+                    let messageElement = HTMLResponse.querySelector('#error');
+
+                    messageElement.should.be.an("object");
+
+                    let message = messageElement.childNodes[0].rawText;
+
+                    message.should.equal("All data has been deleted");
+
+                    done();
+                });
+        });
+
+        it('should get 401 no valid api key', (done) => {
+            chai.request(server)
+                .get("/v2/products?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(401);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(401);
 
                     done();
                 });
