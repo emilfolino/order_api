@@ -32,8 +32,8 @@ p {
 }
 
 main {
-    width: 960px;
-    margin: 20px auto;
+    width: 98%;
+    margin: 10px auto;
     font-family: sans-serif;
     line-height: 1.4;
 }
@@ -45,6 +45,8 @@ pre.lager {
     box-sizing: border-box;
     margin-bottom: 1.4rem;
     font-size: 1.2rem;
+    display: block;
+    overflow-x: auto;
 }
 
 code.javascript {
@@ -78,7 +80,7 @@ ol {
 }
 
 .inner-footer {
-    width: 960px;
+    width: 98%;
     margin: 0 auto;
     font-family: sans-serif;
 }
@@ -117,7 +119,16 @@ input[type=submit] {
     border-left: 3px solid #c55;
 }
 
-@media (min-width: 64em) {
+@media (min-width: 980px) {
+    main {
+        width: 960px;
+        margin: 20px auto;
+    }
+
+    .inner-footer {
+        width: 960px;
+    }
+
     html {
         font-size: 112.5%;
     }
