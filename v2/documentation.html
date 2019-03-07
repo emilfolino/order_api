@@ -702,11 +702,11 @@ api_key</pre>
             </p>
 
             <pre class="lager">GET /v2/invoices?api_key=[YOUR_API_KEY]
-GET /v2/invoice/:invoice_id?api_key=[YOUR_API_KEY]
-POST /v2/invoice</pre>
+GET /v2/invoices/:invoice_id?api_key=[YOUR_API_KEY]
+POST /v2/invoices</pre>
 
             <h3>Register</h3>
-            <pre class="lager">POST /v2/register</pre>
+            <pre class="lager">POST /v2/auth/register</pre>
             <p>Required paramters:</p>
             <pre class="lager">api_key
 email
@@ -719,7 +719,7 @@ password</pre>
 }</pre>
 
             <h3>Login</h3>
-            <pre class="lager">POST /v2/login</pre>
+            <pre class="lager">POST /v2/auth/login</pre>
             <pre class="lager">api_key
 email
 password</pre>
@@ -758,7 +758,7 @@ password</pre>
 }</pre>
 
             <h3>Get specific invoice</h3>
-            <pre class="lager">GET /v2/invoice/:invoice_id?api_key=[YOUR_API_KEY]</pre>
+            <pre class="lager">GET /v2/invoices/:invoice_id?api_key=[YOUR_API_KEY]</pre>
             <p>Result:</p>
             <pre class="lager">{
     "data": {
@@ -777,7 +777,7 @@ password</pre>
 
 
             <h3>Add invoice</h3>
-            <pre class="lager">POST /v2/invoice</pre>
+            <pre class="lager">POST /v2/invoices</pre>
             <p>Required parameters:</p>
             <pre class="lager">order_id
 total_price
