@@ -1,9 +1,13 @@
 const db = require("../db/database.js");
 
 const deliveries = {
-    sql: "SELECT ROWID as id, productId as product_id, amount," +
-                    " deliveryDate as delivery_date, comment" +
-                    " FROM deliveries WHERE apiKey = ?",
+    sql: "SELECT d.ROWID as id, d.productId as product_id, amount," +
+            " d.deliveryDate as delivery_date, comment," +
+            " p.productName as product_name" +
+            " FROM deliveries d" +
+            " INNER JOIN products p" +
+            " ON p.ROWID = d.productId AND d.apiKey = p.apiKey" +
+            " WHERE d.apiKey = ?",
 
     getDeliveries: function(res, apiKey) {
         db.all(deliveries.sql, apiKey, (err, rows) => {
@@ -24,7 +28,7 @@ const deliveries = {
 
     getDelivery: function(res, deliveryId, apiKey, status=200) {
         db.get(
-            deliveries.sql + " AND ROWID = ?",
+            deliveries.sql + " AND d.ROWID = ?",
             apiKey,
             deliveryId,
             function(err, row) {

@@ -5,7 +5,6 @@ process.env.NODE_ENV = 'test';
 //Require the dev-dependencies
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const HTMLParser = require('node-html-parser');
 
 const server = require('../../app.js');
 
@@ -15,50 +14,56 @@ const db = require("../db/database.js");
 
 chai.use(chaiHttp);
 
-let apiKey = "";
+let apiKey = "7b38d974df3758cefdc42b2d941e8c6f";
 
 describe('deliveries', () => {
     before(() => {
-        db.run("DELETE FROM deliveries", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table deliveries", err.message);
-            }
+        return new Promise((resolve) => {
+            db.run("DELETE FROM deliveries", (err) => {
+                if (err) {
+                    console.log("Could not empty test DB table deliveries", err.message);
+                }
+
+                db.run("DELETE FROM products", (err) => {
+                    if (err) {
+                        console.log("Could not empty test DB table deliveries", err.message);
+                    }
+
+                    let sql = `INSERT INTO apikeys
+                        (key, email)
+                        VALUES
+                        ('${apiKey}', 'delivery@test.com')`;
+
+                    db.run(sql, (err) => {
+                        if (err) {
+                            console.log(
+                                "Could not add product to test DB table products",
+                                err.message
+                            );
+                        }
+
+                        let sql = `INSERT INTO products
+                            (articleNumber, productName, apiKey)
+                            VALUES
+                            ('TEST', 'TESTPRODUKTEN', '${apiKey}')`;
+
+                        db.run(sql, (err) => {
+                            if (err) {
+                                console.log(
+                                    "Could not add product to test DB table products",
+                                    err.message
+                                );
+                            }
+
+                            resolve();
+                        });
+                    });
+                });
+            });
         });
     });
 
     describe('GET /deliveries', () => {
-        it('should get 401 as we do not provide valid api_key', (done) => {
-            chai.request(server)
-                .get("/v2/deliveries")
-                .end((err, res) => {
-                    res.should.have.status(401);
-                    res.body.should.be.an("object");
-                    res.body.errors.status.should.be.equal(401);
-                    done();
-                });
-        });
-
-        it('should get 200 as we get apiKey', (done) => {
-            let user = {
-                email: "test@deliveries.com",
-                gdpr: "gdpr"
-            };
-
-            chai.request(server)
-                .post("/v2/auth/api_key/confirmation")
-                .send(user)
-                .end((err, res) => {
-                    res.should.have.status(200);
-
-                    let HTMLResponse = HTMLParser.parse(res.text);
-                    let apiKeyElement = HTMLResponse.querySelector('#apikey');
-
-                    apiKey = apiKeyElement.childNodes[0].rawText;
-
-                    done();
-                });
-        });
-
         it('should get 200 HAPPY PATH getting no deliveries', (done) => {
             chai.request(server)
                 .get("/v2/deliveries?api_key=" + apiKey)
@@ -181,6 +186,14 @@ describe('deliveries', () => {
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
                     res.body.data.length.should.be.equal(1);
+
+                    res.body.data[0].should.be.an("object");
+                    res.body.data[0].should.have.property("product_id");
+                    res.body.data[0].product_id.should.equal(1);
+
+                    res.body.data[0].should.be.an("object");
+                    res.body.data[0].should.have.property("product_name");
+                    res.body.data[0].product_name.should.equal("TESTPRODUKTEN");
 
                     done();
                 });
