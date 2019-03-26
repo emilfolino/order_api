@@ -1162,7 +1162,7 @@ request.open("GET", "https://lager.emilfolino.se/products?api_key=[YOUR_API_KEY]
 request.send();</code>
                 </pre>
 
-                <pre class="lager">PUT /v2/order</pre>
+                <pre class="lager">PUT /v2/orders</pre>
                 <pre>
                     <code class="javascript">// Updating status for order, setting 200 as new status
 var order = {
@@ -1179,7 +1179,7 @@ var json = JSON.stringify(order);
 
 var request = new XMLHttpRequest();
 request.addEventListener("load", [callbackFunction]);
-request.open("PUT", "https://lager.emilfolino.se/order");
+request.open("PUT", "https://lager.emilfolino.se/orders");
 request.setRequestHeader('Content-type','application/json; charset=utf-8');
 request.send(json);</code>
                 </pre>
@@ -1198,7 +1198,7 @@ var json = JSON.stringify(delivery);
 
 var request = new XMLHttpRequest();
 request.addEventListener("load", [callbackFunction]);
-request.open("POST", "https://lager.emilfolino.se/delivery");
+request.open("POST", "https://lager.emilfolino.se/deliveries");
 request.setRequestHeader('Content-type','application/json; charset=utf-8');
 request.send(json);</code>
                 </pre>
@@ -1227,7 +1227,7 @@ request.send();</code>
 });</code>
                 </pre>
 
-                <pre class="lager">PUT /v2/order</pre>
+                <pre class="lager">PUT /v2/orders</pre>
                 <pre>
                     <code class="javascript">var order = {
     id: 1,
@@ -1240,7 +1240,7 @@ request.send();</code>
     api_key: [YOUR_API_KEY]
 };
 
-fetch("https://lager.emilfolino.se/order", {
+fetch("https://lager.emilfolino.se/orders", {
     body: JSON.stringify(order),
     headers: {
       'content-type': 'application/json'
@@ -1262,7 +1262,7 @@ fetch("https://lager.emilfolino.se/order", {
     api_key: [YOUR_API_KEY]
 };
 
-fetch("https://lager.emilfolino.se/delivery", {
+fetch("https://lager.emilfolino.se/deliveries", {
     body: JSON.stringify(delivery),
     headers: {
       'content-type': 'application/json'
@@ -1302,7 +1302,7 @@ fetch("https://lager.emilfolino.se/delivery", {
 });</code>
                 </pre>
 
-                <pre class="lager">PUT /v2/order</pre>
+                <pre class="lager">PUT /v2/orders</pre>
                 <pre>
                     <code class="javascript">var order = {
     id: 1,
@@ -1317,7 +1317,7 @@ fetch("https://lager.emilfolino.se/delivery", {
 
 m.request({
     method: "PUT",
-    url: "https://lager.emilfolino.se/order",
+    url: "https://lager.emilfolino.se/orders",
     data: order
 });</code>
                 </pre>
@@ -1334,7 +1334,7 @@ m.request({
 
 m.request({
     method: "POST",
-    url: "https://lager.emilfolino.se/delivery",
+    url: "https://lager.emilfolino.se/deliveries",
     data: delivery
 });</code>
                 </pre>
