@@ -64,7 +64,7 @@ describe('copier', () => {
         });
     });
 
-    describe('POST /copier/products', () => {
+    describe('POST /v2/copier/products', () => {
         it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
                 .post("/v2/copier/products")
@@ -127,7 +127,7 @@ describe('copier', () => {
         });
     });
 
-    describe("POST /copy_all", () => {
+    describe("POST /v2/copier/all", () => {
         it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
                 .post("/v2/copier/all")
