@@ -166,15 +166,12 @@ const copier = {
         copiedOrders,
         orderItems
     ) {
-        let sqlReadyOrderItems = [];
-
-        orderItems.forEach(function(orderItem) {
+        let sqlReadyOrderItems = orderItems.map(function(orderItem) {
             orderItem.orderId = copiedOrders[orderItem.orderId - 1].id;
             orderItem.productId = copiedProducts[orderItem.productId - 1].id;
 
-            sqlReadyOrderItems.push(
-                `(${orderItem.orderId}, ${orderItem.productId}, ${orderItem.amount}, '${apiKey}')`
-            );
+            return `(${orderItem.orderId}, ${orderItem.productId},
+                ${orderItem.amount}, '${apiKey}')`;
         });
 
         let sql = "INSERT INTO order_items" +
@@ -200,7 +197,7 @@ const copier = {
                 }
             };
 
-            return orders.getAllOrders(res, apiKey, 201, copyResponse);
+            return orders.getOrderItems(res, copiedOrders, apiKey, 201, { data: []}, copyResponse);
         });
     },
 

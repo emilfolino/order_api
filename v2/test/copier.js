@@ -186,5 +186,31 @@ describe('copier', () => {
                     done();
                 });
         });
+
+        it('should get 201 HAPPY PATH as we do not want to show all', (done) => {
+            chai.request(server)
+                .post("/v2/copier/all")
+                .send({ api_key: apiKey })
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.an("object");
+
+                    res.body.data.should.have.property("products");
+                    res.body.data.should.have.property("orders");
+
+                    res.body.data.products.should.be.an("array");
+                    res.body.data.products.length.should.equal(10);
+
+                    res.body.data.orders.should.be.an("array");
+                    res.body.data.orders.length.should.equal(4);
+
+                    res.body.data.orders[0].order_items.should.be.an("array");
+                    res.body.data.orders[0].order_items.length.should.equal(2);
+
+                    res.body.data.orders[0].order_items[0].should.have.property("name");
+
+                    done();
+                });
+        });
     });
 });
