@@ -75,6 +75,10 @@ const orders = {
                 returnedOrders.data.push(order);
 
                 if (returnedOrders.data.length === orderRows.length) {
+                    returnedOrders.data.sort(function (a, b) {
+                        return a.id - b.id;
+                    });
+
                     if (status > 200) {
                         prependData.data.orders = returnedOrders.data;
 
