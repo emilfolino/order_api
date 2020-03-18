@@ -18,5 +18,9 @@ router.post("/",
     (req, res, next) => auth.checkToken(req, res, next),
     (req, res) => invoices.addInvoice(res, req.body));
 
+router.put("/",
+    (req, res, next) => auth.checkToken(req, res, next),
+    (req, res) => invoices.updateInvoice(res, req.body));
+
 
 module.exports = router;

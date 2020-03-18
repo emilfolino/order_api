@@ -400,4 +400,73 @@ describe('invoices', () => {
                 });
         });
     });
+
+    describe('PUT /invoice', () => {
+        it('should get 201 HAPPY PATH creating invoice', (done) => {
+            let invoice = {
+                order_id: 1,
+                total_price: 100,
+                creation_date: "2019-02-13",
+                due_date: "2019-03-13",
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/v2/invoices")
+                .set("x-access-token", token)
+                .send(invoice)
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("data");
+
+                    done();
+                });
+        });
+
+        it('should get 204 HAPPY PATH changing total price, adding dates', (done) => {
+            let invoice = {
+                id: 1,
+                order_id: 1,
+                total_price: 200,
+                creation_date: "2019-02-13",
+                due_date: "2019-03-13",
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .put("/v2/invoices")
+                .set("x-access-token", token)
+                .send(invoice)
+                .end((err, res) => {
+                    res.should.have.status(204);
+
+                    done();
+                });
+        });
+
+        it('should get 200 HAPPY PATH', (done) => {
+            chai.request(server)
+                .get("/v2/invoices/1?api_key=" + apiKey)
+                .set("x-access-token", token)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("object");
+                    res.body.data.should.have.property("id");
+                    res.body.data.id.should.be.equal(1);
+
+                    res.body.data.should.have.property("total_price");
+                    res.body.data.total_price.should.be.equal(200);
+
+                    res.body.data.should.have.property("due_date");
+                    res.body.data.due_date.should.be.equal("2019-03-13");
+
+                    res.body.data.should.have.property("creation_date");
+                    res.body.data.creation_date.should.be.equal("2019-02-13");
+
+                    done();
+                });
+        });
+    });
 });

@@ -1,6 +1,13 @@
 const db = require("../db/database.js");
 
 const invoices = {
+    allowedFields: {
+        creation_date: "creationDate",
+        due_date: "dueDate",
+        total_price: "totalPrice",
+        order_id: "orderId",
+    },
+
     dataFields: "i.ROWID as id, i.creationDate as creation_date," +
         " i.dueDate as due_date, o.ROWID as order_id," +
         " o.customerName as name, o.customerAddress as address," +
@@ -83,7 +90,61 @@ const invoices = {
 
             invoices.getInvoice(res, body.api_key, this.lastID, 201);
         });
-    }
+    },
+
+    updateInvoice: function (res, body) {
+        if (Number.isInteger(parseInt(body.id))) {
+            let params = [];
+            let sql = "UPDATE invoices SET ";
+            let updateFields = [];
+
+            for (const field in invoices.allowedFields) {
+                if (body[field] !== undefined) {
+                    updateFields.push(invoices.allowedFields[field] + " = ?");
+
+                    if (field == "total_price") {
+                        body[field] *= 100;
+                    }
+
+                    params.push(body[field]);
+                }
+            }
+
+            sql += updateFields.join(", ");
+            sql += " WHERE apiKey = ? AND ROWID = ?";
+
+            params.push(body.api_key, body.id);
+
+            console.log(sql);
+            console.log(params);
+
+            db.run(
+                sql,
+                params,
+                function(err) {
+                    if (err) {
+                        return res.status(500).json({
+                            errors: {
+                                status: 500,
+                                source: "PUT /invoices",
+                                title: "Database error",
+                                detail: err.message
+                            }
+                        });
+                    }
+
+                    return res.status(204).send();
+                });
+        } else {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    detail: "Required attribute invoice id (id) " +
+                        " was not included in the request."
+                }
+            });
+        }
+    },
 };
 
 module.exports = invoices;
