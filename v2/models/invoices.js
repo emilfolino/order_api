@@ -115,9 +115,6 @@ const invoices = {
 
             params.push(body.api_key, body.id);
 
-            console.log(sql);
-            console.log(params);
-
             db.run(
                 sql,
                 params,
