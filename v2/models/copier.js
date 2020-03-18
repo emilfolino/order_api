@@ -49,6 +49,9 @@ const copier = {
                     });
                 }
 
+                let productChanges = this.changes;
+                let productLast = this.lastID;
+
                 db.all("SELECT * FROM " +
                     "(SELECT " + products.dataFields +
                     " FROM products WHERE apiKey = ?" +
@@ -102,103 +105,55 @@ const copier = {
                                 });
                             }
 
-                            db.all("SELECT * FROM " +
-                                "(SELECT " + orders.dataFields +
-                                " FROM orders o" +
-                                " INNER JOIN status s ON s.id = o.statusId" +
-                                " WHERE o.apiKey = ?" +
-                                " ORDER BY o.ROWID DESC LIMIT " +
-                                parseInt(this.changes) + ")" +
-                                " ORDER BY id ASC",
-                            apiKey,
-                            (err, orderRows) => {
-                                if (err) {
-                                    return res.status(500).json({
-                                        errors: {
-                                            status: 500,
-                                            source: "/orders",
-                                            title: "Database error",
-                                            detail: err.message
-                                        }
-                                    });
+                            let copyResponse = {
+                                data: {
+                                    products: copiedProducts,
+                                    orders: []
                                 }
+                            };
 
-                                let copiedOrders = orderRows;
+                            let productOffset = productLast - productChanges;
+                            let orderOffset = this.lastID - this.changes;
 
-                                let oisql = " SELECT orderId," +
-                                    " productId," +
-                                    " amount " +
-                                    " FROM order_items" +
-                                    " WHERE apiKey = ?";
+                            let range = {
+                                min: orderOffset + 1,
+                                max: this.lastID,
+                            };
 
-                                db.all(oisql,
-                                    copier.copyApiKey,
-                                    function (err, oiRows) {
-                                        if (err) {
-                                            return res.status(500).json({
-                                                errors: {
-                                                    status: 500,
-                                                    source: "/copy_orders",
-                                                    title: "Database error in order_items",
-                                                    detail: err.message
-                                                }
-                                            });
-                                        }
+                            let oisql = `INSERT INTO order_items
+                                (orderId, productId, amount, apiKey)
+                                SELECT (orderId + ${orderOffset}),
+                                (productId + ${productOffset}),
+                                amount,
+                                '${apiKey}'
+                                FROM order_items WHERE apiKey = ?`;
 
-                                        return copier.organizeOrderItems(
-                                            res,
-                                            apiKey,
-                                            copiedProducts,
-                                            copiedOrders,
-                                            oiRows
-                                        );
-                                    });
-                            });
+                            db.run(
+                                oisql,
+                                copier.copyApiKey,
+                                function (err) {
+                                    if (err) {
+                                        return res.status(500).json({
+                                            errors: {
+                                                status: 500,
+                                                source: "/copy_orders",
+                                                title: "Database error",
+                                                detail: err.message
+                                            }
+                                        });
+                                    }
+
+                                    return orders.getAllOrders(
+                                        res,
+                                        apiKey,
+                                        201,
+                                        copyResponse,
+                                        range,
+                                    );
+                                });
                         });
                 });
             });
-    },
-
-    organizeOrderItems: function(
-        res,
-        apiKey,
-        copiedProducts,
-        copiedOrders,
-        orderItems
-    ) {
-        let sqlReadyOrderItems = orderItems.map(function(orderItem) {
-            orderItem.orderId = copiedOrders[orderItem.orderId - 1].id;
-            orderItem.productId = copiedProducts[orderItem.productId - 1].id;
-
-            return `(${orderItem.orderId}, ${orderItem.productId},
-                ${orderItem.amount}, '${apiKey}')`;
-        });
-
-        let sql = "INSERT INTO order_items" +
-            " (orderId, productId, amount, apiKey)" +
-            " VALUES " + sqlReadyOrderItems.join(", ");
-
-        db.run(sql, (err) => {
-            if (err) {
-                return res.status(500).json({
-                    errors: {
-                        status: 500,
-                        source: "/copy_all",
-                        title: "Database error in insert order_items",
-                        detail: err.message
-                    }
-                });
-            }
-
-            let copyResponse = {
-                data: {
-                    products: copiedProducts,
-                    orders: []
-                }
-            };
-
-            return orders.getOrderItems(res, copiedOrders, apiKey, 201, { data: []}, copyResponse);
-        });
     },
 
     copyProducts: function(res, apiKey) {

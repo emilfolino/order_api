@@ -11,37 +11,55 @@ const orders = {
         " p.productDescription as description, p.productSpecifiers as specifiers," +
         " p.stock, p.location, (p.price/100) as price",
 
-    getAllOrders: function(res, apiKey, status=200, prependData={}) {
+    getAllOrders: function(
+        res,
+        apiKey,
+        status=200,
+        prependData={},
+        range=false,
+    ) {
         let returnedOrders = { data: []};
 
-        db.all("SELECT " + orders.dataFields +
+        var allOrdersSQL = "SELECT " + orders.dataFields +
             " FROM orders o INNER JOIN status s ON s.id = o.statusId" +
-            " WHERE o.apiKey = ?",
-        apiKey, (err, orderRows) => {
-            if (err) {
-                return res.status(500).json({
-                    errors: {
-                        status: 500,
-                        source: "/orders",
-                        title: "Database error",
-                        detail: err.message
-                    }
-                });
-            }
+            " WHERE o.apiKey = ?";
 
-            if (orderRows.length === 0) {
-                return res.status(status).json(returnedOrders);
-            }
+        if (range) {
+            allOrdersSQL += " AND (o.ROWID >= " +
+                range.min +
+                " AND o.ROWID <= " +
+                range.max +
+                ")";
+        }
 
-            return orders.getOrderItems(
-                res,
-                orderRows,
-                apiKey,
-                status,
-                returnedOrders,
-                prependData
-            );
-        });
+        db.all(
+            allOrdersSQL,
+            apiKey,
+            function (err, orderRows) {
+                if (err) {
+                    return res.status(500).json({
+                        errors: {
+                            status: 500,
+                            source: "/orders",
+                            title: "Database error",
+                            detail: err.message
+                        }
+                    });
+                }
+
+                if (orderRows.length === 0) {
+                    return res.status(status).json(returnedOrders);
+                }
+
+                return orders.getOrderItems(
+                    res,
+                    orderRows,
+                    apiKey,
+                    status,
+                    returnedOrders,
+                    prependData
+                );
+            });
     },
 
     getOrderItems: function(
@@ -59,7 +77,8 @@ const orders = {
                 " AND oi.apiKey=p.apiKey" +
                 " WHERE oi.apiKey = ? AND oi.orderId = ?",
             apiKey,
-            order.id, (err, orderItemRows) => {
+            order.id,
+            function (err, orderItemRows) {
                 if (err) {
                     return res.status(500).json({
                         errors: {
