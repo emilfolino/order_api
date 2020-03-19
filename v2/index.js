@@ -24,7 +24,7 @@ router.use("/order_items", orderItems);
 router.use("/orders", orders);
 router.use("/products", products);
 
-router.use(function (req, res, next) {
+router.use(function (req, res) {
     return res.status(404).json({
         errors: {
             status: 404,
