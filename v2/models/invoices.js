@@ -142,6 +142,35 @@ const invoices = {
             });
         }
     },
+
+    deleteInvoice: function(res, body) {
+        if (Number.isInteger(parseInt(body.id))) {
+            db.run("DELETE FROM invoices WHERE apiKey = ? AND ROWID = ?",
+                body.api_key,
+                body.id, function (err) {
+                    if (err) {
+                        return res.status(500).json({
+                            errors: {
+                                status: 500,
+                                source: "DELETE /invoices",
+                                title: "Database error",
+                                detail: err.message
+                            }
+                        });
+                    }
+
+                    return res.status(204).send();
+                });
+        } else {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    detail: "Required attribute order id (id) " +
+                        " was not included in the request."
+                }
+            });
+        }
+    },
 };
 
 module.exports = invoices;

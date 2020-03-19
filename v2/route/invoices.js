@@ -22,5 +22,8 @@ router.put("/",
     (req, res, next) => auth.checkToken(req, res, next),
     (req, res) => invoices.updateInvoice(res, req.body));
 
+router.delete("/",
+    (req, res, next) => auth.checkToken(req, res, next),
+    (req, res) => invoices.deleteInvoice(res, req.body));
 
 module.exports = router;
