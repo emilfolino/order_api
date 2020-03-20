@@ -19,22 +19,26 @@ let apiKey = "";
 
 describe('order items', () => {
     before(() => {
-        db.run("DELETE FROM products", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table orders", err.message);
-            }
-        });
+        return new Promise((resolve) => {
+            db.run("DELETE FROM products", (err) => {
+                if (err) {
+                    console.log("Could not empty test DB table orders", err.message);
+                }
 
-        db.run("DELETE FROM orders", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table orders", err.message);
-            }
-        });
+                db.run("DELETE FROM orders", (err) => {
+                    if (err) {
+                        console.log("Could not empty test DB table orders", err.message);
+                    }
 
-        db.run("DELETE FROM order_items", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table orders", err.message);
-            }
+                    db.run("DELETE FROM order_items", (err) => {
+                        if (err) {
+                            console.log("Could not empty test DB table orders", err.message);
+                        }
+
+                        resolve();
+                    });
+                });
+            });
         });
     });
 
