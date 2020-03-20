@@ -303,6 +303,41 @@ describe('products', () => {
                     done();
                 });
         });
+
+        it('should get 204 HAPPY PATH', (done) => {
+            let product = {
+                id: 1,
+                name: "Big Screw 14",
+                // description: "Mighty fine big big screw.",
+                price: 14,
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .put("/v2/products")
+                .send(product)
+                .end((err, res) => {
+                    res.should.have.status(204);
+
+                    done();
+                });
+        });
+
+        it('should get 200, with changed name and no loss of description', (done) => {
+            chai.request(server)
+                .get("/v2/products/1?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.data.should.have.property("name");
+                    res.body.data.name.should.be.equal("Big Screw 14");
+                    res.body.data.should.have.property("description");
+                    res.body.data.description.should.be.equal("Mighty fine big screw.");
+                    res.body.data.should.have.property("price");
+                    res.body.data.price.should.be.equal(14);
+
+                    done();
+                });
+        });
     });
 
     describe('DELETE /product', () => {

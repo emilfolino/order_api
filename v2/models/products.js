@@ -1,6 +1,16 @@
 const db = require("../db/database.js");
 
 const products = {
+    allowedFields: {
+        article_number: "articleNumber",
+        name: "productName",
+        description: "productDescription",
+        specifiers: "productSpecifiers",
+        stock: "stock",
+        location: "location",
+        price: "price",
+    },
+
     dataFields: "ROWID as id, articleNumber as article_number," +
         " productName as name, productDescription as description," +
         " productSpecifiers as specifiers, stock, location, (price / 100) as price",
@@ -80,25 +90,37 @@ const products = {
 
     updateProduct: function(res, body) {
         if (Number.isInteger(parseInt(body.id))) {
-            db.run("UPDATE products SET articleNumber = ?, productName = ?," +
-                " productDescription = ?, productSpecifiers = ?," +
-                " stock = ?, location = ?, price = ?" +
-                " WHERE apiKey = ? AND ROWID = ?",
-            body.article_number,
-            body.name,
-            body.description,
-            body.specifiers,
-            body.stock,
-            body.location,
-            parseInt(body.price) * 100,
-            body.api_key,
-            body.id, (err) => {
-                if (err) {
-                    return products.errorResponse(res, "/product", err);
-                }
+            let params = [];
+            let sql = "UPDATE products SET ";
+            let updateFields = [];
 
-                res.status(204).send();
-            });
+            for (const field in products.allowedFields) {
+                if (body[field] !== undefined) {
+                    updateFields.push(products.allowedFields[field] + " = ?");
+
+                    if (field == "price") {
+                        body[field] *= 100;
+                    }
+
+                    params.push(body[field]);
+                }
+            }
+
+            sql += updateFields.join(", ");
+            sql += " WHERE apiKey = ? AND ROWID = ?";
+
+            params.push(body.api_key, body.id);
+
+            db.run(
+                sql,
+                params,
+                function (err) {
+                    if (err) {
+                        return products.errorResponse(res, "/product", err);
+                    }
+
+                    res.status(204).send();
+                });
         } else {
             res.status(400).json({
                 errors: {
