@@ -165,7 +165,7 @@ const invoices = {
             return res.status(400).json({
                 errors: {
                     status: 400,
-                    detail: "Required attribute order id (id) " +
+                    detail: "Required attribute invoice id (id) " +
                         " was not included in the request."
                 }
             });

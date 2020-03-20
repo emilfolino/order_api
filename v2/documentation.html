@@ -259,7 +259,7 @@ specifiers
 stock
 location
 price</pre>
-            <p><strong>N.B.</strong> All attributes are updated, send an entire product object.</p>
+            <!-- <p><strong>N.B.</strong> All attributes are updated, send an entire product object.</p> -->
             <p>Result:</p>
             <pre class="lager">HTTP Status Code 204 No Content</pre>
             <p>Possible error, besides errors returned from database:</p>
@@ -534,7 +534,7 @@ status_id (default value of 100)</pre>
 
 
             <p><strong>NB!</strong> Use a numeric status_id value to update status.</p>
-            <p><strong>N.B.</strong> All attributes are updated, send an entire order object. Send only the order parameters when updating an order. order_items are updated seperately, see <a href="#order_items">order items</a></p>
+            <p><strong>N.B.</strong> Send only the order parameters when updating an order. order_items are updated seperately, see <a href="#order_items">order items</a></p>
             <p>Result:</p>
             <pre class="lager">HTTP Status Code 204 No Content</pre>
             <p>Possible error, besides errors returned from database:</p>
@@ -587,7 +587,7 @@ api_key</pre>
             <p>Optional parameter:</p>
             <pre class="lager">amount</pre>
 
-            <p><strong>N.B.</strong> All attributes are updated, send an entire order object.</p>
+            <!-- <p><strong>N.B.</strong> All attributes are updated, send an entire order object.</p> -->
             <p>Result:</p>
             <pre class="lager">HTTP Status Code 204 No Content</pre>
             <p>Possible error, besides errors returned from database:</p>
@@ -798,6 +798,44 @@ due_date</pre>
         "total_price": 100,
         "creation_date": "2019-02-13",
         "due_date": "2019-03-13"
+    }
+}</pre>
+
+        <h3 id="update_invoice"><a href="#update_invoice">To update an invoice:</a></h3>
+        <pre class="lager">PUT /v2/invoices</pre>
+        <p>Required parameters:</p>
+        <pre class="lager">id
+api_key</pre>
+
+            <p>Optional parameters:</p>
+            <pre class="lager">creation_date
+due_date
+total_price
+order_id</pre>
+
+            <p>Result:</p>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
+            <p>Possible error, besides errors returned from database:</p>
+            <pre class="lager">{
+                "errors": {
+                    "status": 400,
+                    "detail": "Required attribute invoice id (id) was not included in the request."
+                }
+            }</pre>
+
+        <h3 id="delete_invoice"><a href="#delete_invoice">To delete an invoice</a></h3>
+            <pre class="lager">DELETE /v2/invoices</pre>
+            <p>Required parameters:</p>
+            <pre class="lager">id
+api_key</pre>
+
+            <p>Result:</p>
+            <pre class="lager">HTTP Status Code 204 No Content</pre>
+            <p>Possible error, besides errors returned from database:</p>
+            <pre class="lager">{
+    "errors": {
+        "status": 400,
+        "detail": "Required attribute invoice id (id) was not included in the request."
     }
 }</pre>
 
