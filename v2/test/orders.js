@@ -290,6 +290,39 @@ describe('orders', () => {
                     done();
                 });
         });
+
+        it('should get 204 HAPPY PATH', (done) => {
+            let order = {
+                id: 1,
+                // name: "Bengt",
+                city: "Bengtfors",
+                api_key: apiKey,
+            };
+
+            chai.request(server)
+                .put("/v2/orders")
+                .send(order)
+                .end((err, res) => {
+                    res.should.have.status(204);
+
+                    done();
+                });
+        });
+
+        it('should get 200, with name still there and added address', (done) => {
+            chai.request(server)
+                .get("/v2/orders/1?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.data.should.have.property("name");
+                    res.body.data.name.should.be.equal("Bengt");
+
+                    res.body.data.should.have.property("address");
+                    res.body.data.city.should.be.equal("Bengtfors");
+
+                    done();
+                });
+        });
     });
 
     describe('DELETE /order', () => {

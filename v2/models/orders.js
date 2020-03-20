@@ -1,6 +1,15 @@
 const db = require("../db/database.js");
 
 const orders = {
+    allowedFields: {
+        name: "customerName",
+        address: "customerAddress",
+        zip: "customerZip",
+        city: "customerCity",
+        country: "customerCountry",
+        status: "statusId",
+    },
+
     dataFields: "o.ROWID as id, customerName as name," +
         " customerAddress as address," +
         " customerZip as zip, customerCity as city," +
@@ -234,31 +243,40 @@ const orders = {
 
     updateOrder: function(res, body) {
         if (Number.isInteger(parseInt(body.id))) {
-            db.run("UPDATE orders SET customerName = ?," +
-                " customerAddress = ?, customerZip = ?," +
-                " customerCity = ?, customerCountry = ?, statusId = ?" +
-                " WHERE apiKey = ? AND ROWID = ?",
-            body.name,
-            body.address,
-            body.zip,
-            body.city,
-            body.country,
-            body.status_id || 100,
-            body.api_key,
-            body.id, (err) => {
-                if (err) {
-                    return res.status(500).json({
-                        errors: {
-                            status: 500,
-                            source: "PUT /order",
-                            title: "Database error",
-                            detail: err.message
-                        }
-                    });
-                }
+            let params = [];
+            let sql = "UPDATE orders SET ";
+            let updateFields = [];
 
-                return res.status(204).send();
-            });
+            for (const field in orders.allowedFields) {
+                if (body[field] !== undefined) {
+                    updateFields.push(orders.allowedFields[field] + " = ?");
+
+                    params.push(body[field]);
+                }
+            }
+
+            sql += updateFields.join(", ");
+            sql += " WHERE apiKey = ? AND ROWID = ?";
+
+            params.push(body.api_key, body.id);
+
+            db.run(
+                sql,
+                params,
+                function (err) {
+                    if (err) {
+                        return res.status(500).json({
+                            errors: {
+                                status: 500,
+                                source: "PUT /order",
+                                title: "Database error",
+                                detail: err.message
+                            }
+                        });
+                    }
+
+                    return res.status(204).send();
+                });
         } else {
             return res.status(400).json({
                 errors: {
