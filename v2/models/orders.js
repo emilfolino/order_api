@@ -7,7 +7,7 @@ const orders = {
         zip: "customerZip",
         city: "customerCity",
         country: "customerCountry",
-        status: "statusId",
+        status_id: "statusId",
     },
 
     dataFields: "o.ROWID as id, customerName as name," +
