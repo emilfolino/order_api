@@ -213,6 +213,57 @@ const copier = {
                     res.status(201).json( { data: rows } );
                 });
             });
+    },
+
+    reset: function(res, apiKey) {
+        db.run("DELETE FROM products WHERE apiKey=?", apiKey, (err) => {
+            if (err) {
+                return copier.errorResponse(res, "/v2/copier/reset", err);
+            }
+
+            db.run("DELETE FROM orders WHERE apiKey=?", apiKey, (err) => {
+                if (err) {
+                    return copier.errorResponse(res, "/v2/copier/reset", err);
+                }
+
+                db.run("DELETE FROM order_items WHERE apiKey=?", apiKey, (err) => {
+                    if (err) {
+                        return copier.errorResponse(res, "/v2/copier/reset", err);
+                    }
+
+                    db.run("DELETE FROM deliveries WHERE apiKey=?", apiKey, (err) => {
+                        if (err) {
+                            return copier.errorResponse(res, "/v2/copier/reset", err);
+                        }
+
+                        db.run("DELETE FROM invoices WHERE apiKey=?", apiKey, (err) => {
+                            if (err) {
+                                return copier.errorResponse(res, "/v2/copier/reset", err);
+                            }
+
+                            db.run("DELETE FROM users WHERE apiKey=?", apiKey, (err) => {
+                                if (err) {
+                                    return copier.errorResponse(res, "/v2/copier/reset", err);
+                                }
+
+                                return copier.copyAll(res, apiKey);
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    },
+
+    errorResponse: function(res, path, err) {
+        return res.status(500).json({
+            errors: {
+                status: 500,
+                source: path,
+                title: "Database error",
+                detail: err.message
+            }
+        });
     }
 };
 

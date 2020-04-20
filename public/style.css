@@ -146,3 +146,15 @@ input[type=submit] {
         font-size: 112.5%;
     }
 }
+
+.danger {
+    background: #faa;
+    border-left: 3px solid #a33;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 1.4rem;
+    font-size: 1.2rem;
+    display: block;
+    overflow-x: auto;
+    color: #511;
+}

@@ -1168,6 +1168,14 @@ api_key</pre>
         ]
     }
 }</pre>
+
+            <h3 id="copy_reset"><a href="#copy_reset">Reset</a></h3>
+            <div class="danger">
+                <p><strong>Danger Zone!</strong></p>
+                <p>When using this route all products, orders, deliveries, invoices and users is deleted. Then the products and orders are copied again.</p>
+            </div>
+            <pre class="lager">POST /v2/copier/reset</pre>
+            <p>Same result as <code>POST /v2/copier/all</code></p>
         </section>
 
         <section id="examples">
