@@ -19,6 +19,16 @@ chai.use(chaiHttp);
 
 let apiKey = "";
 
+let config;
+
+try {
+    config = require('../../config/config.json');
+} catch (error) {
+    console.error(error);
+}
+
+var copyApiKey = process.env.COPY_API_KEY || config.copyApiKey;
+
 describe('copier', () => {
     var token;
 
@@ -127,6 +137,17 @@ describe('copier', () => {
                     done();
                 });
         });
+
+        it('should get 500 should not copy copyApiKey', (done) => {
+            chai.request(server)
+                .post("/v2/copier/products")
+                .send({ api_key: copyApiKey })
+                .end((err, res) => {
+                    res.should.have.status(500);
+
+                    done();
+                });
+        });
     });
 
     describe("POST /v2/copier/all", () => {
@@ -189,6 +210,17 @@ describe('copier', () => {
                 });
         });
 
+        it('should get 500 as we do not want to copy copyApiKey', (done) => {
+            chai.request(server)
+                .post("/v2/copier/all")
+                .send({ api_key: copyApiKey })
+                .end((err, res) => {
+                    res.should.have.status(500);
+
+                    done();
+                });
+        });
+
         it('should get 201 HAPPY PATH as we do not want to show all', (done) => {
             chai.request(server)
                 .post("/v2/copier/all")
@@ -219,6 +251,19 @@ describe('copier', () => {
     describe("POST /v2/copier/reset", () => {
         var firstProductId;
         var firstOrderId;
+
+        it('should get 500 as we cannot reset copyApiKey', (done) => {
+            chai.request(server)
+                .post("/v2/copier/reset")
+                .send({ api_key: copyApiKey })
+                .end((err, res) => {
+                    res.should.have.status(500);
+                    res.body.should.be.an("object");
+                    res.body.errors.status.should.be.equal(500);
+
+                    done();
+                });
+        });
 
         it('should get 401 as we do not provide valid api_key', (done) => {
             chai.request(server)
