@@ -22,7 +22,7 @@ const products = {
                     return products.errorResponse(res, "/products", err);
                 }
 
-                res.status(status).json( { data: rows } );
+                return res.status(status).json( { data: rows } );
             });
     },
 
@@ -163,6 +163,17 @@ const products = {
                 detail: err.message
             }
         });
+    },
+
+    everything: function(res) {
+        db.all(
+            "SELECT " + products.dataFields + " FROM products", (err, rows) => {
+                if (err) {
+                    return products.errorResponse(res, "/products/everything", err);
+                }
+
+                return res.status(200).json( { data: rows } );
+            });
     }
 };
 

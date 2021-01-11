@@ -390,4 +390,82 @@ describe('products', () => {
                 });
         });
     });
+
+    describe('GET /products/everything', () => {
+        it('should get all products without api_key', (done) => {
+            chai.request(server)
+                .get("/v2/products/everything")
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.be.equal(2);
+
+                    done();
+                });
+        });
+
+        it('should get 200 as we get apiKey', (done) => {
+            let user = {
+                email: "test@producteverything.com",
+                gdpr: "gdpr"
+            };
+
+            chai.request(server)
+                .post("/v2/auth/api_key/confirmation")
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(200);
+
+                    let HTMLResponse = HTMLParser.parse(res.text);
+                    let apiKeyElement = HTMLResponse.querySelector('#apikey');
+
+                    apiKey = apiKeyElement.childNodes[0].rawText;
+
+                    done();
+                });
+        });
+
+        it('should get 204 HAPPY PATH', (done) => {
+            let product = {
+                name: "Marshmallow",
+                api_key: apiKey
+            };
+
+            chai.request(server)
+                .post("/v2/products")
+                .send(product)
+                .end((err, res) => {
+                    res.should.have.status(201);
+
+                    done();
+                });
+        });
+
+        it('should get 200 HAPPY PATH getting one product', (done) => {
+            chai.request(server)
+                .get("/v2/products?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.be.equal(1);
+
+                    done();
+                });
+        });
+
+        it('should get all products without api_key', (done) => {
+            chai.request(server)
+                .get("/v2/products/everything")
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.be.equal(3);
+
+                    done();
+                });
+        });
+    });
 });

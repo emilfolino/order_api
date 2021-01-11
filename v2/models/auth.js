@@ -37,6 +37,10 @@ const auth = {
             return next();
         }
 
+        if ( req.path == '/products/everything') {
+            return next();
+        }
+
         auth.isValidAPIKey(req.query.api_key || req.body.api_key, next, req.path, res);
     },
 
