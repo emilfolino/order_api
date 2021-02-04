@@ -1,0 +1,14 @@
+# Use a base image
+FROM node:8
+
+# Create a workdir
+RUN mkdir -p /app
+WORKDIR /app
+
+# Install sqlite3
+RUN apt-get update
+RUN apt-get install --yes sqlite3
+
+# Install npm packages
+COPY package.json /app
+RUN npm install

@@ -1,0 +1,13 @@
+# Use a base image
+FROM node:alpine
+
+# Create a workdir
+RUN mkdir -p /app
+WORKDIR /app
+
+RUN apk update
+RUN apk add sqlite3
+
+# Install npm packages
+COPY package.json /app
+RUN npm install
