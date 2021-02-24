@@ -1,5 +1,5 @@
 # Use a base image
-FROM node:latest
+FROM node:12
 
 # Create a workdir
 RUN mkdir -p /app
@@ -7,12 +7,8 @@ WORKDIR /app
 
 # Install sqlite3
 RUN apt-get update
-RUN apt-get install sqlite3
+RUN apt-get --yes install sqlite3
 
 # Install npm packages
 COPY package.json /app
 RUN npm install
-
-# Make PORT exposed and run app.js
-EXPOSE 8111
-CMD [ "node", "app.js" ]

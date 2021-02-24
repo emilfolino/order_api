@@ -8,6 +8,14 @@ services:
             - ./:/app/
             - /app/node_modules/
 
+    node_12:
+        build:
+            context: .
+            dockerfile: docker/Dockerfile-node-12
+        volumes:
+            - ./:/app/
+            - /app/node_modules/
+
     node_10:
         build:
             context: .
