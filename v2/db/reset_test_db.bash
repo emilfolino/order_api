@@ -1,3 +1,3 @@
-$(> v2/db/test.sqlite)
-cat v2/db/migrate.sql | sqlite3 v2/db/test.sqlite
-cat v2/db/status_seed.sql | sqlite3 v2/db/test.sqlite
+$(> test.sqlite)
+cat migrate.sql | sqlite3 test.sqlite
+cat status_seed.sql | sqlite3 test.sqlite

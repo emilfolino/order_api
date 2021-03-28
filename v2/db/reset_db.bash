@@ -1,4 +1,4 @@
-$(> v2/db/orders.sqlite)
-cat v2/db/migrate.sql | sqlite3 v2/db/orders.sqlite
-cat v2/db/status_seed.sql | sqlite3 v2/db/orders.sqlite
-cat v2/db/seed.sql | sqlite3 v2/db/orders.sqlite
+$(> orders.sqlite)
+cat migrate.sql | sqlite3 orders.sqlite
+cat status_seed.sql | sqlite3 orders.sqlite
+cat seed.sql | sqlite3 orders.sqlite
