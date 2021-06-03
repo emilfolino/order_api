@@ -86,6 +86,14 @@ ol {
     margin-bottom: 1.4rem;
 }
 
+.header {
+    background: #ace;
+}
+
+.header-img {
+    width: 64px;
+}
+
 .footer {
     background-color: #13395f;
     color: white;
