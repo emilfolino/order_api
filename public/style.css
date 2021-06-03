@@ -17,6 +17,8 @@ body {
     display: flex;
     flex-direction: column;
     color: #333;
+    font-family: sans-serif;
+    width: 100%;
 }
 
 .content {
@@ -35,7 +37,6 @@ p {
 main {
     width: 98%;
     margin: 10px auto;
-    font-family: sans-serif;
     line-height: 1.4;
 }
 
@@ -88,10 +89,19 @@ ol {
 
 .header {
     background: #ace;
+    display: flex;
+    flex-direction: row;
+    padding: 0.6em;
 }
 
 .header-img {
-    width: 64px;
+    width: 48px;
+    height: 48px;
+    margin-right: 2em;
+}
+
+.header h1 {
+    margin: 0;
 }
 
 .footer {
