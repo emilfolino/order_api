@@ -16,7 +16,7 @@ app.disable('x-powered-by');
 
 app.set("view engine", "ejs");
 
-const port = 8111;
+const port = process.env.PORT || 8111;
 
 // don't show the log when it is test
 if (process.env.NODE_ENV !== 'test') {
