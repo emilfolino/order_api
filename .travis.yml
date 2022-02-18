@@ -4,8 +4,6 @@ node_js:
     - "node"
     - "lts/*"
     - "14"
-    - "11"
-    - "10"
 
 sudo: false
 
