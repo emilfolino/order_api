@@ -22,7 +22,11 @@ const products = {
                     return products.errorResponse(res, "/products", err);
                 }
 
-                return res.status(status).json( { data: rows } );
+                if (res) {
+                    return res.status(status).json( { data: rows } );
+                } else {
+                    return rows;
+                }
             });
     },
 

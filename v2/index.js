@@ -1,6 +1,10 @@
 const express = require('express');
 const path = require("path");
 const router = express.Router();
+const { graphqlHTTP } = require('express-graphql');
+const {
+  GraphQLSchema
+} = require("graphql");
 
 const authModel = require("./models/auth.js");
 
@@ -12,17 +16,32 @@ const orderItems = require("./route/order_items.js");
 const orders = require("./route/orders.js");
 const products = require("./route/products.js");
 
+const RootQueryType = require("./graphql/root.js");
+
 router.all('*', authModel.checkAPIKey);
 
-router.get('/', (req, res) => res.sendFile(path.join(__dirname + '/documentation.html')));
-
+router.use("/products", products);
 router.use("/auth", auth);
 router.use("/copier", copier);
 router.use("/deliveries", deliveries);
 router.use("/invoices", invoices);
 router.use("/order_items", orderItems);
 router.use("/orders", orders);
-router.use("/products", products);
+
+router.get('/', (req, res) => res.sendFile(path.join(__dirname + '/documentation.html')));
+
+const schema = new GraphQLSchema({
+    query: RootQueryType
+});
+
+router.use('/graphql', graphqlHTTP(function (req, res, params) {
+    console.log(req.body)
+    return {
+        schema: schema,
+        graphiql: true,
+    };
+
+}));
 
 router.use(function (req, res) {
     return res.status(404).json({

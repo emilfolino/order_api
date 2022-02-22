@@ -41,10 +41,10 @@ const auth = {
             return next();
         }
 
-        auth.isValidAPIKey(req.query.api_key || req.body.api_key, next, req.path, res);
+        return auth.isValidAPIKey(req.query.api_key || req.body.api_key, next, req.path, res, req);
     },
 
-    isValidAPIKey: function(apiKey, next, path, res) {
+    isValidAPIKey: function(apiKey, next, path, res, req) {
         db.get("SELECT email FROM apikeys WHERE key = ?", apiKey, (err, row) => {
             if (err) {
                 return res.status(500).json({
@@ -58,6 +58,7 @@ const auth = {
             }
 
             if (row !== undefined) {
+                req.api_key = apiKey;
                 return next();
             }
 
