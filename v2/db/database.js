@@ -1,9 +1,19 @@
-var sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require('sqlite3').verbose();
+const { open } = require('sqlite');
 
-module.exports = (function () {
-    if (process.env.NODE_ENV === 'test') {
-        return new sqlite3.Database('./v2/db/test.sqlite');
+const database = {
+    openDb: async function openDb() {
+        let dbFilename = "./v2/db/orders.sqlite";
+
+        if (process.env.NODE_ENV === 'test') {
+            dbFilename = "./v2/db/test.sqlite";
+        }
+
+        return await open({
+            filename: dbFilename,
+            driver: sqlite3.Database
+        });
     }
+};
 
-    return new sqlite3.Database('./v2/db/orders.sqlite');
-}());
+module.exports = database;

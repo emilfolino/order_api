@@ -15,19 +15,15 @@ const products = {
         " productName as name, productDescription as description," +
         " productSpecifiers as specifiers, stock, location, (price / 100) as price",
 
-    getAllProducts: function(res, apiKey, status=200) {
-        db.all("SELECT " + products.dataFields + " FROM products WHERE apiKey = ?",
-            apiKey, (err, rows) => {
-                if (err) {
-                    return products.errorResponse(res, "/products", err);
-                }
+    getAllProducts: async function(apiKey) {
+        try {
+            const query = "SELECT " + products.dataFields + " FROM products WHERE apiKey = ?";
+            const rows = await db.all(query, apiKey);
 
-                if (res) {
-                    return res.status(status).json( { data: rows } );
-                } else {
-                    return rows;
-                }
-            });
+            return rows;
+        } catch (e) {
+            return products.errorResponse(res, "/products", err);
+        }
     },
 
     getProduct: function(res, apiKey, productId, status=200) {
@@ -159,14 +155,14 @@ const products = {
     },
 
     errorResponse: function(res, path, err) {
-        return res.status(500).json({
+        return {
             errors: {
                 status: 500,
                 source: path,
                 title: "Database error",
                 detail: err.message
             }
-        });
+        };
     },
 
     everything: function(res) {

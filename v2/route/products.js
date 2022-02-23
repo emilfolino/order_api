@@ -3,7 +3,11 @@ const router = express.Router();
 
 const products = require("../models/products.js");
 
-router.get('/', (req, res) => products.getAllProducts(res, req.query.api_key));
+router.get('/', async (req, res) => {
+    const rows = await products.getAllProducts(req.query.api_key);
+
+    return res.json({ data: rows });
+});
 
 router.get("/everything", (req, res) => products.everything(res));
 

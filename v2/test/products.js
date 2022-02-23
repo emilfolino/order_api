@@ -11,7 +11,7 @@ const server = require('../../app.js');
 
 chai.should();
 
-const db = require("../db/database.js");
+const database = require("../db/database.js");
 
 chai.use(chaiHttp);
 
@@ -19,9 +19,14 @@ let apiKey = "";
 
 describe('products', () => {
     before(() => {
-        db.run("DELETE FROM products", (err) => {
-            if (err) {
-                console.log("Could not empty test DB table products", err.message);
+        return new Promise(async (resolve) => {
+            try {
+                const db = await database.openDb();
+                await db.run("DELETE FROM products");
+            } catch (e) {
+                console.error("Could not delete products", e);
+            } finally {
+                resolve();
             }
         });
     });

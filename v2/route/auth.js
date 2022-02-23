@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const auth = require("../models/auth.js");
+const errors = require("../models/errors.js");
 
 router.get('/api_key', (req, res) => {
     let data = {
@@ -9,12 +10,12 @@ router.get('/api_key', (req, res) => {
         email: ""
     };
 
-    res.render("api_key/form", data);
+    return res.render("api_key/form", data);
 });
 
-router.post('/api_key/confirmation', (req, res) => {
+router.post('/api_key/confirmation', async (req, res) => {
     if (req.body.gdpr && req.body.gdpr == "gdpr") {
-        return auth.getNewAPIKey(res, req.body.email);
+        return await auth.getNewAPIKey(res, req.body.email);
     }
 
     let data = {
@@ -22,7 +23,7 @@ router.post('/api_key/confirmation', (req, res) => {
         email: req.body.email
     };
 
-    res.render("api_key/form", data);
+    return res.render("api_key/form", data);
 });
 
 router.get('/api_key/deregister', (req, res) => {
@@ -32,7 +33,7 @@ router.get('/api_key/deregister', (req, res) => {
         apikey: ""
     };
 
-    res.render("api_key/deregister", data);
+    return res.render("api_key/deregister", data);
 });
 
 router.post('/api_key/deregister', (req, res) => {
@@ -47,10 +48,27 @@ router.post('/api_key/deregister', (req, res) => {
         apikey: ""
     };
 
-    res.render("api_key/deregister", data);
+    return res.render("api_key/deregister", data);
 });
 
-router.post('/login', (req, res) => auth.login(res, req.body));
-router.post('/register', (req, res) => auth.register(res, req.body));
+router.post('/login', async (req, res) => {
+    const response = await auth.login(res, req.body);
+
+    if (response.hasOwnProperty("errors")) {
+        return errors.sendError(res, error);
+    }
+
+    return res.status(201).json(response);
+});
+
+router.post('/register', async (req, res) => {
+    const response = await auth.register(res, req.body);
+
+    if (response.hasOwnProperty("errors")) {
+        return errors.sendError(res, error);
+    }
+
+    return res.status(201).json(response);
+});
 
 module.exports = router;
