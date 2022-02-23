@@ -3,7 +3,7 @@ const path = require("path");
 const router = express.Router();
 const { graphqlHTTP } = require('express-graphql');
 const {
-  GraphQLSchema
+    GraphQLSchema
 } = require("graphql");
 
 const authModel = require("./models/auth.js");
@@ -34,13 +34,9 @@ const schema = new GraphQLSchema({
     query: RootQueryType
 });
 
-router.use('/graphql', graphqlHTTP(function (req, res, params) {
-    console.log(req.body)
-    return {
-        schema: schema,
-        graphiql: true,
-    };
-
+router.use('/graphql', graphqlHTTP({
+    schema: schema,
+    graphiql: true,
 }));
 
 router.use(function (req, res) {

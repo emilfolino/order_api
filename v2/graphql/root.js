@@ -1,9 +1,6 @@
 const {
     GraphQLObjectType,
-    GraphQLString,
     GraphQLList,
-    GraphQLInt,
-    GraphQLNonNull
 } = require('graphql');
 
 const productModel = require("../models/products.js");
@@ -18,8 +15,7 @@ const RootQueryType = new GraphQLObjectType({
             type: GraphQLList(ProductType),
             description: 'List of all products for given user',
             resolve: async function(obj, args, request) {
-                console.log(request.body);
-                // return await courses.getAll();
+                return await productModel.getAllProducts(request.body.api_key);
             }
         }
     })

@@ -19,6 +19,6 @@ const ProductType = new GraphQLObjectType({
         location: { type: GraphQLNonNull(GraphQLString) },
         price: { type: GraphQLNonNull(GraphQLFloat) },
     })
-})
+});
 
 module.exports = ProductType;
