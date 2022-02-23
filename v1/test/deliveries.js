@@ -15,7 +15,7 @@ chai.use(chaiHttp);
 
 let apiKey = "";
 
-describe('deliveries', () => {
+describe('deliveries v1', () => {
     before(() => {
         db.run("DELETE FROM deliveries", (err) => {
             if (err) {

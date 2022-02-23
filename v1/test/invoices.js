@@ -16,7 +16,7 @@ chai.use(chaiHttp);
 let apiKey = "";
 let token = "";
 
-describe('invoices', () => {
+describe('invoices v1', () => {
     before(() => {
         db.run("DELETE FROM invoices", (err) => {
             if (err) {

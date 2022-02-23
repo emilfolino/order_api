@@ -15,7 +15,7 @@ chai.use(chaiHttp);
 
 let apiKey = "";
 
-describe('order items', () => {
+describe('order items v1', () => {
     before(() => {
         db.run("DELETE FROM products", (err) => {
             if (err) {

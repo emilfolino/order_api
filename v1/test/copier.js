@@ -17,7 +17,7 @@ chai.use(chaiHttp);
 
 let apiKey = "";
 
-describe('copier', () => {
+describe('copier v1', () => {
     before(() => {
         return new Promise((resolve) => {
             db.run("DELETE FROM products", (err) => {

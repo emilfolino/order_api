@@ -15,7 +15,7 @@ chai.use(chaiHttp);
 
 let apiKey = "";
 
-describe('auth', () => {
+describe('auth v1', () => {
     before(() => {
         db.run("DELETE FROM apiKeys", (err) => {
             if (err) {
