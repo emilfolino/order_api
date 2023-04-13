@@ -1,0 +1,1 @@
+ALTER TABLE orders ADD COLUMN image_url TEXT DEFAULT '';
