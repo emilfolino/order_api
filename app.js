@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/v2", v2);
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/public/base.html')));
+app.get('/', (req, res) => res.redirect('/v2'));
 
 app.use("/", v1);
 
