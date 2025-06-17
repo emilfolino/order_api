@@ -66,7 +66,7 @@ Their mega-hit debut album **“Reboot My Heart”** featured tracks like:
 * *“No Signal (Still Love U)”*
 * *“Boyband.exe”*
 
-They were everywhere: TRL, cereal boxes, your older sister’s locker door.
+They were everywhere: TRL, cereal boxes, your older sister's locker door.
 
 After their popularity waned by 2005, the members pursued solo careers (with varying degrees of success): acting gigs, reality TV meltdowns, and one surprisingly decent vegan cookbook.
 
