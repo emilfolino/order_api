@@ -1,0 +1,3 @@
+ALTER TABLE products ADD COLUMN image_url TEXT DEFAULT '';
+ALTER TABLE products ADD COLUMN category TEXT DEFAULT '';
+
