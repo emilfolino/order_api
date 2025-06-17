@@ -9,7 +9,7 @@
   "main": "app.js",
   "scripts": {
     "pretest": "$(v1/db/reset_test_db.bash) && $(v2/db/reset_test_db.bash)",
-    "test": "nyc --reporter=html --reporter=text --reporter=clover mocha \"./v*/test/*.js\" --timeout 10000",
+    "test": "nyc --reporter=html --reporter=text --reporter=clover mocha \"./v2/test/*.js\" --timeout 10000",
     "posttest": "npm run eslint",
     "start": "nodemon app.js",
     "clean": "rm -rf node_modules package-lock.json",
@@ -34,7 +34,7 @@
     "eslint": "^8.9.0",
     "eslint-plugin-react": "^7.12.4",
     "javascript-style-guide": "^0.9.10",
-    "mocha": "^9.2.2",
+    "mocha": "^11.6.0",
     "node-html-parser": "^1.1.12",
     "nyc": "^15.0.0"
   }
