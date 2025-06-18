@@ -91,14 +91,174 @@ Their comeback album **“Patch Notes”** is a synthy, melancholic pop record l
 
 -- hard rock
 
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Skruv M8", "Skruv M8, värmförsinkad", '{"length" : "60mm", "width" : "8mm"}', 2, "A1B7", 100, "fdc42b2d941e8c6f7b38d974df3music");
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Skruv M6", "Skruv M6, värmförsinkad", '{"length" : "60mm", "width" : "6mm"}', 6, "A1B8", 100, "fdc42b2d941e8c6f7b38d974df3music");
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M14", "Mutter M14, värmförsinkad, passar 1214-RNT", '{"diameter" : "14mm"}', 13, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("The Crimson Requiem", "Perfect. Let’s create a dramatic, moody **hard rock band** in the style of **Evanescence**, mixing gothic aesthetics, emotional power ballads, and industrial rock vibes.
+
+---
+
+### **Band Name:** **Ashes of Eden**
+
+### **Tagline:** *“Where angels burn and shadows rise.”*
+
+---
+
+### **Backstory:**
+
+**Ashes of Eden** formed in the early 2000s underground alt-rock scene in Detroit. The group gained notoriety for their cinematic sound—blending soaring female vocals with chugging guitar riffs, orchestral strings, and haunting piano. Initially dismissed as “just another Evanescence clone,” they carved their own path with lyrics focused on **loss, resurrection, rage, and rebirth**.
+
+Their frontwoman, **Vesper Vale**, has become iconic for her operatic range, black lace stagewear, and poetic lyrics that pull from mythology, psychology, and religious symbolism.
+
+After a brief breakup in 2013, the band reunited in 2024 and began releasing new material with a heavier, darker tone and deeply personal themes rooted in survival and transformation.
+
+---
+
+### **Members:**
+
+* **Vesper Vale** Lead vocalist and lyricist; enigmatic and theatrical.
+* **Thorne** Lead guitarist; brooding and introverted, lives off-grid when not touring.
+* **Raine** Drummer and electronics; adds industrial flair.
+* **Ivy Hex** Bassist and backup screamer; goth punk energy with a cult following.
+* **Silas Kade** Rhythm guitarist and co-producer; formerly a session musician for doom metal bands.
+
+---
+
+### **Debut Album:** **Lament Engine** (2005)
+
+Breakout single: *Veins of Glass*
+
+---
+
+### **Comeback Album (2025):** **The Crimson Requiem**
+
+Tracklist includes:
+
+* **Salt the Wound**
+* **Beautiful Wreckage**
+* **Cruciform**
+* **Ashes, Again**
+* **Thorns at My Baptism**", 2, "A1B7", 100, "fdc42b2d941e8c6f7b38d974df3music", "hard rock", "https://lager.emilfolino.se/img/crimson_requiem.png");
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Kiss the blade", "Hell yes—**glam metal** it is. Big hair, big riffs, big heartbreak, and **even bigger eyeliner**.
+
+---
+
+### 🎸 **Band Name:** **Lipstick Guillotine**
+
+### 🖋️ **Tagline:** *“Kiss you. Kill you. Encore.”*
+
+---
+
+### 🧨 **Backstory:**
+
+Formed in the neon underworld of the Sunset Strip in 1987, **Lipstick Guillotine** were the beautiful, broken-hearted devils your parents warned you about. Drenched in leather, hairspray, and just enough tragedy, they crashed onto the glam scene with vicious charm and arena-filling hooks.
+
+After a legendary tour in 1991 ended with a **stage fire, a public breakup**, and one mysterious disappearance (their original drummer, Spazzy Razzy, was last seen in a Denny's parking lot holding a Ouija board), the band faded into scandal and silence.
+
+But in 2025—fueled by nostalgia, therapy, and the sudden viral fame of their unreleased ballad *“Bleed on Me, Angel”*—the surviving members have returned to **reclaim the throne** of neon-stained heartbreak and razor-sharp riffs.
+
+---
+
+### 🎤 **Current Members:**
+
+* **Axel Venom** Frontman. His voice is gravel dipped in honey and regret.
+* **Blitz Malone** Lead guitar. Hair tall enough to get radio interference.
+* **Vyxyn Riot** Bass. Femme fatale energy with platform boots and a bass that growls.
+* **Johnny Hexx** Drums. Back from the dead—literally. No one's asking questions.
+
+---
+
+### 💿 **Comeback Album:** **“Kiss the Blade”**
+
+🔥 Tracklist:
+
+1. **Velvet Gun**
+2. **Kiss the Blade** (title track)
+3. **Tears in Mascara**
+4. **Leather Saints**
+5. **Bleed on Me, Angel** (restored original)
+6. **Cherrybomb Suicide**
+7. **No Roses for the Wicked**
+
+It's full of *shredding solos*, *power ballads*, and *lyrics like glam Shakespeare with a knife between its teeth*.", 6, "A1B8", 100, "fdc42b2d941e8c6f7b38d974df3music", "hard rock", "https://lager.emilfolino.se/img/kiss_the_blade.png");
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Putrid Cathedral", "Absolutely—time to crank the distortion and summon some brutality.
+
+---
+
+### 🩸 **Band Name:** **Crypt Womb**
+
+### ☠️ **Tagline:** *Born to rot. Raised to scream.*
+
+---
+
+### 🩻 **Backstory:**
+
+**Crypt Womb** burst from the Norwegian underground in 2012, formed by childhood friends turned riff-slinging nihilists. Originally banned from multiple venues for using real animal bones in their stage design, the band gained a rabid cult following thanks to their **visceral sound**, **nightmare lyrics**, and an infamous live set that once included a fake onstage exorcism that fooled half the audience.
+
+Stylistically, they blend **classic death metal** with **doom-laced breakdowns**, and lyrics soaked in Lovecraftian imagery, decay, trauma, and resurrection. Their name references the cycle of **birth from death**, and **death from birth**—and every album is a new horror chapter in that mythology.
+
+---
+
+### 🔥 **Current Lineup:**
+
+* **Vile Torvik** Vocals. Guttural growls, face always painted like dried blood.
+* **Grim Harrow** Lead guitar. Shreds like he's unearthing corpses.
+* **Bane Seraphim** Bass. Tall, silent, ex-seminarian.
+* **Rotjaw** Drums. Animalistic and shirtless since 2014.
+* **Filth Eidolon** Rhythm guitar/synths. Handles horror atmospheres and samples.
+
+---
+
+### 💿 **Latest Album:** **Putrid Cathedral** (2025)
+
+🕯️ *Tracklist highlights:*
+
+1. Plagueglass Communion
+2. Eater of Saints
+3. Womb of Flies
+4. Putrid Cathedral *(title track)*
+5. Drown the Lightbearer
+6. Stigmata Rebirth
+7. Gravehymn IV: Chokehold Psalms
+
+---
+
+Would you like me to generate the album cover for **Putrid Cathedral** now? I’ll keep it grim, heavy, and on point.
+", 13, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "hard rock", "https://lager.emilfolino.se/img/putrid_cathedral.png");
 
 
 
 -- country
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M12", "Mutter M12, värmförsinkad, passar 1212-RNT", '{"diameter" : "12mm"}', 23, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Dry River Hymns", "Yeehaw, let’s switch gears to something raw, heartfelt, and dust-covered: a **solo country artist**. Here’s a fully built concept:
+
+---
+
+### 🤠 **Artist Name:** **Wade Harlan**
+
+### 🪶 **Tagline:** *“Some roads don't lead back home.”*
+
+---
+
+### 🛻 **Backstory:**
+
+**Wade Harlan** grew up in a one-stoplight town in West Texas, raised by a grandfather who taught him guitar on a porch held up by stubborn nails and prayer. After a stint in the military and a heartbreak that nearly broke him, Wade started writing songs about **loss, resilience, and long highways that never seem to end**.
+
+He spent years playing tiny bars, truck stops, and county fairs before being discovered via a viral video of him performing *Bluebonnet Bloodline* outside a gas station during a thunderstorm. His voice—a weathered, smoky drawl—carries decades of sorrow and grit, even though he’s only in his early 30s.
+
+Wade straddles the line between **classic outlaw country** and **modern Americana**, rejecting Nashville polish in favor of cracked boots, steel strings, and songs that cut close to the bone.
+
+---
+
+### 💿 **Debut Album:** **Dry River Hymns**
+
+🪕 *Tracklist highlights:*
+
+1. Whiskey in My Chest”
+2. Dry River Hymns” *(title track)*
+3. Bluebonnet Bloodline”
+4. Backroad Benediction”
+5. Crows Don't Pray”
+6. Half a Bible, Half a Gun”
+7. The Kind of Man I Ain't”
+
+Themes: **regret**, **faith lost and found**, **Southern folklore**, and the eternal tension between **running and returning**.", 23, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "country", "https://lager.emilfolino.se/img/dry_river_hymns.png");
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M10", "Mutter M10, värmförsinkad, passar 1210-RNT", '{"diameter" : "10mm"}', 12, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M8", "Mutter M8, värmförsinkad, passar 1208-RNT", '{"diameter" : "8mm"}', 4, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
 
