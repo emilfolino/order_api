@@ -259,7 +259,37 @@ Wade straddles the line between **classic outlaw country** and **modern American
 7. The Kind of Man I Ain't”
 
 Themes: **regret**, **faith lost and found**, **Southern folklore**, and the eternal tension between **running and returning**.", 23, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "country", "https://lager.emilfolino.se/img/dry_river_hymns.png");
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M10", "Mutter M10, värmförsinkad, passar 1210-RNT", '{"diameter" : "10mm"}', 12, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M10", "Absolutely—here's a surprise twist on the country genre:
+
+---
+
+### 🎤 **Artist Name:** **Granny McGraw**
+
+### 🧨 **Tagline:** *“Still kickin'. Still cussin'. Still chartin'.”*
+
+---
+
+### 👵 **Backstory:**
+
+Born **Clara Jean McGraw** in 1941 in Appalachia, Granny McGraw started performing in honky-tonks when she was just 15, under the name *“CJ Wildfire.”* She opened for legends like Johnny Cash and Loretta Lynn but disappeared from the spotlight in the ‘70s after a whiskey-fueled brawl with a record executive (she won).
+
+After decades off the grid—raising goats, canning her own moonshine, and living on a mountain with no internet—Granny McGraw reemerged on TikTok in 2024 after her grandson uploaded a video of her shredding on a banjo and growling out an old outlaw tune.
+
+Her voice? Like **barbed wire soaked in honey**. Her style? A mix of **coal country grit**, **tattoos**, and **velvet dusters**. Now she's 83, and somehow one of the hottest live acts in outlaw country.
+
+---
+
+### 💿 **Album Title:** **“Cracked Boots & Coffin Nails”**
+
+🔥 *Tracklist highlights:*
+
+1. “Ain't Dead Yet (But You're Gonna Be)”
+2. “Whiskey Makes the Pain Behave”
+3. “Jesus Rode a Harley”
+4. “Casket's Full, Honey”
+5. “Crows on the Clothesline”
+6. “Married a Devil, Shot His Brother”
+7. “Grandbaby's Got a Knife” *(feat. Jelly Roll)*", 12, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "country", "https://lager.emilfolino.se/img/cracked_boots_and_coffin_nails.png");
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M8", "Mutter M8, värmförsinkad, passar 1208-RNT", '{"diameter" : "8mm"}', 4, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
 
 
