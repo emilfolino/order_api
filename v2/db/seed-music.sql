@@ -91,11 +91,7 @@ Their comeback album **“Patch Notes”** is a synthy, melancholic pop record l
 
 -- hard rock
 
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("The Crimson Requiem", "Perfect. Let’s create a dramatic, moody **hard rock band** in the style of **Evanescence**, mixing gothic aesthetics, emotional power ballads, and industrial rock vibes.
-
----
-
-### **Band Name:** **Ashes of Eden**
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("The Crimson Requiem", "### **Band Name:** **Ashes of Eden**
 
 ### **Tagline:** *“Where angels burn and shadows rise.”*
 
@@ -136,11 +132,7 @@ Tracklist includes:
 * **Cruciform**
 * **Ashes, Again**
 * **Thorns at My Baptism**", 2, "A1B7", 100, "fdc42b2d941e8c6f7b38d974df3music", "hard rock", "https://lager.emilfolino.se/img/crimson_requiem.png");
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Kiss the blade", "Hell yes—**glam metal** it is. Big hair, big riffs, big heartbreak, and **even bigger eyeliner**.
-
----
-
-### 🎸 **Band Name:** **Lipstick Guillotine**
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Kiss the blade", "### 🎸 **Band Name:** **Lipstick Guillotine**
 
 ### 🖋️ **Tagline:** *“Kiss you. Kill you. Encore.”*
 
@@ -178,11 +170,7 @@ But in 2025—fueled by nostalgia, therapy, and the sudden viral fame of their u
 7. **No Roses for the Wicked**
 
 It's full of *shredding solos*, *power ballads*, and *lyrics like glam Shakespeare with a knife between its teeth*.", 6, "A1B8", 100, "fdc42b2d941e8c6f7b38d974df3music", "hard rock", "https://lager.emilfolino.se/img/kiss_the_blade.png");
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Putrid Cathedral", "Absolutely—time to crank the distortion and summon some brutality.
-
----
-
-### 🩸 **Band Name:** **Crypt Womb**
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Putrid Cathedral", "### 🩸 **Band Name:** **Crypt Womb**
 
 ### ☠️ **Tagline:** *Born to rot. Raised to scream.*
 
@@ -226,11 +214,7 @@ Would you like me to generate the album cover for **Putrid Cathedral** now? I’
 
 
 -- country
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Dry River Hymns", "Yeehaw, let’s switch gears to something raw, heartfelt, and dust-covered: a **solo country artist**. Here’s a fully built concept:
-
----
-
-### 🤠 **Artist Name:** **Wade Harlan**
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Dry River Hymns", "## 🤠 **Artist Name:** **Wade Harlan**
 
 ### 🪶 **Tagline:** *“Some roads don't lead back home.”*
 
@@ -259,11 +243,7 @@ Wade straddles the line between **classic outlaw country** and **modern American
 7. The Kind of Man I Ain't”
 
 Themes: **regret**, **faith lost and found**, **Southern folklore**, and the eternal tension between **running and returning**.", 23, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "country", "https://lager.emilfolino.se/img/dry_river_hymns.png");
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M10", "Absolutely—here's a surprise twist on the country genre:
-
----
-
-### 🎤 **Artist Name:** **Granny McGraw**
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Cracked Boots & Coffin Nails", "### 🎤 **Artist Name:** **Granny McGraw**
 
 ### 🧨 **Tagline:** *“Still kickin'. Still cussin'. Still chartin'.”*
 
@@ -290,15 +270,60 @@ Her voice? Like **barbed wire soaked in honey**. Her style? A mix of **coal coun
 5. “Crows on the Clothesline”
 6. “Married a Devil, Shot His Brother”
 7. “Grandbaby's Got a Knife” *(feat. Jelly Roll)*", 12, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "country", "https://lager.emilfolino.se/img/cracked_boots_and_coffin_nails.png");
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M8", "Mutter M8, värmförsinkad, passar 1208-RNT", '{"diameter" : "8mm"}', 4, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Heartstrings & Highways", "### 🎤 **Artist Name:** **Daisy Rae**
 
+### 🌼 **Tagline:** *“Country roots, starlit dreams.”*
 
--- indie rock
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M12", "Mutter M12, värmförsinkad, passar 1212-RNT", '{"diameter" : "12mm"}', 23, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M10", "Mutter M10, värmförsinkad, passar 1210-RNT", '{"diameter" : "10mm"}', 12, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M8", "Mutter M8, värmförsinkad, passar 1208-RNT", '{"diameter" : "8mm"}', 4, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
+---
+
+### 🌟 **Backstory:**
+
+Born in **Sweetwater, Texas**, Daisy Rae grew up on her family’s cattle ranch, writing songs in the hayloft about school crushes and summer nights. She started uploading acoustic covers to YouTube at 14, quickly gaining a devoted following for her airy voice and heartfelt lyrics.
+
+When she turned 18, she packed her guitar, moved to Nashville, and—armed with nothing but a notebook full of songs and a killer denim jacket—signed her first record deal.
+
+Her style blends **classic country storytelling** with **shimmery pop choruses**, the kind that get stuck in your head for days.
+
+---
+
+### 💿 **Debut Album:** **“Heartstrings & Highways”**
+
+*Track highlights:*
+
+1. “Sunflower Eyes”
+2. “Halfway to Heaven, Stuck in Oklahoma”
+3. “If You Were Mine”
+4. “Friday Night, Front Porch”
+5. “Polaroids & Pickup Trucks”
+6. “The Way You Say Goodbye”", 4, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "country", "https://lager.emilfolino.se/img/heartstrings_and_highways.png");
 
 -- hiphop
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M12", "Mutter M12, värmförsinkad, passar 1212-RNT", '{"diameter" : "12mm"}', 23, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M12", "### 🎤 **Artist Name:** **Big Reggie**
+
+### 🏙 **Tagline:** *“Brooklyn grit, golden flow.”*
+
+---
+
+### 📜 **Backstory:**
+
+**Reginald “Big Reggie” Carter** was born and raised in **Bedford–Stuyvesant, Brooklyn**, in the mid-’70s. Growing up, he was the kid everyone knew for his booming laugh and sharper-than-a-razor rhymes at the lunch table. He started freestyling on street corners at 15, weaving tales of block life, hustle, and heartbreak.
+
+By his early 20s, Big Reggie was a regular in NYC’s underground rap battles, where his commanding presence and storytelling drew comparisons to Biggie Smalls himself. His debut single, *“Back on the Block,”* became a local hit, blasting from boomboxes in basketball courts and bodegas across the borough.
+
+His style? **Laid-back but lethal** — slow, deliberate delivery with clever wordplay and vivid imagery that puts you right on the stoop with him.
+
+---
+
+### 💿 **Debut Album:** **“Skyline Scriptures”**
+
+*Track highlights:*
+
+1. “Back on the Block”
+2. “Gutter Gold”
+3. “Skyline Scriptures” *(title track)*
+4. “Hustler’s Lullaby”
+5. “Crown Heights Chronicles”
+6. “Game Don’t Change”
+7. “From the Corner to the Clouds”", 23, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "hiphop", "https://lager.emilfolino.se/img/skyline_scriptures.png");
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M10", "Mutter M10, värmförsinkad, passar 1210-RNT", '{"diameter" : "10mm"}', 12, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M8", "Mutter M8, värmförsinkad, passar 1208-RNT", '{"diameter" : "8mm"}', 4, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
