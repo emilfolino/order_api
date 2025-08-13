@@ -325,5 +325,59 @@ His style? **Laid-back but lethal** — slow, deliberate delivery with clever wo
 5. “Crown Heights Chronicles”
 6. “Game Don’t Change”
 7. “From the Corner to the Clouds”", 23, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "hiphop", "https://lager.emilfolino.se/img/skyline_scriptures.png");
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M10", "Mutter M10, värmförsinkad, passar 1210-RNT", '{"diameter" : "10mm"}', 12, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
-INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Mutter M8", "Mutter M8, värmförsinkad, passar 1208-RNT", '{"diameter" : "8mm"}', 4, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music");
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Estate of Mind", "### 🎤 **Artist Name:** **Lil Camden**
+
+### 🏙 **Tagline:** *“North London stories, South London hustle.”*
+
+---
+
+### 📜 **Backstory:**
+
+**Callum “Lil Camden” Hayes** grew up bouncing between estates in Camden and Brixton, soaking up the cultural mix of the capital. His older brother was a grime MC, and by 13, Callum was sneaking into pirate radio sessions, spitting verses over drill and UK garage beats.
+
+At 17, he dropped a freestyle on TikTok that went viral overnight, landing him millions of views and a rep for **smooth, conversational flows over moody, minimal drill production**. His lyrics fuse **street realism** with **witty wordplay**, flipping between cocky swagger and vulnerable honesty.
+
+---
+
+### 💿 **Breakout Mixtape:** **“Estate of Mind”**
+
+*Track highlights:*
+
+1. “Night Bus Dreams”
+2. “Brixton Breeze”
+3. “No Cap, No Gap”
+4. “North Meets South”
+5. “Pound Notes & Heartbreaks”
+6. “Link Up at Midnight”", 12, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "hiphop", "https://lager.emilfolino.se/img/estate_of_mind.png");
+INSERT INTO products (productName, productDescription, stock, location, price, apiKey) VALUES ("Palm Trees & Street Dreams", "### 🎤 **Group Name:** **Sunset Syndicate**
+
+### 🌴 **Tagline:** *“Cali nights, endless hustle.”*
+
+---
+
+### 📜 **Backstory:**
+
+Straight out of **South Central Los Angeles**, Sunset Syndicate is a five-member rap collective blending **G-funk grooves**, **laid-back flows**, and **gritty street storytelling**. They formed after meeting at an open mic in Leimert Park, where their chemistry on stage was undeniable.
+
+They draw influence from legends like N.W\.A, Snoop Dogg, and The Game, but bring in modern trap production and hooks that feel tailor-made for summer cruising down Crenshaw Boulevard.
+
+Each member has their own flavor:
+
+* **Stacks** – The hustler with the smooth talk.
+* **Lil Vato** – Quick-tongued and sharp with punchlines.
+* **OG Relic** – Veteran of the game, deep bass voice.
+* **Melo** – The hook master, sings as well as he raps.
+* **Kali Blaze** – The fire-spitter, pure aggression.
+
+---
+
+### 💿 **Debut Album:** **“Palm Trees & Street Dreams”**
+
+*Track highlights:*
+
+1. “Cruisin’ Down the Block”
+2. “Palm Trees & Street Dreams” *(title track)*
+3. “Sunset to Sunrise”
+4. “Westside Runnin’”
+5. “Lowrider Gospel”
+6. “Life in 16 Bars”", 4, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "hiphop", "https://lager.emilfolino.se/img/palm_trees_and_street_dreams.png");
