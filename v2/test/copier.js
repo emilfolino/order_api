@@ -55,7 +55,7 @@ describe('copier', () => {
                             }
 
                             exec(
-                                'cat v2/db/seed.sql | sqlite3 v2/db/test.sqlite',
+                                'cat v2/db/seed-music.sql | sqlite3 v2/db/test.sqlite',
                                 (error, stdout, stderr) => {
                                     if (error) {
                                         console.error(error.message);
@@ -110,7 +110,7 @@ describe('copier', () => {
                 });
         });
 
-        it('should get 201 HAPPY PATH, 10 products should have been created', (done) => {
+        it('should get 201 HAPPY PATH, 12 products should have been created', (done) => {
             chai.request(server)
                 .post("/v2/copier/products")
                 .send({ api_key: apiKey })
@@ -118,13 +118,13 @@ describe('copier', () => {
                     res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
-                    res.body.data.length.should.equal(10);
+                    res.body.data.length.should.equal(12);
 
                     done();
                 });
         });
 
-        it('should get 201 HAPPY PATH, only 10 in response', (done) => {
+        it('should get 201 HAPPY PATH, only 12 in response', (done) => {
             chai.request(server)
                 .post("/v2/copier/products")
                 .send({ api_key: apiKey })
@@ -132,7 +132,7 @@ describe('copier', () => {
                     res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
-                    res.body.data.length.should.equal(10);
+                    res.body.data.length.should.equal(12);
 
                     done();
                 });
@@ -196,7 +196,7 @@ describe('copier', () => {
                     res.body.data.should.have.property("orders");
 
                     res.body.data.products.should.be.an("array");
-                    res.body.data.products.length.should.equal(10);
+                    res.body.data.products.length.should.equal(12);
 
                     res.body.data.orders.should.be.an("array");
                     res.body.data.orders.length.should.equal(4);
@@ -233,7 +233,7 @@ describe('copier', () => {
                     res.body.data.should.have.property("orders");
 
                     res.body.data.products.should.be.an("array");
-                    res.body.data.products.length.should.equal(10);
+                    res.body.data.products.length.should.equal(12);
 
                     res.body.data.orders.should.be.an("array");
                     res.body.data.orders.length.should.equal(4);
@@ -310,7 +310,7 @@ describe('copier', () => {
                     res.body.data.should.have.property("orders");
 
                     res.body.data.products.should.be.an("array");
-                    res.body.data.products.length.should.equal(10);
+                    res.body.data.products.length.should.equal(12);
 
                     res.body.data.orders.should.be.an("array");
                     res.body.data.orders.length.should.equal(4);
@@ -426,7 +426,7 @@ describe('copier', () => {
                     res.body.data.should.have.property("orders");
 
                     res.body.data.products.should.be.an("array");
-                    res.body.data.products.length.should.equal(10);
+                    res.body.data.products.length.should.equal(12);
 
                     res.body.data.orders.should.be.an("array");
                     res.body.data.orders.length.should.equal(4);
