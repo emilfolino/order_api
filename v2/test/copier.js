@@ -19,15 +19,7 @@ chai.use(chaiHttp);
 
 let apiKey = "";
 
-let config;
-
-try {
-    config = require('../../config/config.json');
-} catch (error) {
-    console.error(error);
-}
-
-var copyApiKey = process.env.COPY_API_KEY || config.copyApiKey;
+var copyApiKey = process.env.COPY_API_KEY;
 
 describe('copier', () => {
     var token;
