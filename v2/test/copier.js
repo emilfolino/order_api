@@ -22,8 +22,6 @@ let apiKey = "";
 var copyApiKey = process.env.COPY_API_KEY;
 
 describe('copier', () => {
-    var token;
-
     before(() => {
         return new Promise((resolve) => {
             db.run("DELETE FROM apikeys", (err) => {
