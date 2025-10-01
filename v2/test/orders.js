@@ -386,9 +386,6 @@ describe('orders', () => {
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
                     res.body.data.length.should.be.equal(1);
-
-                    console.log(res.body.data);
-
                     res.body.data[0].should.have.property("image_url");
                     res.body.data[0].image_url.should.be.equal(
                         "https://i.redd.it/v6p8ahelw5811.jpg"
