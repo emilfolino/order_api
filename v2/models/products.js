@@ -9,14 +9,17 @@ const products = {
         stock: "stock",
         location: "location",
         price: "price",
+        image_url: "image_url",
+        category: "category",
     },
 
     dataFields: "ROWID as id, articleNumber as article_number," +
         " productName as name, productDescription as description," +
-        " productSpecifiers as specifiers, stock, location, (price / 100) as price",
+        " productSpecifiers as specifiers, stock, location, (price / 100) as price," +
+        " image_url, category",
 
     getAllProducts: function(res, apiKey, status=200) {
-        db.all("SELECT " + products.dataFields + " FROM products WHERE apiKey = ?",
+        db.all("SELECT " + products.dataFields + " FROM products WHERE apiKey LIKE ?",
             apiKey, (err, rows) => {
                 if (err) {
                     return products.errorResponse(res, "/products", err);

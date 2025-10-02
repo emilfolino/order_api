@@ -18,6 +18,8 @@ const copier = {
                 " stock," +
                 " location," +
                 " price," +
+                " image_url," +
+                " category," +
                 " apiKey)" +
                 " SELECT articleNumber," +
                 " productName," +
@@ -26,6 +28,8 @@ const copier = {
                 " stock," +
                 " location, " +
                 " price," +
+                " image_url," +
+                " category," +
                 " '" + apiKey + "'" +
                 " FROM products" +
                 " WHERE apiKey = ?";

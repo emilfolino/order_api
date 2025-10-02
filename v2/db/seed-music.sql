@@ -19,7 +19,7 @@ Each member has a signature color and vibe:
 
 The band skyrocketed to fame after their debut single **Glitter Emergency** went viral on DollTok (a Barbie-world version of TikTok), leading to sold-out arena shows, a capsule collection with Mattel, and a Saturday morning animated series.
 
-They stand for **self-expression, friendship, fierce femininity**, and proving that **you can be plastic and still be fantastic**.", 12, "A1B4", 100, "fdc42b2d941e8c6f7b38d974df3music", "pop", "https://lager.emilfolino.se/img/pink_voltage.png");
+They stand for **self-expression, friendship, fierce femininity**, and proving that **you can be plastic and still be fantastic**.", 12, "A1B4", 100, "fdc42b2d941e8c6f7b38d974df3music", "pop", "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/pink_voltage.png");
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey, category, image_url) VALUES ("UMBRA", "### **Band Name:** **ECLIPSE⁷**
 
 ### **Tagline:** *Shadow meets starlight.*
@@ -48,7 +48,7 @@ They exploded onto the scene with their debut album **UMBRA**, which fuses synth
 
 ### **Musical Style:**
 
-A blend of **futuristic synth-pop**, **melodic trap**, and **emotive ballads**, paired with jaw-dropping dance breaks and cosmic-themed visuals. Think **EXO meets TXT with a Blade Runner edge**.", 14, "A1B5", 100, "fdc42b2d941e8c6f7b38d974df3music", "pop", "https://lager.emilfolino.se/img/umbra.png");
+A blend of **futuristic synth-pop**, **melodic trap**, and **emotive ballads**, paired with jaw-dropping dance breaks and cosmic-themed visuals. Think **EXO meets TXT with a Blade Runner edge**.", 14, "A1B5", 100, "fdc42b2d941e8c6f7b38d974df3music", "pop", "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/umbra.png");
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey, category, image_url) VALUES ("Patch Notes", "### **Band Name:** **HeartDrive**
 
 ### **Tagline:** *Floppy Disks, Full Hearts.*
@@ -86,7 +86,7 @@ Their comeback album **Patch Notes** is a synthy, melancholic pop record laced w
 * **JayTee** The rapper/dancer now doing yoga and managing tech start-ups.
 * **Lance** The soft-spoken falsetto, now a dad of three and part-time barista poet.
 * **Romeo** The wild card; now sober, philosophical, and covered in meaningful tattoos.
-* **Nickey** The baby of the group, still clinging to youth with collagen and crop tops.", 20, "A1B6", 100, "fdc42b2d941e8c6f7b38d974df3music", "pop", "https://lager.emilfolino.se/img/patch_notes.png");
+* **Nickey** The baby of the group, still clinging to youth with collagen and crop tops.", 20, "A1B6", 100, "fdc42b2d941e8c6f7b38d974df3music", "pop", "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/patch_notes.png");
 
 
 -- hard rock
@@ -131,7 +131,7 @@ Tracklist includes:
 * **Beautiful Wreckage**
 * **Cruciform**
 * **Ashes, Again**
-* **Thorns at My Baptism**", 2, "A1B7", 100, "fdc42b2d941e8c6f7b38d974df3music", "hard rock", "https://lager.emilfolino.se/img/crimson_requiem.png");
+* **Thorns at My Baptism**", 2, "A1B7", 100, "fdc42b2d941e8c6f7b38d974df3music", "hard rock", "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/crimson_requiem.png");
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey, category, image_url) VALUES ("Kiss the blade", "### 🎸 **Band Name:** **Lipstick Guillotine**
 
 ### 🖋️ **Tagline:** *Kiss you. Kill you. Encore.*
@@ -169,7 +169,7 @@ But in 2025—fueled by nostalgia, therapy, and the sudden viral fame of their u
 6. **Cherrybomb Suicide**
 7. **No Roses for the Wicked**
 
-It's full of *shredding solos*, *power ballads*, and *lyrics like glam Shakespeare with a knife between its teeth*.", 6, "A1B8", 100, "fdc42b2d941e8c6f7b38d974df3music", "hard rock", "https://lager.emilfolino.se/img/kiss_the_blade.png");
+It's full of *shredding solos*, *power ballads*, and *lyrics like glam Shakespeare with a knife between its teeth*.", 6, "A1B8", 100, "fdc42b2d941e8c6f7b38d974df3music", "hard rock", "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/kiss_the_blade.png");
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey, category, image_url) VALUES ("Putrid Cathedral", "### 🩸 **Band Name:** **Crypt Womb**
 
 ### ☠️ **Tagline:** *Born to rot. Raised to scream.*
@@ -209,7 +209,7 @@ Stylistically, they blend **classic death metal** with **doom-laced breakdowns**
 ---
 
 Would you like me to generate the album cover for **Putrid Cathedral** now? I’ll keep it grim, heavy, and on point.
-", 13, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "hard rock", "https://lager.emilfolino.se/img/putrid_cathedral.png");
+", 13, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "hard rock", "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/putrid_cathedral.png");
 
 
 
@@ -242,7 +242,7 @@ Wade straddles the line between **classic outlaw country** and **modern American
 6. Half a Bible, Half a Gun
 7. The Kind of Man I Ain't
 
-Themes: **regret**, **faith lost and found**, **Southern folklore**, and the eternal tension between **running and returning**.", 23, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "country", "https://lager.emilfolino.se/img/dry_river_hymns.png");
+Themes: **regret**, **faith lost and found**, **Southern folklore**, and the eternal tension between **running and returning**.", 23, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "country", "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/dry_river_hymns.png");
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey, category, image_url) VALUES ("Cracked Boots & Coffin Nails", "### 🎤 **Artist Name:** **Granny McGraw**
 
 ### 🧨 **Tagline:** *Still kickin'. Still cussin'. Still chartin'.*
@@ -269,7 +269,7 @@ Her voice? Like **barbed wire soaked in honey**. Her style? A mix of **coal coun
 4. Casket's Full, Honey
 5. Crows on the Clothesline
 6. Married a Devil, Shot His Brother
-7. Grandbaby's Got a Knife *(feat. Jelly Roll)*", 12, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "country", "https://lager.emilfolino.se/img/cracked_boots_and_coffin_nails.png");
+7. Grandbaby's Got a Knife *(feat. Jelly Roll)*", 12, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "country", "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/cracked_boots_and_coffin_nails.png");
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey, category, image_url) VALUES ("Heartstrings & Highways", "### 🎤 **Artist Name:** **Daisy Rae**
 
 ### 🌼 **Tagline:** *Country roots, starlit dreams.*
@@ -295,7 +295,7 @@ Her style blends **classic country storytelling** with **shimmery pop choruses**
 3. If You Were Mine
 4. Friday Night, Front Porch
 5. Polaroids & Pickup Trucks
-6. The Way You Say Goodbye", 4, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "country", "https://lager.emilfolino.se/img/heartstrings_and_highways.png");
+6. The Way You Say Goodbye", 4, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "country", "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/heartstrings_and_highways.png");
 
 -- hiphop
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey, category, image_url) VALUES ("Mutter M12", "### 🎤 **Artist Name:** **Big Reggie**
@@ -324,7 +324,7 @@ His style? **Laid-back but lethal** — slow, deliberate delivery with clever wo
 4. Hustler’s Lullaby
 5. Crown Heights Chronicles
 6. Game Don’t Change
-7. From the Corner to the Clouds", 23, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "hiphop", "https://lager.emilfolino.se/img/skyline_scriptures.png");
+7. From the Corner to the Clouds", 23, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "hiphop", "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/skyline_scriptures.png");
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey, category, image_url) VALUES ("Estate of Mind", "### 🎤 **Artist Name:** **Lil Camden**
 
 ### 🏙 **Tagline:** *North London stories, South London hustle.*
@@ -348,7 +348,7 @@ At 17, he dropped a freestyle on TikTok that went viral overnight, landing him m
 3. No Cap, No Gap
 4. North Meets South
 5. Pound Notes & Heartbreaks
-6. Link Up at Midnight", 12, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "hiphop", "https://lager.emilfolino.se/img/estate_of_mind.png");
+6. Link Up at Midnight", 12, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "hiphop", "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/estate_of_mind.png");
 INSERT INTO products (productName, productDescription, stock, location, price, apiKey, category, image_url) VALUES ("Palm Trees & Street Dreams", "### 🎤 **Group Name:** **Sunset Syndicate**
 
 ### 🌴 **Tagline:** *Cali nights, endless hustle.*
@@ -380,4 +380,4 @@ Each member has their own flavor:
 3. Sunset to Sunrise
 4. Westside Runnin’
 5. Lowrider Gospel
-6. Life in 16 Bars", 4, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "hiphop", "https://lager.emilfolino.se/img/palm_trees_and_street_dreams.png");
+6. Life in 16 Bars", 4, "A1C4", 100, "fdc42b2d941e8c6f7b38d974df3music", "hiphop", "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/palm_trees_and_street_dreams.png");
