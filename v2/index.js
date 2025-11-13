@@ -11,6 +11,7 @@ const invoices = require("./route/invoices.js");
 const orderItems = require("./route/order_items.js");
 const orders = require("./route/orders.js");
 const products = require("./route/products.js");
+const stripe = require("./route/stripe.js");
 
 router.all('*', authModel.checkAPIKey);
 
@@ -23,6 +24,7 @@ router.use("/invoices", invoices);
 router.use("/order_items", orderItems);
 router.use("/orders", orders);
 router.use("/products", products);
+router.use("/stripe", stripe);
 
 router.use(function (req, res) {
     return res.status(404).json({
