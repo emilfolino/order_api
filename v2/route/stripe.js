@@ -19,7 +19,8 @@ router.get('/session-status', async (req, res) => {
 
     res.send({
         status: session.status,
-        customer_email: session.customer_details.email
+        customer_email: session.customer_details.email,
+        payment_id: session.payment_intent,
     });
 });
 

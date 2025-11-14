@@ -1,0 +1,2 @@
+ALTER TABLE orders ADD COLUMN customerEmail TEXT DEFAULT '';
+ALTER TABLE orders ADD COLUMN paymentId TEXT DEFAULT '';
