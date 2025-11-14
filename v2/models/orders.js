@@ -9,12 +9,14 @@ const orders = {
         country: "customerCountry",
         status_id: "statusId",
         image_url: "image_url",
+        email: "customerEmail",
+        payment_id: "paymentId",
     },
 
     dataFields: "o.ROWID as id, customerName as name," +
         " customerAddress as address," +
         " customerZip as zip, customerCity as city," +
-        " image_url," +
+        " image_url, customerEmail as email, paymentId as payment_id," +
         " customerCountry as country, s.status, s.id as status_id",
 
     orderItemsDataFields: "oi.productId as product_id, oi.amount," +
@@ -220,7 +222,7 @@ const orders = {
     addOrder: function(res, body) {
         db.run("INSERT INTO orders (customerName, customerAddress, customerZip," +
             " customerCity, customerCountry, statusId," +
-            " image_url, apiKey) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            " image_url, customerEmail, paymentId, apiKey) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         body.name,
         body.address,
         body.zip,
@@ -228,6 +230,8 @@ const orders = {
         body.country,
         body.status_id || 100,
         body.image_url,
+        body.email,
+        body.payment_id,
         body.api_key,
         function(err) {
             if (err) {
