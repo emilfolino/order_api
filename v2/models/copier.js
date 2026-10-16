@@ -19,6 +19,7 @@ const copier = {
                 " location," +
                 " price," +
                 " image_url," +
+                " thumbnail_url," +
                 " category," +
                 " apiKey)" +
                 " SELECT articleNumber," +
@@ -29,6 +30,7 @@ const copier = {
                 " location, " +
                 " price," +
                 " image_url," +
+                " thumbnail_url," +
                 " category," +
                 " '" + apiKey + "'" +
                 " FROM products" +

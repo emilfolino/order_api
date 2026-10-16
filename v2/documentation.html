@@ -97,6 +97,11 @@ api_key</pre>
 const result = await response.json();
 </code>
             </pre>
+            <p>To only get the products in one category, add the optional <code>category</code> parameter. The value must match exactly, for instance <code>pop</code>, <code>hard rock</code>, <code>country</code> or <code>hiphop</code> for the music products.</p>
+            <pre class="lager">GET /v2/products?api_key=[YOUR_API_KEY]&amp;category=pop</pre>
+
+            <p>Products can also have a <code>thumbnail_url</code>: a small (400 px) version of <code>image_url</code>. Use it in lists and cards, and keep <code>image_url</code> for the large view.</p>
+
             <h4 id="all_products_result"><a href="#all_products_result">Result:</a></h4>
             <pre class="lager">{
     "data": [
@@ -883,6 +888,7 @@ api_key</pre>
             "location": "A1B4",
             "price": 1,
             "image_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/pink_voltage.png",
+            "thumbnail_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/thumbs/pink_voltage.jpg",
             "category": "pop"
         },
         {
@@ -895,6 +901,7 @@ api_key</pre>
             "location": "A1B5",
             "price": 1,
             "image_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/umbra.png",
+            "thumbnail_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/thumbs/umbra.jpg",
             "category": "pop"
         },
         {
@@ -907,6 +914,7 @@ api_key</pre>
             "location": "A1B6",
             "price": 1,
             "image_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/patch_notes.png",
+            "thumbnail_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/thumbs/patch_notes.jpg",
             "category": "pop"
         },
         {
@@ -919,6 +927,7 @@ api_key</pre>
             "location": "A1B7",
             "price": 1,
             "image_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/crimson_requiem.png",
+            "thumbnail_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/thumbs/crimson_requiem.jpg",
             "category": "hard rock"
         },
         {
@@ -931,6 +940,7 @@ api_key</pre>
             "location": "A1B8",
             "price": 1,
             "image_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/kiss_the_blade.png",
+            "thumbnail_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/thumbs/kiss_the_blade.jpg",
             "category": "hard rock"
         },
         {
@@ -943,6 +953,7 @@ api_key</pre>
             "location": "A1C4",
             "price": 1,
             "image_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/putrid_cathedral.png",
+            "thumbnail_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/thumbs/putrid_cathedral.jpg",
             "category": "hard rock"
         },
         {
@@ -955,6 +966,7 @@ api_key</pre>
             "location": "A1C4",
             "price": 1,
             "image_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/dry_river_hymns.png",
+            "thumbnail_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/thumbs/dry_river_hymns.jpg",
             "category": "country"
         },
         {
@@ -967,6 +979,7 @@ api_key</pre>
             "location": "A1C4",
             "price": 1,
             "image_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/cracked_boots_and_coffin_nails.png",
+            "thumbnail_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/thumbs/cracked_boots_and_coffin_nails.jpg",
             "category": "country"
         },
         {
@@ -979,6 +992,7 @@ api_key</pre>
             "location": "A1C4",
             "price": 1,
             "image_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/heartstrings_and_highways.png",
+            "thumbnail_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/thumbs/heartstrings_and_highways.jpg",
             "category": "country"
         },
         {
@@ -991,6 +1005,7 @@ api_key</pre>
             "location": "A1C4",
             "price": 1,
             "image_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/skyline_scriptures.png",
+            "thumbnail_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/thumbs/skyline_scriptures.jpg",
             "category": "hiphop"
         },
         {
@@ -1003,6 +1018,7 @@ api_key</pre>
             "location": "A1C4",
             "price": 1,
             "image_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/estate_of_mind.png",
+            "thumbnail_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/thumbs/estate_of_mind.jpg",
             "category": "hiphop"
         },
         {
@@ -1015,6 +1031,7 @@ api_key</pre>
             "location": "A1C4",
             "price": 1,
             "image_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/palm_trees_and_street_dreams.png",
+            "thumbnail_url": "https://cdn.jsdelivr.net/gh/emilfolino/order_api@master/public/img/thumbs/palm_trees_and_street_dreams.jpg",
             "category": "hiphop"
         }
     ]
@@ -1089,6 +1106,16 @@ if (sessionId) {
   const session = await response.json();
 }</code></pre>
 
+
+            <p><strong>Errors:</strong> both Stripe endpoints answer with a JSON error, for instance when <code>items</code> or <code>session_id</code> is missing (400) or when the <code>session_id</code> is not a real Stripe session:</p>
+            <pre class="lager">{
+    "errors": {
+        "status": 400,
+        "source": "/stripe/session-status",
+        "title": "Stripe error",
+        "detail": "Required query parameter session_id is missing."
+    }
+}</pre>
 
         </section>
 

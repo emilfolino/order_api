@@ -11,22 +11,30 @@ const products = {
         price: "price",
         image_url: "image_url",
         category: "category",
+        thumbnail_url: "thumbnail_url",
     },
 
     dataFields: "ROWID as id, articleNumber as article_number," +
         " productName as name, productDescription as description," +
         " productSpecifiers as specifiers, stock, location, (price / 100) as price," +
-        " image_url, category",
+        " image_url, thumbnail_url, category",
 
-    getAllProducts: function(res, apiKey, status=200) {
-        db.all("SELECT " + products.dataFields + " FROM products WHERE apiKey LIKE ?",
-            apiKey, (err, rows) => {
-                if (err) {
-                    return products.errorResponse(res, "/products", err);
-                }
+    getAllProducts: function(res, apiKey, category, status=200) {
+        let sql = "SELECT " + products.dataFields + " FROM products WHERE apiKey LIKE ?";
+        const params = [apiKey];
 
-                return res.status(status).json( { data: rows } );
-            });
+        if (category !== undefined) {
+            sql += " AND category = ?";
+            params.push(category);
+        }
+
+        db.all(sql, params, (err, rows) => {
+            if (err) {
+                return products.errorResponse(res, "/products", err);
+            }
+
+            return res.status(status).json( { data: rows } );
+        });
     },
 
     getProduct: function(res, apiKey, productId, status=200) {
