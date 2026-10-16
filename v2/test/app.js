@@ -1,6 +1,7 @@
 /* global it describe */
 
 process.env.NODE_ENV = 'test';
+process.env.STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "sk_test_dummy";
 
 //Require the dev-dependencies
 const chai = require('chai');

@@ -3,7 +3,9 @@ const router = express.Router();
 
 const products = require("../models/products.js");
 
-router.get('/', (req, res) => products.getAllProducts(res, req.query.api_key));
+router.get('/', (req, res) => products.getAllProducts(res,
+    req.query.api_key,
+    req.query.category));
 
 router.get("/everything", (req, res) => products.everything(res));
 

@@ -468,4 +468,66 @@ describe('products', () => {
                 });
         });
     });
+
+    describe('GET /products with category and thumbnail_url', () => {
+        let productId;
+
+        before((done) => {
+            chai.request(server)
+                .post("/v2/products")
+                .send({ name: "Categorised", price: 1, api_key: apiKey })
+                .end((err, res) => {
+                    productId = res.body.data.id;
+
+                    chai.request(server)
+                        .put("/v2/products")
+                        .send({
+                            id: productId,
+                            category: "test category",
+                            thumbnail_url: "https://example.com/thumb.jpg",
+                            api_key: apiKey
+                        })
+                        .end(() => done());
+                });
+        });
+
+        it('should get only products in the category', (done) => {
+            chai.request(server)
+                .get("/v2/products?category=test%20category&api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.data.length.should.be.equal(1);
+                    res.body.data[0].id.should.be.equal(productId);
+                    res.body.data[0].category.should.be.equal("test category");
+                    res.body.data[0].thumbnail_url.should.be.equal(
+                        "https://example.com/thumb.jpg"
+                    );
+
+                    done();
+                });
+        });
+
+        it('should get an empty array for an unknown category', (done) => {
+            chai.request(server)
+                .get("/v2/products?category=nope&api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.be.equal(0);
+
+                    done();
+                });
+        });
+
+        it('should still get all products without category', (done) => {
+            chai.request(server)
+                .get("/v2/products?api_key=" + apiKey)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.data.length.should.be.above(0);
+
+                    done();
+                });
+        });
+    });
 });
